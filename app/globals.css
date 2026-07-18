@@ -232,6 +232,29 @@ body { margin: 0; }
 
 /* ===================== RESPONSIVE / MOBILE ===================== */
 
+/* Desktop nav dropdowns (Products / Services) */
+.ax-dropdown { position:relative; }
+.ax-dropdown-trigger { color:var(--text); }
+.ax-dropdown-trigger:hover { color:var(--head); }
+.ax-dropdown-menu {
+  position:absolute; top:calc(100% + 14px); left:50%; transform:translateX(-50%) translateY(-6px);
+  min-width:220px; padding:8px; border-radius:14px;
+  background:var(--surface); border:1px solid var(--border); box-shadow:var(--shadow);
+  display:flex; flex-direction:column; gap:2px;
+  opacity:0; visibility:hidden; pointer-events:none;
+  transition:opacity .18s ease, transform .18s ease, visibility .18s ease;
+  z-index:120;
+}
+.ax-dropdown:hover .ax-dropdown-menu,
+.ax-dropdown:focus-within .ax-dropdown-menu {
+  opacity:1; visibility:visible; pointer-events:auto; transform:translateX(-50%) translateY(0);
+}
+.ax-dropdown-item {
+  display:block; padding:10px 14px; border-radius:9px;
+  font-size:14px; font-weight:500; color:var(--text); white-space:nowrap;
+}
+.ax-dropdown-item:hover { background:var(--goldsoft); color:var(--gold2); }
+
 /* Mobile nav: hamburger + dropdown, hidden desktop link row */
 .ax-nav-mobile { display:flex; }
 @media (min-width: 901px) {
