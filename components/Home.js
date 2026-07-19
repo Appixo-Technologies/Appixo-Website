@@ -2,9 +2,46 @@
 
 import { useEffect, useRef, useState } from "react";
 import { s, svgSpan, ic } from "@/lib/icons";
-import { products, services, whys, stats } from "@/lib/siteData";
+import { products, whys, stats } from "@/lib/siteData";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import ServiceCategoryGrid from "@/components/ServiceCategoryGrid";
+
+function OfficeCard({ flag, city, address, hq, featured }) {
+  return (
+    <div
+      className="ax-office-card"
+      style={s(
+        `display:flex; align-items:flex-start; gap:12px; padding:${
+          featured ? "16px 18px" : "14px 15px"
+        }; border-radius:14px; background:var(--surface2); border:1px solid var(--border);`
+      )}
+    >
+      <div
+        style={s(
+          "width:34px; height:34px; flex-shrink:0; border-radius:9px; background:var(--goldsoft); border:1px solid var(--border2); display:flex; align-items:center; justify-content:center; font-size:16px;"
+        )}
+      >
+        {flag}
+      </div>
+      <div>
+        <div style={s("display:flex; align-items:center; gap:8px; font-size:13.5px; font-weight:700; color:var(--head);")}>
+          {city}
+          {hq && (
+            <span
+              style={s(
+                "padding:2px 8px; border-radius:999px; font-size:10.5px; font-weight:700; letter-spacing:.03em; background:var(--goldsoft); color:var(--gold2); border:1px solid var(--border2);"
+              )}
+            >
+              HQ
+            </span>
+          )}
+        </div>
+        <div style={s("font-size:13px; color:var(--muted); margin-top:3px; line-height:1.4;")}>{address}</div>
+      </div>
+    </div>
+  );
+}
 
 export default function Home() {
   const [submitLabel, setSubmitLabel] = useState("Send message");
@@ -232,26 +269,26 @@ export default function Home() {
                 "margin:0; font-size:58px; line-height:1.05; font-weight:800; letter-spacing:-0.03em; color:var(--head); text-wrap:balance;"
               )}
             >
-              Building digital products that{" "}
+              A software development partner that{" "}
               <span
                 style={s(
                   "background:linear-gradient(120deg,var(--gold2),var(--gold)); -webkit-background-clip:text; background-clip:text; color:transparent;"
                 )}
               >
-                solve real problems.
+                ships like an in-house team.
               </span>
             </h1>
             <p style={s("margin:24px 0 0; font-size:18px; line-height:1.6; color:var(--text); max-width:560px;")}>
-              We design and develop scalable mobile apps, web applications, SaaS platforms, and AI-powered solutions for businesses worldwide.
+              We design and build mobile apps, web platforms, and AI-powered products for startups and businesses across the US, UK, Canada, Australia, UAE, and Spain — with overlapping working hours and clear, direct communication.
             </p>
             <div style={s("display:flex; flex-wrap:wrap; gap:14px; margin-top:36px;")}>
               <a
-                href="#products"
+                href="#services"
                 style={s(
                   "display:inline-flex; align-items:center; gap:9px; padding:15px 26px; border-radius:12px; font-size:15.5px; font-weight:700; color:#0A0F1A; background:linear-gradient(135deg,var(--gold2),var(--gold)); box-shadow:0 14px 34px -12px rgba(212,175,55,0.55);"
                 )}
               >
-                Explore Products {arrowIcon}
+                Explore Services {arrowIcon}
               </a>
               <a
                 href="#contact"
@@ -343,6 +380,38 @@ export default function Home() {
         </div>
       </header>
 
+      {/* ===================== TRUST STRIP ===================== */}
+      <section style={s("padding:0 32px 56px;")}>
+        <div
+          data-reveal=""
+          style={s(
+            "max-width:1240px; margin:0 auto; display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:14px 28px; padding:22px 28px; border-radius:16px; background:var(--surface); border:1px solid var(--border);"
+          )}
+        >
+          <span style={s("font-size:13px; font-weight:600; letter-spacing:.04em; color:var(--muted);")}>
+            Serving clients across
+          </span>
+          {[
+            { flag: "🇺🇸", name: "United States" },
+            { flag: "🇬🇧", name: "United Kingdom" },
+            { flag: "🇨🇦", name: "Canada" },
+            { flag: "🇦🇺", name: "Australia" },
+            { flag: "🇦🇪", name: "UAE" },
+            { flag: "🇪🇸", name: "Spain" },
+          ].map((c) => (
+            <span
+              key={c.name}
+              style={s(
+                "display:inline-flex; align-items:center; gap:8px; font-size:14.5px; font-weight:600; color:var(--head);"
+              )}
+            >
+              <span style={s("font-size:18px; line-height:1;")}>{c.flag}</span>
+              {c.name}
+            </span>
+          ))}
+        </div>
+      </section>
+
       {/* ===================== STATS ===================== */}
       <section style={s("padding:10px 32px 70px;")}>
         <div
@@ -364,13 +433,27 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===================== PRODUCTS ===================== */}
-      <section id="products" style={s("padding:70px 32px; scroll-margin-top:80px;")}>
+      {/* ===================== SERVICES ===================== */}
+      <section id="services" style={s("padding:70px 32px; scroll-margin-top:80px;")}>
         <div style={s("max-width:1240px; margin:0 auto;")}>
           <div data-reveal="" style={s("text-align:center; max-width:660px; margin:0 auto 52px;")}>
-            <div style={s("font-size:13px; font-weight:700; letter-spacing:.14em; color:var(--gold); text-transform:uppercase;")}>Our Products</div>
-            <h2 style={s("margin:14px 0 0; font-size:40px; font-weight:800; letter-spacing:-0.02em; color:var(--head);")}>Apps we build & operate</h2>
-            <p style={s("margin:14px 0 0; font-size:17px; color:var(--muted);")}>Products designed in-house — each with its own dedicated experience.</p>
+            <div style={s("font-size:13px; font-weight:700; letter-spacing:.14em; color:var(--gold); text-transform:uppercase;")}>Services</div>
+            <h2 style={s("margin:14px 0 0; font-size:40px; font-weight:800; letter-spacing:-0.02em; color:var(--head);")}>Full-stack product delivery</h2>
+            <p style={s("margin:14px 0 0; font-size:17px; color:var(--muted);")}>
+              We partner with startups and businesses across the US, UK, Canada, Australia, UAE, and Spain — from idea to launch and beyond.
+            </p>
+          </div>
+          <ServiceCategoryGrid />
+        </div>
+      </section>
+
+      {/* ===================== PRODUCTS (CASE STUDIES) ===================== */}
+      <section id="products" style={s("padding:70px 32px; background:var(--bg2); scroll-margin-top:80px;")}>
+        <div style={s("max-width:1240px; margin:0 auto;")}>
+          <div data-reveal="" style={s("text-align:center; max-width:660px; margin:0 auto 52px;")}>
+            <div style={s("font-size:13px; font-weight:700; letter-spacing:.14em; color:var(--gold); text-transform:uppercase;")}>Case Studies</div>
+            <h2 style={s("margin:14px 0 0; font-size:40px; font-weight:800; letter-spacing:-0.02em; color:var(--head);")}>Products we've built ourselves</h2>
+            <p style={s("margin:14px 0 0; font-size:17px; color:var(--muted);")}>Proof of how we build — real products, designed and shipped in-house.</p>
           </div>
           <div className="ax-products-grid" style={s("display:grid; grid-template-columns:repeat(3,1fr); gap:22px;")}>
             {products.map((p) => (
@@ -422,49 +505,6 @@ export default function Home() {
                 >
                   {p.cta} {arrowIconSm}
                 </a>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ===================== SERVICES ===================== */}
-      <section id="services" style={s("padding:70px 32px; background:var(--bg2); scroll-margin-top:80px;")}>
-        <div style={s("max-width:1240px; margin:0 auto;")}>
-          <div data-reveal="" style={s("text-align:center; max-width:660px; margin:0 auto 52px;")}>
-            <div style={s("font-size:13px; font-weight:700; letter-spacing:.14em; color:var(--gold); text-transform:uppercase;")}>Services</div>
-            <h2 style={s("margin:14px 0 0; font-size:40px; font-weight:800; letter-spacing:-0.02em; color:var(--head);")}>Full-stack product delivery</h2>
-          </div>
-          <div className="ax-services-grid" style={s("display:grid; grid-template-columns:repeat(4,1fr); gap:18px;")}>
-            {services.map((sv, i) => (
-              <div
-                key={i}
-                data-reveal=""
-                className="ax-lift"
-                style={s(
-                  "padding:26px; border-radius:18px; background:var(--surface); border:1px solid var(--border); transition:transform .25s ease, border-color .25s ease, box-shadow .25s ease;"
-                )}
-              >
-                <div
-                  style={s(
-                    "width:48px; height:48px; border-radius:13px; background:var(--goldsoft); border:1px solid var(--border2); display:flex; align-items:center; justify-content:center; color:var(--gold); margin-bottom:18px;"
-                  )}
-                >
-                  {sv.icon}
-                </div>
-                <h3 style={s("margin:0 0 14px; font-size:18px; font-weight:700; color:var(--head);")}>{sv.name}</h3>
-                <div style={s("display:flex; flex-wrap:wrap; gap:8px;")}>
-                  {sv.items.map((it, ii) => (
-                    <span
-                      key={ii}
-                      style={s(
-                        "padding:5px 11px; border-radius:999px; font-size:12.5px; color:var(--text); background:var(--surface2); border:1px solid var(--border);"
-                      )}
-                    >
-                      {it}
-                    </span>
-                  ))}
-                </div>
               </div>
             ))}
           </div>
@@ -705,28 +745,24 @@ export default function Home() {
                     <div style={s("font-size:15px; font-weight:600; color:var(--head);")}>hello@appixotech.com</div>
                   </div>
                 </a>
-                <div style={s("display:flex; align-items:center; gap:14px;")}>
-                  <div
-                    style={s(
-                      "width:44px; height:44px; border-radius:12px; background:var(--goldsoft); border:1px solid var(--border2); display:flex; align-items:center; justify-content:center; color:var(--gold);"
-                    )}
-                  >
-                    {iPin}
-                  </div>
-                  <div>
-                    <div style={s("font-size:12.5px; color:var(--muted);")}>Locations</div>
-                    <div style={s("font-size:15px; font-weight:600; color:var(--head); line-height:1.6;")}>
-                      Sector 16, Noida, UP 201301 (HQ)
-                      <br />
-                      Boring Road, Patna 800001
-                      <br />
-                      Dubai, United Arab Emirates
+                <div>
+                  <div style={s("display:flex; align-items:center; gap:14px; margin-bottom:14px;")}>
+                    <div
+                      style={s(
+                        "width:44px; height:44px; flex-shrink:0; border-radius:12px; background:var(--goldsoft); border:1px solid var(--border2); display:flex; align-items:center; justify-content:center; color:var(--gold);"
+                      )}
+                    >
+                      {iPin}
                     </div>
+                    <div style={s("font-size:12.5px; color:var(--muted);")}>Locations</div>
+                  </div>
+                  <div style={s("display:flex; flex-direction:column; gap:10px;")}>
+                    <OfficeCard flag="🇮🇳" city="Noida" hq address="Sector 16, Noida, UP 201301" featured />
                   </div>
                 </div>
               </div>
             </div>
-            <form onSubmit={onSubmit} style={s("display:flex; flex-direction:column; gap:14px;")}>
+            <form onSubmit={onSubmit} style={s("display:flex; flex-direction:column; justify-content:center; gap:14px;")}>
               <input
                 required
                 name="name"

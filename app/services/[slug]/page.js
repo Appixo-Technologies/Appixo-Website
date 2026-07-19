@@ -29,6 +29,13 @@ export default async function ServicePage({ params }) {
 
       <header className="ax-detail-header" style={s("padding:150px 32px 70px;")}>
         <div style={s("max-width:900px; margin:0 auto;")}>
+          <div style={s("display:flex; align-items:center; flex-wrap:wrap; gap:7px; font-size:13.5px; color:var(--muted); margin-bottom:26px;")}>
+            <a href="/" style={s("color:var(--muted);")}>Home</a>
+            <span>›</span>
+            <a href="/services" style={s("color:var(--muted);")}>Services</a>
+            <span>›</span>
+            <span style={s("color:var(--gold2); font-weight:600;")}>{service.name}</span>
+          </div>
           <div
             style={s(
               "display:inline-flex; align-items:center; gap:9px; padding:7px 14px; border-radius:999px; border:1px solid var(--border2); background:var(--goldsoft); font-size:12.5px; font-weight:600; letter-spacing:.04em; color:var(--gold2); margin-bottom:22px;"
@@ -77,20 +84,20 @@ export default async function ServicePage({ params }) {
 
         <div style={s("max-width:900px; margin:36px auto 0; display:flex; flex-wrap:wrap; gap:14px;")}>
           <a
-            href="/#contact"
+            href={`/enquiry?service=${service.slug}`}
             style={s(
               "display:inline-flex; align-items:center; gap:9px; padding:15px 26px; border-radius:12px; font-size:15.5px; font-weight:700; color:#0A0F1A; background:linear-gradient(135deg,var(--gold2),var(--gold)); box-shadow:0 14px 34px -12px rgba(212,175,55,0.55);"
             )}
           >
-            Start a project
+            Start Your Project
           </a>
           <a
-            href="/services"
+            href="/#portfolio"
             style={s(
               "display:inline-flex; align-items:center; gap:9px; padding:15px 26px; border-radius:12px; font-size:15.5px; font-weight:600; color:var(--head); background:var(--surface); border:1px solid var(--border);"
             )}
           >
-            All services
+            View Portfolio
           </a>
         </div>
       </section>

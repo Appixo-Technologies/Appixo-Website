@@ -40,14 +40,14 @@ export default function Footer() {
               <span style={s("font-weight:800; font-size:20px; letter-spacing:.16em; color:var(--head);")}>APPIXO</span>
             </div>
             <p style={s("margin:0; font-size:14px; color:var(--muted); line-height:1.6; max-width:300px;")}>
-              Innovate. Build. Elevate. We craft scalable digital products for businesses worldwide.
+              Innovate. Build. Elevate. A software development partner for startups and businesses across the US, UK, Canada, Australia, UAE, and Spain.
             </p>
           </div>
           <div>
             <div style={s("font-size:13px; font-weight:700; color:var(--head); margin-bottom:16px;")}>Company</div>
             <div style={s("display:flex; flex-direction:column; gap:11px;")}>
-              <Link href="/#products" style={s("font-size:14px; color:var(--muted);")}>Products</Link>
               <Link href="/#services" style={s("font-size:14px; color:var(--muted);")}>Services</Link>
+              <Link href="/#products" style={s("font-size:14px; color:var(--muted);")}>Products</Link>
               <Link href="/about" style={s("font-size:14px; color:var(--muted);")}>About</Link>
               <Link href="/careers" style={s("font-size:14px; color:var(--muted);")}>Careers</Link>
             </div>
@@ -55,8 +55,8 @@ export default function Footer() {
           <div>
             <div style={s("font-size:13px; font-weight:700; color:var(--head); margin-bottom:16px;")}>Legal</div>
             <div style={s("display:flex; flex-direction:column; gap:11px;")}>
-              <a href="#" style={s("font-size:14px; color:var(--muted);")}>Privacy Policy</a>
-              <a href="#" style={s("font-size:14px; color:var(--muted);")}>Terms</a>
+              <Link href="/privacy-policy" style={s("font-size:14px; color:var(--muted);")}>Privacy Policy</Link>
+              <Link href="/terms" style={s("font-size:14px; color:var(--muted);")}>Terms</Link>
             </div>
           </div>
           <div>

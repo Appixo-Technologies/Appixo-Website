@@ -5,7 +5,7 @@ import { whys, stats } from "@/lib/siteData";
 
 export const metadata = {
   title: "About — Appixo",
-  description: "We design and develop scalable mobile apps, web applications, SaaS platforms, and AI-powered solutions for businesses worldwide.",
+  description: "A software development partner for startups and businesses across the US, UK, Canada, Australia, UAE, and Spain — mobile apps, web platforms, and AI-powered solutions.",
 };
 
 export default function AboutPage() {
@@ -16,11 +16,11 @@ export default function AboutPage() {
       <header style={s("padding:150px 32px 60px; text-align:center;")}>
         <div style={s("font-size:13px; font-weight:700; letter-spacing:.14em; color:var(--gold); text-transform:uppercase;")}>About Appixo</div>
         <h1 style={s("margin:14px auto 0; max-width:760px; font-size:44px; font-weight:800; letter-spacing:-0.02em; color:var(--head); line-height:1.1;")}>
-          Building digital products that solve real problems.
+          A software development partner that ships like an in-house team.
         </h1>
         <p style={s("margin:20px auto 0; max-width:620px; font-size:17px; line-height:1.65; color:var(--muted);")}>
-          Appixo is a product studio designing and developing scalable mobile apps, web applications, SaaS
-          platforms, and AI-powered solutions for businesses worldwide — from first sketch to production support.
+          Appixo designs and builds mobile apps, web platforms, and AI-powered solutions for startups and
+          businesses across the US, UK, Canada, Australia, UAE, and Spain — from first sketch to production support.
         </p>
       </header>
 

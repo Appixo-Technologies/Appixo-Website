@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { s, svgSpan, ic } from "@/lib/icons";
-import { products, services } from "@/lib/siteData";
+import { products, serviceCategories } from "@/lib/siteData";
 
 const menuIcon = ic('<path d="M4 6h16M4 12h16M4 18h16"/>');
 const closeIcon = ic('<path d="M18 6 6 18M6 6l12 12"/>');
@@ -69,25 +69,34 @@ export default function Nav() {
 
           <div className="ax-dropdown">
             <button type="button" className="ax-dropdown-trigger" style={s("display:flex; align-items:center; gap:5px; font-size:14.5px; color:var(--text); font-weight:500; background:none; border:none; cursor:pointer; font-family:inherit; padding:0;")}>
-              Products {chevronIcon}
+              Services {chevronIcon}
             </button>
-            <div className="ax-dropdown-menu">
-              {products.map((p) => (
-                <Link key={p.slug} href={`/products/${p.slug}`} className="ax-dropdown-item">
-                  {p.name}
-                </Link>
+            <div className="ax-dropdown-menu ax-mega-menu">
+              {serviceCategories.map((cat) => (
+                <div key={cat.name} className="ax-mega-col">
+                  <div className="ax-mega-col-title">{cat.name}</div>
+                  {cat.services.map((sv) => (
+                    <Link key={sv.slug} href={`/services/${sv.slug}`} className="ax-mega-item">
+                      <span className="ax-mega-item-icon">{sv.icon}</span>
+                      <span>
+                        <span className="ax-mega-item-name">{sv.name}</span>
+                        <span className="ax-mega-item-blurb">{sv.blurb}</span>
+                      </span>
+                    </Link>
+                  ))}
+                </div>
               ))}
             </div>
           </div>
 
           <div className="ax-dropdown">
             <button type="button" className="ax-dropdown-trigger" style={s("display:flex; align-items:center; gap:5px; font-size:14.5px; color:var(--text); font-weight:500; background:none; border:none; cursor:pointer; font-family:inherit; padding:0;")}>
-              Services {chevronIcon}
+              Products {chevronIcon}
             </button>
             <div className="ax-dropdown-menu">
-              {services.map((sv) => (
-                <Link key={sv.slug} href={`/services/${sv.slug}`} className="ax-dropdown-item">
-                  {sv.name}
+              {products.map((p) => (
+                <Link key={p.slug} href={`/products/${p.slug}`} className="ax-dropdown-item">
+                  {p.name}
                 </Link>
               ))}
             </div>
@@ -146,6 +155,44 @@ export default function Nav() {
           <div style={s("border-bottom:1px solid var(--border);")}>
             <button
               type="button"
+              onClick={() => toggleMobileSub("services")}
+              style={s(
+                "width:100%; display:flex; align-items:center; justify-content:space-between; padding:13px 4px; font-size:15px; color:var(--text); font-weight:500; background:none; border:none; font-family:inherit; cursor:pointer;"
+              )}
+            >
+              Services
+              <span style={s(`display:inline-flex; transition:transform .2s ease; transform:rotate(${mobileSub.services ? "180deg" : "0deg"});`)}>
+                {chevronIcon}
+              </span>
+            </button>
+            {mobileSub.services && (
+              <div style={s("display:flex; flex-direction:column; padding:0 0 10px 14px; gap:10px;")}>
+                {serviceCategories.map((cat) => (
+                  <div key={cat.name}>
+                    <div style={s("padding:6px 4px 4px; font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--gold);")}>
+                      {cat.name}
+                    </div>
+                    <div style={s("display:flex; flex-direction:column; gap:2px;")}>
+                      {cat.services.map((sv) => (
+                        <Link
+                          key={sv.slug}
+                          href={`/services/${sv.slug}`}
+                          onClick={closeMobile}
+                          style={s("padding:10px 4px; font-size:14px; color:var(--muted); font-weight:500;")}
+                        >
+                          {sv.name}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <div style={s("border-bottom:1px solid var(--border);")}>
+            <button
+              type="button"
               onClick={() => toggleMobileSub("products")}
               style={s(
                 "width:100%; display:flex; align-items:center; justify-content:space-between; padding:13px 4px; font-size:15px; color:var(--text); font-weight:500; background:none; border:none; font-family:inherit; cursor:pointer;"
@@ -166,35 +213,6 @@ export default function Nav() {
                     style={s("padding:10px 4px; font-size:14px; color:var(--muted); font-weight:500;")}
                   >
                     {p.name}
-                  </Link>
-                ))}
-              </div>
-            )}
-          </div>
-
-          <div style={s("border-bottom:1px solid var(--border);")}>
-            <button
-              type="button"
-              onClick={() => toggleMobileSub("services")}
-              style={s(
-                "width:100%; display:flex; align-items:center; justify-content:space-between; padding:13px 4px; font-size:15px; color:var(--text); font-weight:500; background:none; border:none; font-family:inherit; cursor:pointer;"
-              )}
-            >
-              Services
-              <span style={s(`display:inline-flex; transition:transform .2s ease; transform:rotate(${mobileSub.services ? "180deg" : "0deg"});`)}>
-                {chevronIcon}
-              </span>
-            </button>
-            {mobileSub.services && (
-              <div style={s("display:flex; flex-direction:column; padding:0 0 10px 14px; gap:2px;")}>
-                {services.map((sv) => (
-                  <Link
-                    key={sv.slug}
-                    href={`/services/${sv.slug}`}
-                    onClick={closeMobile}
-                    style={s("padding:10px 4px; font-size:14px; color:var(--muted); font-weight:500;")}
-                  >
-                    {sv.name}
                   </Link>
                 ))}
               </div>
