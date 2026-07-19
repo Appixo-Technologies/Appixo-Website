@@ -27,7 +27,7 @@ export default async function ServicePage({ params }) {
     <div id="appixo-root">
       <Nav />
 
-      <header style={s("padding:150px 32px 70px;")}>
+      <header className="ax-detail-header" style={s("padding:150px 32px 70px;")}>
         <div style={s("max-width:900px; margin:0 auto;")}>
           <div
             style={s(
@@ -43,13 +43,13 @@ export default async function ServicePage({ params }) {
           >
             {service.icon}
           </div>
-          <h1 style={s("margin:0; font-size:44px; font-weight:800; letter-spacing:-0.03em; color:var(--head);")}>{service.name}</h1>
+          <h1 className="ax-detail-title" style={s("margin:0; font-size:44px; font-weight:800; letter-spacing:-0.03em; color:var(--head);")}>{service.name}</h1>
           <p style={s("margin:18px 0 0; font-size:18px; line-height:1.6; color:var(--text); max-width:640px;")}>{service.tagline}</p>
         </div>
       </header>
 
       <section style={s("padding:0 32px 90px;")}>
-        <div style={s("max-width:900px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:40px;")}>
+        <div className="ax-detail-grid" style={s("max-width:900px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:40px;")}>
           <div style={s("padding:30px; border-radius:20px; background:var(--surface); border:1px solid var(--border);")}>
             <h2 style={s("margin:0 0 16px; font-size:20px; font-weight:700; color:var(--head);")}>What we cover</h2>
             <div style={s("display:flex; flex-wrap:wrap; gap:8px;")}>

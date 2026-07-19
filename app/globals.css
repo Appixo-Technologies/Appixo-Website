@@ -274,6 +274,7 @@ body { margin: 0; }
 @media (max-width: 380px) {
   .ax-brand { font-size:16px !important; letter-spacing:.08em !important; }
   .ax-nav-toggle, .ax-nav-inner button { width:34px !important; height:34px !important; }
+  .ax-logo { width:32px !important; height:32px !important; }
 }
 
 /* Generic heading / copy scale-down */
@@ -329,6 +330,17 @@ body { margin: 0; }
 /* Contact form */
 @media (max-width: 900px) {
   .ax-contact-grid { grid-template-columns:1fr !important; gap:28px !important; padding:32px 22px !important; }
+}
+
+/* Product / service detail pages */
+@media (max-width: 700px) {
+  .ax-detail-grid { grid-template-columns:1fr !important; gap:20px !important; }
+  .ax-detail-title { font-size:32px !important; }
+  .ax-detail-header { padding:120px 20px 50px !important; }
+}
+@media (max-width: 480px) {
+  .ax-detail-title { font-size:26px !important; letter-spacing:-0.02em !important; }
+  .ax-detail-header { padding:110px 16px 40px !important; }
 }
 
 /* Footer columns */

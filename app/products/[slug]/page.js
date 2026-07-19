@@ -31,7 +31,7 @@ export default async function ProductPage({ params }) {
     <div id="appixo-root">
       <Nav />
 
-      <header style={s("padding:150px 32px 70px;")}>
+      <header className="ax-detail-header" style={s("padding:150px 32px 70px;")}>
         <div style={s("max-width:900px; margin:0 auto;")}>
           <div
             style={s(
@@ -40,7 +40,7 @@ export default async function ProductPage({ params }) {
           >
             Our Products
           </div>
-          <div style={s("display:flex; align-items:center; gap:18px; margin-bottom:18px;")}>
+          <div style={s("display:flex; align-items:center; gap:18px; margin-bottom:18px; flex-wrap:wrap;")}>
             <div
               style={s(
                 "width:64px; height:64px; flex-shrink:0; border-radius:16px; background:var(--goldsoft); border:1px solid var(--border2); display:flex; align-items:center; justify-content:center; color:var(--gold);"
@@ -56,13 +56,13 @@ export default async function ProductPage({ params }) {
               {product.badge}
             </span>
           </div>
-          <h1 style={s("margin:0; font-size:44px; font-weight:800; letter-spacing:-0.03em; color:var(--head);")}>{product.name}</h1>
+          <h1 className="ax-detail-title" style={s("margin:0; font-size:44px; font-weight:800; letter-spacing:-0.03em; color:var(--head);")}>{product.name}</h1>
           <p style={s("margin:18px 0 0; font-size:18px; line-height:1.6; color:var(--text); max-width:640px;")}>{product.tagline}</p>
         </div>
       </header>
 
       <section style={s("padding:0 32px 90px;")}>
-        <div style={s("max-width:900px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:40px;")}>
+        <div className="ax-detail-grid" style={s("max-width:900px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:40px;")}>
           <div style={s("padding:30px; border-radius:20px; background:var(--surface); border:1px solid var(--border);")}>
             <h2 style={s("margin:0 0 16px; font-size:20px; font-weight:700; color:var(--head);")}>Overview</h2>
             <p style={s("margin:0; font-size:15px; line-height:1.65; color:var(--muted);")}>{product.desc}</p>

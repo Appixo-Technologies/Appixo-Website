@@ -692,7 +692,7 @@ export default function Home() {
                 Tell us about your idea. We&apos;ll get back within one business day.
               </p>
               <div style={s("display:flex; flex-direction:column; gap:18px;")}>
-                <a href="mailto:appixotech@gmail.com" style={s("display:flex; align-items:center; gap:14px;")}>
+                <a href="mailto:hello@appixotech.com" style={s("display:flex; align-items:center; gap:14px;")}>
                   <div
                     style={s(
                       "width:44px; height:44px; border-radius:12px; background:var(--goldsoft); border:1px solid var(--border2); display:flex; align-items:center; justify-content:center; color:var(--gold);"
@@ -702,7 +702,7 @@ export default function Home() {
                   </div>
                   <div>
                     <div style={s("font-size:12.5px; color:var(--muted);")}>Email</div>
-                    <div style={s("font-size:15px; font-weight:600; color:var(--head);")}>appixotech@gmail.com</div>
+                    <div style={s("font-size:15px; font-weight:600; color:var(--head);")}>hello@appixotech.com</div>
                   </div>
                 </a>
                 <div style={s("display:flex; align-items:center; gap:14px;")}>

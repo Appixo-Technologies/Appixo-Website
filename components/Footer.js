@@ -31,7 +31,12 @@ export default function Footer() {
         >
           <div>
             <div style={s("display:flex; align-items:center; gap:12px; margin-bottom:16px;")}>
-              <img src="/logo.png" alt="Appixo" style={s("width:38px; height:38px; border-radius:10px;")} />
+              <img
+                src="/logo.png"
+                alt="Appixo"
+                className="ax-logo"
+                style={s("width:38px; height:38px; border-radius:10px; object-fit:contain; flex-shrink:0;")}
+              />
               <span style={s("font-weight:800; font-size:20px; letter-spacing:.16em; color:var(--head);")}>APPIXO</span>
             </div>
             <p style={s("margin:0; font-size:14px; color:var(--muted); line-height:1.6; max-width:300px;")}>

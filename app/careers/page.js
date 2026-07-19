@@ -42,12 +42,12 @@ export default function CareersPage() {
             when something fits.
           </p>
           <a
-            href="mailto:appixotech@gmail.com"
+            href="mailto:hello@appixotech.com"
             style={s(
               "display:inline-flex; align-items:center; gap:9px; padding:15px 26px; border-radius:12px; font-size:15.5px; font-weight:700; color:#0A0F1A; background:linear-gradient(135deg,var(--gold2),var(--gold)); box-shadow:0 14px 34px -12px rgba(212,175,55,0.55);"
             )}
           >
-            appixotech@gmail.com
+            hello@appixotech.com
           </a>
         </div>
       </section>
