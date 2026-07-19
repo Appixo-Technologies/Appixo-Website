@@ -198,8 +198,8 @@
 }
 
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body { margin: 0; }
+html { scroll-behavior: smooth; background: #070B14; color-scheme: dark; }
+body { margin: 0; background: #070B14; min-height: 100%; }
 
 #appixo-root {
   --bg:#070B14; --bg2:#0A0F1A; --surface:#101A2B; --surface2:#16213A;
