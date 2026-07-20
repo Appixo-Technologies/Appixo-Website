@@ -40,7 +40,7 @@ export default function Footer() {
               <span style={s("font-weight:800; font-size:20px; letter-spacing:.16em; color:var(--head);")}>APPIXO</span>
             </div>
             <p style={s("margin:0; font-size:14px; color:var(--muted); line-height:1.6; max-width:300px;")}>
-              Innovate. Build. Elevate. A software development partner for startups and businesses across the US, UK, Canada, Australia, UAE, and Spain.
+              Innovate. Build. Elevate. A software development partner for startups and businesses across the US, UK, Canada, Australia, UAE, India, and Spain.
             </p>
           </div>
           <div>

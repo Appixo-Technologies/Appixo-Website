@@ -27,7 +27,7 @@ export async function POST(request) {
   const clientSecret = process.env.GOOGLE_OAUTH_CLIENT_SECRET;
   const refreshToken = process.env.GOOGLE_OAUTH_REFRESH_TOKEN;
   const sheetId = process.env.GOOGLE_SHEET_ID;
-  const sheetRange = process.env.GOOGLE_SHEET_RANGE || "Sheet1!A:D";
+  const sheetRange = process.env.GOOGLE_SHEET_RANGE || "Contact!A:D";
 
   if (!clientId || !clientSecret || !refreshToken || !sheetId) {
     console.error(

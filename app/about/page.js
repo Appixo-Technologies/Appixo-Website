@@ -5,7 +5,7 @@ import { whys, stats } from "@/lib/siteData";
 
 export const metadata = {
   title: "About — Appixo",
-  description: "A software development partner for startups and businesses across the US, UK, Canada, Australia, UAE, and Spain — mobile apps, web platforms, and AI-powered solutions.",
+  description: "A software development partner for startups and businesses across the US, UK, Canada, Australia, UAE, India, and Spain — mobile apps, web platforms, and AI-powered solutions.",
 };
 
 export default function AboutPage() {
@@ -20,7 +20,7 @@ export default function AboutPage() {
         </h1>
         <p style={s("margin:20px auto 0; max-width:620px; font-size:17px; line-height:1.65; color:var(--muted);")}>
           Appixo designs and builds mobile apps, web platforms, and AI-powered solutions for startups and
-          businesses across the US, UK, Canada, Australia, UAE, and Spain — from first sketch to production support.
+          businesses across the US, UK, Canada, Australia, UAE, India, and Spain — from first sketch to production support.
         </p>
       </header>
 

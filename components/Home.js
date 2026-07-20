@@ -279,7 +279,7 @@ export default function Home() {
               </span>
             </h1>
             <p style={s("margin:24px 0 0; font-size:18px; line-height:1.6; color:var(--text); max-width:560px;")}>
-              We design and build mobile apps, web platforms, and AI-powered products for startups and businesses across the US, UK, Canada, Australia, UAE, and Spain — with overlapping working hours and clear, direct communication.
+              We design and build mobile apps, web platforms, and AI-powered products for startups and businesses across the US, UK, Canada, Australia, UAE, India, and Spain — with overlapping working hours and clear, direct communication.
             </p>
             <div style={s("display:flex; flex-wrap:wrap; gap:14px; margin-top:36px;")}>
               <a
@@ -397,6 +397,7 @@ export default function Home() {
             { flag: "🇨🇦", name: "Canada" },
             { flag: "🇦🇺", name: "Australia" },
             { flag: "🇦🇪", name: "UAE" },
+            { flag: "🇮🇳", name: "India" },
             { flag: "🇪🇸", name: "Spain" },
           ].map((c) => (
             <span
@@ -440,7 +441,7 @@ export default function Home() {
             <div style={s("font-size:13px; font-weight:700; letter-spacing:.14em; color:var(--gold); text-transform:uppercase;")}>Services</div>
             <h2 style={s("margin:14px 0 0; font-size:40px; font-weight:800; letter-spacing:-0.02em; color:var(--head);")}>Full-stack product delivery</h2>
             <p style={s("margin:14px 0 0; font-size:17px; color:var(--muted);")}>
-              We partner with startups and businesses across the US, UK, Canada, Australia, UAE, and Spain — from idea to launch and beyond.
+              We partner with startups and businesses across the US, UK, Canada, Australia, UAE, India, and Spain — from idea to launch and beyond.
             </p>
           </div>
           <ServiceCategoryGrid />

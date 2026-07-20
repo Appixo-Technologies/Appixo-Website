@@ -5,7 +5,7 @@ import ServiceCategoryGrid from "@/components/ServiceCategoryGrid";
 
 export const metadata = {
   title: "Services — Appixo",
-  description: "Full-stack product delivery — development, design, and solutions for startups and businesses across the US, UK, Canada, Australia, UAE, and Spain.",
+  description: "Full-stack product delivery — development, design, and solutions for startups and businesses across the US, UK, Canada, Australia, UAE, India, and Spain.",
 };
 
 export default function ServicesPage() {

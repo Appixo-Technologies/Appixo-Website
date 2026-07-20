@@ -17,6 +17,7 @@ const locations = [
   { flag: "🇨🇦", name: "Canada" },
   { flag: "🇦🇺", name: "Australia" },
   { flag: "🇦🇪", name: "UAE" },
+  { flag: "🇮🇳", name: "India" },
   { flag: "🇪🇸", name: "Spain" },
   { flag: null, name: "Other" },
 ];

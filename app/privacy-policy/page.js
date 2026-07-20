@@ -43,7 +43,7 @@ export default function PrivacyPolicyPage() {
         >
           <p style={s(p)}>
             Appixo Technologies (&quot;Appixo&quot;, &quot;we&quot;, &quot;us&quot;, or &quot;our&quot;) builds software for
-            clients across the US, UK, Canada, Australia, UAE, and Spain. This Privacy Policy explains what
+            clients across the US, UK, Canada, Australia, UAE, India, and Spain. This Privacy Policy explains what
             information we collect through this website, how we use it, and the choices you have. By using this
             site or submitting a form on it, you agree to the practices described below.
           </p>
@@ -112,7 +112,7 @@ export default function PrivacyPolicyPage() {
               sell personal information in the first place.
             </li>
             <li style={s(li)}>
-              <span style={s(strong)}>Canada, Australia &amp; UAE.</span> We extend the same access, correction, and
+              <span style={s(strong)}>Canada, Australia, UAE &amp; India.</span> We extend the same access, correction, and
               deletion rights described above to you, regardless of local requirements.
             </li>
           </ul>
