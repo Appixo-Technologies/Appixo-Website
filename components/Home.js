@@ -45,6 +45,8 @@ const techLoopB = Array(6).fill(techBaseB).flat();
 export default function Home() {
   const [submitLabel, setSubmitLabel] = useState("Send message");
   const [submitting, setSubmitting] = useState(false);
+  const [activeProcess, setActiveProcess] = useState(2);
+  const [processPaused, setProcessPaused] = useState(false);
 
   const resetLabelAfter = (ms) => {
     setTimeout(() => setSubmitLabel("Send message"), ms);
@@ -91,13 +93,13 @@ export default function Home() {
   );
   const processIcons = [FiCompass, FiSearch, FiEdit3, FiTool, FiActivity, FiFlag, FiMessageSquare];
   const steps = [
-    { num: "01", name: "Idea", icon: ic('<path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z"/>') },
-    { num: "02", name: "Research", icon: ic('<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>') },
-    { num: "03", name: "Design", icon: ic('<circle cx="13.5" cy="6.5" r="2.5"/><circle cx="6.5" cy="12" r="2.5"/><circle cx="17" cy="15" r="2.5"/>') },
-    { num: "04", name: "Development", icon: ic('<path d="m8 6-6 6 6 6M16 6l6 6-6 6"/>') },
-    { num: "05", name: "Testing", icon: ic('<path d="M9 2v6l-5 9a2 2 0 0 0 2 3h12a2 2 0 0 0 2-3l-5-9V2"/><path d="M8 2h8"/>') },
-    { num: "06", name: "Launch", icon: ic('<path d="M4.5 16.5 3 22l5.5-1.5M12 15l-3-3a11 11 0 0 1 8-8 11 11 0 0 1-8 8z"/><circle cx="15" cy="9" r="1.5"/>') },
-    { num: "07", name: "Support", icon: ic('<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>') },
+    { num: "01", name: "Idea", detail: "Vision and opportunity", description: "We align the product idea with the business outcome, user need, constraints, and measures of success." },
+    { num: "02", name: "Research", detail: "Users, market and risk", description: "Evidence replaces assumptions through stakeholder workshops, user insight, competitor review, and technical discovery." },
+    { num: "03", name: "Design", detail: "Wireframing and UI/UX", description: "Journeys, prototypes, and a scalable design system turn the strategy into an experience people understand immediately." },
+    { num: "04", name: "Development", detail: "Iterative product engineering", description: "Senior engineers ship secure, maintainable increments with visible progress and continuous product feedback." },
+    { num: "05", name: "Testing", detail: "Quality at every layer", description: "Functional, integration, performance, security, and usability checks protect the journeys that matter most." },
+    { num: "06", name: "Launch", detail: "A controlled production release", description: "We prepare environments, data, monitoring, rollout plans, and your team for a confident go-live." },
+    { num: "07", name: "Support", detail: "Measure, learn and evolve", description: "After launch, we monitor product health, learn from usage, resolve issues, and prioritize the next improvements." },
   ];
 
 
@@ -164,6 +166,12 @@ export default function Home() {
     };
   }, []);
 
+  useEffect(() => {
+    if (processPaused || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const timer = window.setInterval(() => setActiveProcess((step) => (step + 1) % steps.length), 2800);
+    return () => window.clearInterval(timer);
+  }, [processPaused, steps.length]);
+
   return (
     <div id="appixo-root">
       <Nav />
@@ -171,6 +179,7 @@ export default function Home() {
       {/* ===================== HERO ===================== */}
       <header id="top" className="ax-hero" style={s("position:relative; min-height:100vh; display:flex; align-items:flex-end; overflow:hidden;")}>
         <img
+          className="ax-hero-bg"
           src="/media/hero-product-studio.png"
           alt=""
           style={s("position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0;")}
@@ -300,29 +309,47 @@ export default function Home() {
       </section>
 
       {/* ===================== PROCESS ===================== */}
-      <section id="process" style={s("padding:70px 32px; scroll-margin-top:80px;")}>
-        <div style={s("max-width:1240px; margin:0 auto;")}>
-          <div data-reveal="" style={s("text-align:center; max-width:660px; margin:0 auto 56px;")}>
-            <div style={s("font-size:13px; font-weight:700; letter-spacing:.14em; color:var(--gold); text-transform:uppercase;")}>How we work</div>
-            <h2 style={s("margin:14px 0 0; font-size:40px; font-weight:800; letter-spacing:-0.02em; color:var(--head);")}>Development process</h2>
+      <section id="process" className="ax-process-section">
+        <div className="ax-process-atmosphere" aria-hidden="true" />
+        <div className="ax-process-shell">
+          <div data-reveal="" className="ax-process-heading">
+            <div className="ax-process-kicker">How we work</div>
+            <h2>Development process</h2>
+            <p>A transparent, seven-stage path from an ambitious idea to a dependable product—built around evidence, visible progress, and measurable outcomes.</p>
           </div>
-          <div data-reveal="" className="ax-process-grid" style={s("position:relative; display:grid; grid-template-columns:repeat(7,1fr); gap:12px;")}>
-            <div className="ax-process-line" style={s("position:absolute; top:26px; left:6%; right:6%; height:2px; background:linear-gradient(90deg,transparent,var(--border2),transparent);")} />
-            {steps.map((st, i) => (
-              (() => { const StepIcon = processIcons[i] || FiActivity; return (
-              <div key={i} style={s("position:relative; text-align:center;")}>
-                <div
-                  style={s(
-                    "width:54px; height:54px; margin:0 auto 14px; border-radius:16px; background:var(--surface); border:1px solid var(--border2); display:flex; align-items:center; justify-content:center; color:var(--gold); box-shadow:var(--shadow);"
-                  )}
-                >
-                  <StepIcon size={20} strokeWidth={1.8} aria-hidden="true" />
-                </div>
-                <div style={s("font-size:11px; font-weight:700; color:var(--gold); font-family:'JetBrains Mono',monospace;")}>{st.num}</div>
-                <div style={s("font-size:14px; font-weight:600; color:var(--head); margin-top:3px;")}>{st.name}</div>
-              </div>
-              ); })()
-            ))}
+          <div
+            data-reveal=""
+            className="ax-process-stage"
+            onMouseEnter={() => setProcessPaused(true)}
+            onMouseLeave={() => setProcessPaused(false)}
+          >
+            <div className="ax-process-track" aria-hidden="true"><i style={{ width: `${(activeProcess / (steps.length - 1)) * 100}%` }} /></div>
+            <div className="ax-process-modules" role="tablist" aria-label="Development process steps">
+              {steps.map((step, index) => {
+                const StepIcon = processIcons[index] || FiActivity;
+                const state = index === activeProcess ? "is-active" : index < activeProcess ? "is-complete" : "is-pending";
+                return (
+                  <button
+                    key={step.num}
+                    className={`ax-process-module ${state}`}
+                    onClick={() => setActiveProcess(index)}
+                    role="tab"
+                    aria-selected={index === activeProcess}
+                    aria-controls="process-detail"
+                  >
+                    <span className="ax-process-icon"><StepIcon size={25} strokeWidth={1.55} aria-hidden="true" /></span>
+                    <span className="ax-process-number">{step.num}</span>
+                    <strong>{step.name}</strong>
+                    <small>{step.detail}</small>
+                  </button>
+                );
+              })}
+            </div>
+            <div id="process-detail" className="ax-process-detail" role="tabpanel" key={activeProcess}>
+              <div><span>Current phase</span><b>{steps[activeProcess].num}</b></div>
+              <div><h3>{steps[activeProcess].name}</h3><p>{steps[activeProcess].description}</p></div>
+              <span className="ax-process-status">{steps[activeProcess].detail}</span>
+            </div>
           </div>
         </div>
       </section>
@@ -386,6 +413,7 @@ export default function Home() {
               >
                 <div style={s(`height:230px; background:${pf.bg}; position:relative; overflow:hidden;`)}>
                   <img
+                    className="ax-portfolio-image"
                     src={pf.img}
                     alt={`${pf.name} — ${pf.tag}`}
                     loading="lazy"
