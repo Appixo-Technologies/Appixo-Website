@@ -11,16 +11,7 @@ const replyIcon = ic('<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 
 const clockIcon = ic('<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>');
 const shieldIcon = ic('<path d="M12 2 4 6v6c0 5 3.5 8 8 10 4.5-2 8-5 8-10V6z"/>');
 
-const locations = [
-  { flag: "🇺🇸", name: "United States" },
-  { flag: "🇬🇧", name: "United Kingdom" },
-  { flag: "🇨🇦", name: "Canada" },
-  { flag: "🇦🇺", name: "Australia" },
-  { flag: "🇦🇪", name: "UAE" },
-  { flag: "🇮🇳", name: "India" },
-  { flag: "🇪🇸", name: "Spain" },
-  { flag: null, name: "Other" },
-];
+const locations = ["United States", "United Kingdom", "Canada", "Australia", "UAE", "India", "Spain", "Other"];
 
 const whatNext = [
   { icon: mailIcon, text: "We'll review your request within one business day." },
@@ -113,18 +104,18 @@ export default function EnquiryForm() {
   }
 
   return (
-    <div className="ax-quote-grid" style={s("max-width:1080px; margin:0 auto; display:grid; grid-template-columns:1.6fr 1fr; gap:28px; align-items:start;")}>
+    <div className="ax-quote-grid" style={s("max-width:1080px; margin:0 auto; display:grid; grid-template-columns:1.45fr .75fr; gap:28px; align-items:start;")}>
       <form
         onSubmit={onSubmit}
         className="ax-enquiry-form"
         style={s(
-          "padding:36px; border-radius:20px; background:var(--surface); border:1px solid var(--border); display:flex; flex-direction:column; gap:22px;"
+          "padding:38px; border-radius:22px; background:linear-gradient(155deg,rgba(16,26,43,.96),rgba(10,15,26,.98)); border:1px solid var(--border); box-shadow:0 28px 70px -38px rgba(0,0,0,.75); display:flex; flex-direction:column; gap:22px;"
         )}
       >
         <div style={s("display:flex; gap:4px; border-bottom:1px solid var(--border); margin:-4px -4px 4px;")}>
           {[
-            { key: "quote", label: "Request Quote" },
-            { key: "consultation", label: "Schedule Consultation" },
+            { key: "quote", label: "Share Project Brief" },
+            { key: "consultation", label: "Book a Consultation" },
           ].map((tab) => (
             <button
               key={tab.key}
@@ -140,7 +131,7 @@ export default function EnquiryForm() {
         </div>
 
         <div style={s("font-size:13px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--gold);")}>
-          Contact Information
+          Your Details
         </div>
 
         <div className="ax-form-row-2" style={s("display:grid; grid-template-columns:1fr 1fr; gap:18px;")}>
@@ -173,27 +164,10 @@ export default function EnquiryForm() {
           <label style={s(labelStyle)}>
             Location <span style={s("color:var(--gold);")}>*</span>
           </label>
-          <div style={s("display:flex; flex-wrap:wrap; gap:8px;")}>
-            {locations.map((loc) => {
-              const active = location === loc.name;
-              return (
-                <button
-                  key={loc.name}
-                  type="button"
-                  onClick={() => setLocation(loc.name)}
-                  disabled={submitting}
-                  style={s(
-                    `display:inline-flex; align-items:center; gap:7px; padding:9px 15px; border-radius:999px; font-size:13.5px; font-weight:600; font-family:inherit; cursor:pointer; transition:background .15s ease, border-color .15s ease, color .15s ease; background:${
-                      active ? "var(--goldsoft)" : "var(--surface2)"
-                    }; border:1px solid ${active ? "var(--gold)" : "var(--border)"}; color:${active ? "var(--gold2)" : "var(--text)"};`
-                  )}
-                >
-                  {loc.flag && <span style={s("font-size:15px; line-height:1;")}>{loc.flag}</span>}
-                  {loc.name}
-                </button>
-              );
-            })}
-          </div>
+          <select value={location} onChange={(e) => setLocation(e.target.value)} style={s(inputStyle)} disabled={submitting}>
+            <option value="" disabled>Select your country or region</option>
+            {locations.map((name) => <option key={name} value={name}>{name}</option>)}
+          </select>
         </div>
 
         <div>
@@ -223,13 +197,13 @@ export default function EnquiryForm() {
         {mode === "quote" ? (
           <div>
             <label style={s(labelStyle)}>
-              Message <span style={s("color:var(--gold);")}>*</span>
+              Project Context <span style={s("color:var(--gold);")}>*</span>
             </label>
             <textarea
               required
               name="message"
-              rows={5}
-              placeholder="Please describe how we can help you..."
+              rows={5}                    
+              placeholder="What are you building, who is it for, and what outcome matters most?"
               style={s(inputStyle + " resize:vertical;")}
               disabled={submitting}
             />
@@ -280,7 +254,7 @@ export default function EnquiryForm() {
             "padding:15px 26px; border-radius:12px; font-size:15.5px; font-weight:700; color:#0A0F1A; background:linear-gradient(135deg,var(--gold2),var(--gold)); box-shadow:0 14px 34px -12px rgba(212,175,55,0.55); border:none; cursor:pointer; font-family:inherit;"
           )}
         >
-          {submitting ? "Sending..." : mode === "quote" ? "Send Message" : "Schedule Consultation"}
+          {submitting ? "Sending..." : mode === "quote" ? "Submit Project Brief" : "Request Consultation"}
         </button>
 
         <p style={s("margin:0; font-size:12.5px; color:var(--muted); text-align:center;")}>
@@ -292,9 +266,17 @@ export default function EnquiryForm() {
         </p>
       </form>
 
-      <div style={s("display:flex; flex-direction:column; gap:18px;")}>
+      <aside className="ax-enquiry-aside" style={s("display:flex; flex-direction:column; gap:18px;")}>
+        <div className="ax-enquiry-visual" style={s("position:relative; min-height:230px; overflow:hidden; border-radius:18px; border:1px solid var(--border);")}>
+          <img src="/media/hero-product-studio.png" alt="Product engineering workspace" style={s("position:absolute; inset:0; width:100%; height:100%; object-fit:cover;")} />
+          <div style={s("position:absolute; inset:0; background:linear-gradient(180deg,transparent 20%,rgba(5,9,16,.92));")} />
+          <div style={s("position:absolute; left:22px; right:22px; bottom:20px;")}>
+            <div style={s("font-size:11px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--gold);")}>A senior-led first response</div>
+            <p style={s("margin:7px 0 0; color:#fff; font-size:14px; line-height:1.5;")}>No sales script. We review the brief before we reply.</p>
+          </div>
+        </div>
         <div style={s("padding:26px; border-radius:18px; background:var(--surface); border:1px solid var(--border);")}>
-          <h3 style={s("margin:0 0 16px; font-size:16px; font-weight:700; color:var(--head);")}>What Happens Next?</h3>
+          <h3 style={s("margin:0 0 16px; font-size:16px; font-weight:700; color:var(--head);")}>What happens next</h3>
           <div style={s("display:flex; flex-direction:column; gap:14px;")}>
             {whatNext.map((item, i) => (
               <div key={i} style={s("display:flex; align-items:flex-start; gap:12px;")}>
@@ -312,7 +294,7 @@ export default function EnquiryForm() {
             hello@appixotech.com
           </a>
         </div>
-      </div>
+      </aside>
     </div>
   );
 }

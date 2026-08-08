@@ -27,8 +27,8 @@ export default function AboutPage() {
       <section style={s("padding:0 32px 70px;")}>
         <div className="ax-stats-grid" style={s("max-width:1240px; margin:0 auto; display:grid; grid-template-columns:repeat(4,1fr); gap:18px;")}>
           {stats.map((st, i) => (
-            <div key={i} style={s("padding:30px 24px; border-radius:18px; background:var(--surface); border:1px solid var(--border); text-align:center;")}>
-              <div style={s("font-size:44px; font-weight:800; letter-spacing:-0.02em; color:var(--gold); font-family:'JetBrains Mono',monospace;")}>
+            <div key={i} className="ax-stat-card" style={s("padding:30px 24px; border-radius:18px; background:var(--surface); border:1px solid var(--border); text-align:center;")}>
+              <div className="ax-stat-value" style={s("font-size:44px; font-weight:800; letter-spacing:-0.02em; color:var(--gold); font-family:'JetBrains Mono',monospace;")}>
                 {st.n}{st.suffix}
               </div>
               <div style={s("font-size:14.5px; color:var(--muted); margin-top:6px; font-weight:500;")}>{st.label}</div>

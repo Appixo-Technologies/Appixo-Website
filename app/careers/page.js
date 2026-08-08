@@ -24,7 +24,7 @@ export default function CareersPage() {
       </header>
 
       <section style={s("padding:0 32px 90px;")}>
-        <div
+        <div className="ax-page-card"
           style={s(
             "max-width:640px; margin:0 auto; padding:36px; border-radius:20px; background:var(--surface); border:1px solid var(--border); text-align:center;"
           )}

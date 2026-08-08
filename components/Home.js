@@ -1,55 +1,51 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { s, svgSpan, ic } from "@/lib/icons";
-import { products, whys, stats } from "@/lib/siteData";
+import { products, whys } from "@/lib/siteData";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import ServiceCategoryGrid from "@/components/ServiceCategoryGrid";
+import {
+  SiFlutter,
+  SiReact,
+  SiNextdotjs,
+  SiNodedotjs,
+  SiExpress,
+  SiFirebase,
+  SiMongodb,
+  SiPostgresql,
+  SiDocker,
+  SiGithub,
+} from "react-icons/si";
+import { FaAws, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
 
-function OfficeCard({ flag, city, address, hq, featured }) {
-  return (
-    <div
-      className="ax-office-card"
-      style={s(
-        `display:flex; align-items:flex-start; gap:12px; padding:${
-          featured ? "16px 18px" : "14px 15px"
-        }; border-radius:14px; background:var(--surface2); border:1px solid var(--border);`
-      )}
-    >
-      <div
-        style={s(
-          "width:34px; height:34px; flex-shrink:0; border-radius:9px; background:var(--goldsoft); border:1px solid var(--border2); display:flex; align-items:center; justify-content:center; font-size:16px;"
-        )}
-      >
-        {flag}
-      </div>
-      <div>
-        <div style={s("display:flex; align-items:center; gap:8px; font-size:13.5px; font-weight:700; color:var(--head);")}>
-          {city}
-          {hq && (
-            <span
-              style={s(
-                "padding:2px 8px; border-radius:999px; font-size:10.5px; font-weight:700; letter-spacing:.03em; background:var(--goldsoft); color:var(--gold2); border:1px solid var(--border2);"
-              )}
-            >
-              HQ
-            </span>
-          )}
-        </div>
-        <div style={s("font-size:13px; color:var(--muted); margin-top:3px; line-height:1.4;")}>{address}</div>
-      </div>
-    </div>
-  );
-}
+const techStack = [
+  { name: "Flutter", Icon: SiFlutter, color: "#54C5F8" },
+  { name: "React Native", Icon: SiReact, color: "#61DAFB" },
+  { name: "React", Icon: SiReact, color: "#61DAFB" },
+  { name: "Next.js", Icon: SiNextdotjs, color: "#111827" },
+  { name: "Node.js", Icon: SiNodedotjs, color: "#68A063" },
+  { name: "Express", Icon: SiExpress, color: "#111827" },
+  { name: "Firebase", Icon: SiFirebase, color: "#FFCA28" },
+  { name: "MongoDB", Icon: SiMongodb, color: "#47A248" },
+  { name: "PostgreSQL", Icon: SiPostgresql, color: "#6699CC" },
+  { name: "Docker", Icon: SiDocker, color: "#2496ED" },
+  { name: "AWS", Icon: FaAws, color: "#FF9900" },
+  { name: "GitHub", Icon: SiGithub, color: "#111827" },
+];
+
+// Repeated enough times so a single "copy" of the strip is always wider than
+// the viewport - otherwise the -50% translate loop trick runs out of content
+// mid-cycle and leaves a blank gap on one side.
+const techBaseA = techStack.slice(0, 6);
+const techBaseB = techStack.slice(6, 12);
+const techLoopA = Array(6).fill(techBaseA).flat();
+const techLoopB = Array(6).fill(techBaseB).flat();
 
 export default function Home() {
   const [submitLabel, setSubmitLabel] = useState("Send message");
   const [submitting, setSubmitting] = useState(false);
-
-  const blobA = useRef(null);
-  const blobB = useRef(null);
-  const heroArt = useRef(null);
 
   const resetLabelAfter = (ms) => {
     setTimeout(() => setSubmitLabel("Send message"), ms);
@@ -97,15 +93,6 @@ export default function Home() {
   const checkSmall = svgSpan(
     '<svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>'
   );
-  const iActivity = ic('<path d="M22 12h-4l-3 9L9 3l-3 9H2"/>');
-  const iCheck = svgSpan(
-    '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>'
-  );
-  const iMail = ic('<rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/>');
-  const iPin = ic(
-    '<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/>'
-  );
-
   const steps = [
     { num: "01", name: "Idea", icon: ic('<path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z"/>') },
     { num: "02", name: "Research", icon: ic('<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>') },
@@ -116,13 +103,6 @@ export default function Home() {
     { num: "07", name: "Support", icon: ic('<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>') },
   ];
 
-  // Repeated enough times (8x the base 6-item list) so a single "copy" of the
-  // strip is always wider than the viewport - otherwise the -50% translate
-  // loop trick runs out of content mid-cycle and leaves a blank gap on one side.
-  const techBaseA = ["Flutter", "React Native", "React", "Next.js", "Node.js", "Express"];
-  const techBaseB = ["Firebase", "MongoDB", "PostgreSQL", "Docker", "AWS", "GitHub"];
-  const techsLoopA = Array(8).fill(techBaseA).flat();
-  const techsLoopB = Array(8).fill(techBaseB).flat();
 
   const portfolio = [
     { name: "Clinic Click", tag: "Healthcare · Mobile app", img: "/portfolio/clinic-click.svg", bg: "linear-gradient(150deg,#12203a,#0c1526)", badge: "Live", badgeBg: "rgba(18,161,80,0.15)", badgeFg: "#3ecf8e" },
@@ -144,19 +124,6 @@ export default function Home() {
   ];
 
   useEffect(() => {
-    const onScroll = () => {
-      // parallax
-      const y = window.scrollY;
-      if (blobA.current) blobA.current.style.marginTop = y * 0.12 + "px";
-      if (blobB.current) blobB.current.style.marginTop = y * -0.08 + "px";
-      document.querySelectorAll("#appixo-root .ax-parallax").forEach((el) => {
-        const d = parseFloat(el.getAttribute("data-depth")) || 0.1;
-        el.style.transform = "translateY(" + y * -d + "px)";
-      });
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-
     // REVEAL on view
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const items = document.querySelectorAll("#appixo-root [data-reveal]");
@@ -186,37 +153,8 @@ export default function Home() {
       items.forEach((el) => io.observe(el));
     }
 
-    // COUNTERS
-    const counters = document.querySelectorAll("#appixo-root [data-count]");
-    const cio = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((en) => {
-          if (en.isIntersecting) {
-            const el = en.target;
-            const target = parseFloat(el.getAttribute("data-count")) || 0;
-            const suffix = el.getAttribute("data-suffix") || "";
-            const dur = 1400;
-            const start = performance.now();
-            const tick = (now) => {
-              const p = Math.min(1, (now - start) / dur);
-              const e = 1 - Math.pow(1 - p, 3);
-              const val = Math.round(target * e);
-              el.textContent = (target >= 1000 ? val.toLocaleString() : val) + suffix;
-              if (p < 1) requestAnimationFrame(tick);
-            };
-            requestAnimationFrame(tick);
-            cio.unobserve(el);
-          }
-        });
-      },
-      { threshold: 0.5 }
-    );
-    counters.forEach((el) => cio.observe(el));
-
     return () => {
-      window.removeEventListener("scroll", onScroll);
       if (io) io.disconnect();
-      cio.disconnect();
     };
   }, []);
 
@@ -225,32 +163,28 @@ export default function Home() {
       <Nav />
 
       {/* ===================== HERO ===================== */}
-      <header id="top" className="ax-hero" style={s("position:relative; padding:150px 32px 90px; overflow:hidden;")}>
-        <div
-          ref={blobA}
-          style={s(
-            "position:absolute; top:-120px; right:-60px; width:620px; height:620px; border-radius:50%; background:radial-gradient(circle at 30% 30%, rgba(212,175,55,0.22), transparent 62%); filter:blur(20px); animation:ax-blob 18s ease-in-out infinite; pointer-events:none;"
-          )}
-        />
-        <div
-          ref={blobB}
-          style={s(
-            "position:absolute; bottom:-160px; left:-120px; width:560px; height:560px; border-radius:50%; background:radial-gradient(circle at 50% 50%, rgba(27,38,59,0.9), transparent 65%); filter:blur(10px); animation:ax-blob 22s ease-in-out infinite reverse; pointer-events:none;"
-          )}
+      <header id="top" className="ax-hero" style={s("position:relative; min-height:100vh; display:flex; align-items:flex-end; overflow:hidden;")}>
+        <img
+          src="/media/hero-product-studio.png"
+          alt=""
+          style={s("position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0;")}
         />
         <div
           style={s(
-            "position:absolute; inset:0; background:radial-gradient(1200px 500px at 70% -10%, rgba(212,175,55,0.06), transparent 60%); pointer-events:none;"
+            "position:absolute; inset:0; background:linear-gradient(180deg, rgba(7,11,20,0.05) 0%, rgba(7,11,20,0.20) 58%, rgba(7,11,20,0.84) 100%); z-index:1;"
+          )}
+        />
+        <div
+          style={s(
+            "position:absolute; inset:0; background:linear-gradient(90deg, rgba(7,11,20,0.55) 0%, rgba(7,11,20,0.12) 48%, transparent 72%); z-index:1;"
           )}
         />
 
         <div
           className="ax-hero-grid"
-          style={s(
-            "position:relative; max-width:1240px; margin:0 auto; display:grid; grid-template-columns:1.05fr 0.95fr; gap:48px; align-items:center;"
-          )}
+          style={s("position:relative; z-index:2; max-width:1240px; margin:0 auto; width:100%; padding:150px 32px 90px;")}
         >
-          <div data-reveal="">
+          <div data-reveal="" style={s("max-width:600px;")}>
             <div
               style={s(
                 "display:inline-flex; align-items:center; gap:9px; padding:7px 14px; border-radius:999px; border:1px solid var(--border2); background:var(--goldsoft); font-size:12.5px; font-weight:600; letter-spacing:.04em; color:var(--gold2); margin-bottom:26px;"
@@ -261,127 +195,58 @@ export default function Home() {
                   "width:7px; height:7px; border-radius:50%; background:var(--gold); box-shadow:0 0 0 4px rgba(212,175,55,0.18);"
                 )}
               />
-              INNOVATE · BUILD · ELEVATE
+              PRODUCT STRATEGY · DESIGN · ENGINEERING
             </div>
             <h1
               className="ax-hero-title"
               style={s(
-                "margin:0; font-size:58px; line-height:1.05; font-weight:800; letter-spacing:-0.03em; color:var(--head); text-wrap:balance;"
+                "margin:0; font-size:52px; line-height:1.08; font-weight:800; letter-spacing:-0.03em; color:var(--head); text-wrap:balance;"
               )}
             >
-              A software development partner that{" "}
+              Software products, engineered for{" "}
               <span
                 style={s(
                   "background:linear-gradient(120deg,var(--gold2),var(--gold)); -webkit-background-clip:text; background-clip:text; color:transparent;"
                 )}
               >
-                ships like an in-house team.
+                real-world growth.
               </span>
             </h1>
-            <p style={s("margin:24px 0 0; font-size:18px; line-height:1.6; color:var(--text); max-width:560px;")}>
-              We design and build mobile apps, web platforms, and AI-powered products for startups and businesses across the US, UK, Canada, Australia, UAE, India, and Spain — with overlapping working hours and clear, direct communication.
+            <p style={s("margin:22px 0 0; font-size:17px; line-height:1.6; color:var(--text);")}>
+              One senior product team for strategy, design, engineering, cloud, and ongoing improvement—from the first decision to a dependable production launch.
             </p>
             <div style={s("display:flex; flex-wrap:wrap; gap:14px; margin-top:36px;")}>
               <a
-                href="#services"
+                href="/enquiry"
                 style={s(
                   "display:inline-flex; align-items:center; gap:9px; padding:15px 26px; border-radius:12px; font-size:15.5px; font-weight:700; color:#0A0F1A; background:linear-gradient(135deg,var(--gold2),var(--gold)); box-shadow:0 14px 34px -12px rgba(212,175,55,0.55);"
                 )}
               >
-                Explore Services {arrowIcon}
+                Start a Project {arrowIcon}
               </a>
               <a
-                href="#contact"
+                href="#portfolio"
                 style={s(
-                  "display:inline-flex; align-items:center; gap:9px; padding:15px 26px; border-radius:12px; font-size:15.5px; font-weight:600; color:var(--head); background:var(--surface); border:1px solid var(--border);"
+                  "display:inline-flex; align-items:center; gap:9px; padding:15px 26px; border-radius:12px; font-size:15.5px; font-weight:600; color:var(--head); background:rgba(16,26,43,0.55); backdrop-filter:blur(6px); border:1px solid var(--border);"
                 )}
               >
-                Contact Us
+                View Our Work
               </a>
             </div>
-          </div>
-
-          {/* floating UI cards */}
-          <div ref={heroArt} className="ax-hero-art" style={s("position:relative; height:460px;")}>
-            <div
-              style={s(
-                "position:absolute; inset:14% 8%; border-radius:24px; background:linear-gradient(160deg,var(--surface2),var(--surface)); border:1px solid var(--border); box-shadow:var(--shadow);"
-              )}
-            />
-            <div
-              className="ax-parallax"
-              data-depth="0.10"
-              style={s(
-                "position:absolute; top:24px; left:0; width:230px; padding:16px; border-radius:16px; background:var(--surface); border:1px solid var(--border2); box-shadow:var(--shadow); animation:ax-float 6s ease-in-out infinite;"
-              )}
-            >
-              <div style={s("display:flex; align-items:center; gap:10px;")}>
-                <div
-                  style={s(
-                    "width:34px; height:34px; border-radius:9px; background:var(--goldsoft); display:flex; align-items:center; justify-content:center; color:var(--gold);"
-                  )}
-                >
-                  {iActivity}
-                </div>
-                <div>
-                  <div style={s("font-size:12px; color:var(--muted);")}>Active users</div>
-                  <div style={s("font-size:18px; font-weight:700; color:var(--head); font-family:'JetBrains Mono',monospace;")}>1,024</div>
-                </div>
-              </div>
-              <div style={s("display:flex; align-items:flex-end; gap:5px; height:44px; margin-top:14px;")}>
-                <div style={s("flex:1; height:40%; border-radius:4px; background:var(--border2);")} />
-                <div style={s("flex:1; height:65%; border-radius:4px; background:var(--border2);")} />
-                <div style={s("flex:1; height:52%; border-radius:4px; background:var(--border2);")} />
-                <div style={s("flex:1; height:88%; border-radius:4px; background:linear-gradient(180deg,var(--gold2),var(--gold));")} />
-                <div style={s("flex:1; height:70%; border-radius:4px; background:var(--border2);")} />
-                <div style={s("flex:1; height:100%; border-radius:4px; background:linear-gradient(180deg,var(--gold2),var(--gold));")} />
-              </div>
-            </div>
-            <div
-              className="ax-parallax"
-              data-depth="0.20"
-              style={s(
-                "position:absolute; bottom:34px; right:0; width:246px; padding:16px; border-radius:16px; background:var(--surface); border:1px solid var(--border); box-shadow:var(--shadow); animation:ax-float2 7s ease-in-out infinite;"
-              )}
-            >
-              <div style={s("font-size:12px; color:var(--muted); margin-bottom:12px;")}>Appointment booked</div>
-              <div style={s("display:flex; align-items:center; gap:11px;")}>
-                <div
-                  style={s(
-                    "width:40px; height:40px; border-radius:50%; background:linear-gradient(135deg,var(--gold2),var(--gold)); display:flex; align-items:center; justify-content:center; color:#0A0F1A; font-weight:700;"
-                  )}
-                >
-                  CC
-                </div>
-                <div style={s("flex:1;")}>
-                  <div style={s("font-size:14px; font-weight:600; color:var(--head);")}>Clinic Click</div>
-                  <div style={s("font-size:12px; color:var(--muted);")}>Dr. Mehta · 4:30 PM</div>
-                </div>
-                <div
-                  style={s(
-                    "width:24px; height:24px; border-radius:50%; background:rgba(18,161,80,0.16); color:#3ecf8e; display:flex; align-items:center; justify-content:center;"
-                  )}
-                >
-                  {iCheck}
-                </div>
-              </div>
-            </div>
-            <div
-              className="ax-parallax"
-              data-depth="0.32"
-              style={s(
-                "position:absolute; top:44%; right:-6px; width:150px; padding:14px 16px; border-radius:14px; background:linear-gradient(135deg,var(--gold2),var(--gold)); box-shadow:0 16px 40px -12px rgba(212,175,55,0.6); animation:ax-float 5.5s ease-in-out infinite; animation-delay:-2s;"
-              )}
-            >
-              <div style={s("font-size:12px; color:rgba(10,15,26,0.7); font-weight:600;")}>Uptime</div>
-              <div style={s("font-size:26px; font-weight:800; color:#0A0F1A; font-family:'JetBrains Mono',monospace;")}>99%</div>
+            <div className="ax-hero-proof" style={s("display:flex; flex-wrap:wrap; gap:10px 20px; margin-top:28px; padding-top:22px; border-top:1px solid rgba(255,255,255,.12);")}>
+              {["End-to-end delivery", "Senior engineering", "Clear weekly updates"].map((item) => (
+                <span key={item} style={s("display:inline-flex; align-items:center; gap:8px; color:#AEB7C6; font-size:12.5px; font-weight:600;")}>
+                  <i style={s("width:5px; height:5px; border-radius:50%; background:var(--gold); box-shadow:0 0 0 3px rgba(212,175,55,.13);")} />
+                  {item}
+                </span>
+              ))}
             </div>
           </div>
         </div>
       </header>
 
       {/* ===================== TRUST STRIP ===================== */}
-      <section style={s("padding:0 32px 56px;")}>
+      <section style={s("padding:40px 32px 56px;")}>
         <div
           data-reveal=""
           style={s(
@@ -413,29 +278,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===================== STATS ===================== */}
-      <section style={s("padding:10px 32px 70px;")}>
-        <div
-          data-reveal=""
-          className="ax-stats-grid"
-          style={s("max-width:1240px; margin:0 auto; display:grid; grid-template-columns:repeat(4,1fr); gap:18px;")}
-        >
-          {stats.map((st, i) => (
-            <div
-              key={i}
-              style={s("padding:30px 24px; border-radius:18px; background:var(--surface); border:1px solid var(--border); text-align:center;")}
-            >
-              <div style={s("font-size:44px; font-weight:800; letter-spacing:-0.02em; color:var(--gold); font-family:'JetBrains Mono',monospace;")}>
-                <span data-count={st.n} data-suffix={st.suffix}>0</span>
-              </div>
-              <div style={s("font-size:14.5px; color:var(--muted); margin-top:6px; font-weight:500;")}>{st.label}</div>
-            </div>
-          ))}
-        </div>
-      </section>
-
       {/* ===================== SERVICES ===================== */}
-      <section id="services" style={s("padding:70px 32px; scroll-margin-top:80px;")}>
+      <section id="services" className="ax-light-section" style={s("padding:70px 32px; scroll-margin-top:80px;")}>
         <div style={s("max-width:1240px; margin:0 auto;")}>
           <div data-reveal="" style={s("text-align:center; max-width:660px; margin:0 auto 52px;")}>
             <div style={s("font-size:13px; font-weight:700; letter-spacing:.14em; color:var(--gold); text-transform:uppercase;")}>Services</div>
@@ -449,7 +293,7 @@ export default function Home() {
       </section>
 
       {/* ===================== PRODUCTS (CASE STUDIES) ===================== */}
-      <section id="products" style={s("padding:70px 32px; background:var(--bg2); scroll-margin-top:80px;")}>
+      <section id="products" className="ax-case-studies" style={s("padding:70px 32px; scroll-margin-top:80px;")}>
         <div style={s("max-width:1240px; margin:0 auto;")}>
           <div data-reveal="" style={s("text-align:center; max-width:660px; margin:0 auto 52px;")}>
             <div style={s("font-size:13px; font-weight:700; letter-spacing:.14em; color:var(--gold); text-transform:uppercase;")}>Case Studies</div>
@@ -461,7 +305,7 @@ export default function Home() {
               <div
                 key={p.slug}
                 data-reveal=""
-                className="ax-lift"
+                className="ax-lift ax-case-card"
                 style={s(
                   "display:flex; flex-direction:column; padding:26px; border-radius:20px; background:var(--surface); border:1px solid var(--border); transition:transform .25s ease, border-color .25s ease, box-shadow .25s ease;"
                 )}
@@ -513,7 +357,7 @@ export default function Home() {
       </section>
 
       {/* ===================== WHY APPIXO ===================== */}
-      <section id="about" style={s("padding:80px 32px; scroll-margin-top:80px;")}>
+      <section id="about" className="ax-light-section" style={s("padding:80px 32px; scroll-margin-top:80px;")}>
         <div style={s("max-width:1240px; margin:0 auto;")}>
           <div data-reveal="" style={s("text-align:center; max-width:660px; margin:0 auto 52px;")}>
             <div style={s("font-size:13px; font-weight:700; letter-spacing:.14em; color:var(--gold); text-transform:uppercase;")}>Why Appixo</div>
@@ -540,7 +384,7 @@ export default function Home() {
       </section>
 
       {/* ===================== PROCESS ===================== */}
-      <section style={s("padding:70px 32px; background:var(--bg2);")}>
+      <section id="process" style={s("padding:70px 32px; scroll-margin-top:80px;")}>
         <div style={s("max-width:1240px; margin:0 auto;")}>
           <div data-reveal="" style={s("text-align:center; max-width:660px; margin:0 auto 56px;")}>
             <div style={s("font-size:13px; font-weight:700; letter-spacing:.14em; color:var(--gold); text-transform:uppercase;")}>How we work</div>
@@ -566,7 +410,7 @@ export default function Home() {
       </section>
 
       {/* ===================== TECHNOLOGIES ===================== */}
-      <section style={s("padding:70px 0;")}>
+      <section id="technologies" className="ax-light-section ax-technologies" style={s("padding:70px 0; scroll-margin-top:80px;")}>
         <div data-reveal="" style={s("text-align:center; max-width:660px; margin:0 auto 44px; padding:0 32px;")}>
           <div style={s("font-size:13px; font-weight:700; letter-spacing:.14em; color:var(--gold); text-transform:uppercase;")}>Technologies</div>
           <h2 style={s("margin:14px 0 0; font-size:40px; font-weight:800; letter-spacing:-0.02em; color:var(--head);")}>Our stack</h2>
@@ -576,29 +420,31 @@ export default function Home() {
             "position:relative; overflow:hidden; -webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent); mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);"
           )}
         >
-          <div className="ax-marquee-track" style={s("display:flex; gap:16px; width:max-content; animation:ax-marquee 34s linear infinite; padding:0 8px;")}>
-            {techsLoopA.map((t, i) => (
+          <div className="ax-marquee-track" style={s("display:flex; gap:20px; width:max-content; animation:ax-marquee 38s linear infinite; padding:0 10px;")}>
+            {techLoopA.map((t, i) => (
               <div
                 key={i}
+                className="ax-lift ax-light-card"
                 style={s(
-                  "display:flex; align-items:center; gap:10px; padding:14px 22px; border-radius:14px; background:var(--surface); border:1px solid var(--border); white-space:nowrap;"
+                  "flex-shrink:0; display:flex; flex-direction:column; align-items:center; gap:16px; padding:34px 20px; border-radius:20px; background:var(--surface); border:1px solid var(--border); text-align:center; transition:transform .3s ease, border-color .3s ease, box-shadow .3s ease;"
                 )}
               >
-                <span style={s("width:9px; height:9px; border-radius:50%; background:var(--gold);")} />
-                <span style={s("font-size:15px; font-weight:600; color:var(--head);")}>{t}</span>
+                <t.Icon size={46} color={t.color} />
+                <span style={s("font-size:15.5px; font-weight:700; color:var(--head); white-space:nowrap;")}>{t.name}</span>
               </div>
             ))}
           </div>
-          <div className="ax-marquee-track" style={s("display:flex; gap:16px; width:max-content; animation:ax-marquee-r 30s linear infinite; padding:16px 8px 0;")}>
-            {techsLoopB.map((t, i) => (
+          <div className="ax-marquee-track" style={s("display:flex; gap:20px; width:max-content; animation:ax-marquee-r 34s linear infinite; padding:20px 10px 0;")}>
+            {techLoopB.map((t, i) => (
               <div
                 key={i}
+                className="ax-lift ax-light-card"
                 style={s(
-                  "display:flex; align-items:center; gap:10px; padding:14px 22px; border-radius:14px; background:var(--surface); border:1px solid var(--border); white-space:nowrap;"
+                  "flex-shrink:0; display:flex; flex-direction:column; align-items:center; gap:16px; padding:34px 20px; border-radius:20px; background:var(--surface); border:1px solid var(--border); text-align:center; transition:transform .3s ease, border-color .3s ease, box-shadow .3s ease;"
                 )}
               >
-                <span style={s("width:9px; height:9px; border-radius:50%; background:var(--gold2);")} />
-                <span style={s("font-size:15px; font-weight:600; color:var(--head);")}>{t}</span>
+                <t.Icon size={46} color={t.color} />
+                <span style={s("font-size:15.5px; font-weight:700; color:var(--head); white-space:nowrap;")}>{t.name}</span>
               </div>
             ))}
           </div>
@@ -606,7 +452,7 @@ export default function Home() {
       </section>
 
       {/* ===================== PORTFOLIO ===================== */}
-      <section id="portfolio" style={s("padding:70px 32px; background:var(--bg2); scroll-margin-top:80px;")}>
+      <section id="portfolio" style={s("padding:70px 32px; scroll-margin-top:80px;")}>
         <div style={s("max-width:1240px; margin:0 auto;")}>
           <div data-reveal="" style={s("text-align:center; max-width:660px; margin:0 auto 52px;")}>
             <div style={s("font-size:13px; font-weight:700; letter-spacing:.14em; color:var(--gold); text-transform:uppercase;")}>Portfolio</div>
@@ -654,7 +500,7 @@ export default function Home() {
       </section>
 
       {/* ===================== TESTIMONIALS ===================== */}
-      <section style={s("padding:80px 32px;")}>
+      <section className="ax-light-section ax-testimonials" style={s("padding:80px 32px;")}>
         <div style={s("max-width:1240px; margin:0 auto;")}>
           <div data-reveal="" style={s("text-align:center; max-width:660px; margin:0 auto 52px;")}>
             <div style={s("font-size:13px; font-weight:700; letter-spacing:.14em; color:var(--gold); text-transform:uppercase;")}>Testimonials</div>
@@ -662,7 +508,7 @@ export default function Home() {
           </div>
           <div className="ax-testimonials-grid" style={s("display:grid; grid-template-columns:repeat(3,1fr); gap:22px;")}>
             {testimonials.map((tm, i) => (
-              <div key={i} data-reveal="" style={s("display:flex; flex-direction:column; padding:28px; border-radius:20px; background:var(--surface); border:1px solid var(--border);")}>
+              <div key={i} data-reveal="" className="ax-light-card" style={s("display:flex; flex-direction:column; padding:28px; border-radius:20px; background:var(--surface); border:1px solid var(--border);")}>
                 <div style={s("color:var(--gold); font-size:34px; line-height:1; font-family:Georgia,serif;")}>&ldquo;</div>
                 <p style={s("margin:8px 0 22px; font-size:15px; line-height:1.65; color:var(--text);")}>{tm.quote}</p>
                 <div style={s("margin-top:auto; display:flex; align-items:center; gap:12px;")}>
@@ -685,7 +531,7 @@ export default function Home() {
       </section>
 
       {/* ===================== FAQ ===================== */}
-      <section style={s("padding:70px 32px; background:var(--bg2);")}>
+      <section id="faq" style={s("padding:70px 32px; scroll-margin-top:80px;")}>
         <div style={s("max-width:820px; margin:0 auto;")}>
           <div data-reveal="" style={s("text-align:center; margin:0 auto 48px;")}>
             <div style={s("font-size:13px; font-weight:700; letter-spacing:.14em; color:var(--gold); text-transform:uppercase;")}>FAQ</div>
@@ -712,7 +558,7 @@ export default function Home() {
       </section>
 
       {/* ===================== CONTACT ===================== */}
-      <section id="contact" style={s("padding:80px 32px; scroll-margin-top:80px;")}>
+      <section id="contact" className="ax-light-section ax-contact-section" style={s("padding:80px 32px; scroll-margin-top:80px;")}>
         <div
           data-reveal=""
           style={s(
@@ -734,31 +580,17 @@ export default function Home() {
               </p>
               <div style={s("display:flex; flex-direction:column; gap:18px;")}>
                 <a href="mailto:hello@appixotech.com" style={s("display:flex; align-items:center; gap:14px;")}>
-                  <div
-                    style={s(
-                      "width:44px; height:44px; border-radius:12px; background:var(--goldsoft); border:1px solid var(--border2); display:flex; align-items:center; justify-content:center; color:var(--gold);"
-                    )}
-                  >
-                    {iMail}
-                  </div>
+                  <FaEnvelope size={19} color="var(--gold)" style={{ flexShrink: 0 }} aria-hidden="true" />
                   <div>
                     <div style={s("font-size:12.5px; color:var(--muted);")}>Email</div>
                     <div style={s("font-size:15px; font-weight:600; color:var(--head);")}>hello@appixotech.com</div>
                   </div>
                 </a>
-                <div>
-                  <div style={s("display:flex; align-items:center; gap:14px; margin-bottom:14px;")}>
-                    <div
-                      style={s(
-                        "width:44px; height:44px; flex-shrink:0; border-radius:12px; background:var(--goldsoft); border:1px solid var(--border2); display:flex; align-items:center; justify-content:center; color:var(--gold);"
-                      )}
-                    >
-                      {iPin}
-                    </div>
-                    <div style={s("font-size:12.5px; color:var(--muted);")}>Locations</div>
-                  </div>
-                  <div style={s("display:flex; flex-direction:column; gap:10px;")}>
-                    <OfficeCard flag="🇮🇳" city="Noida" hq address="Sector 16, Noida, UP 201301" featured />
+                <div style={s("display:flex; align-items:center; gap:14px;")}>
+                  <FaMapMarkerAlt size={20} color="var(--gold)" style={{ flexShrink: 0 }} aria-hidden="true" />
+                  <div>
+                    <div style={s("font-size:12.5px; color:var(--muted); margin-bottom:3px;")}>Our location</div>
+                    <div style={s("font-size:15px; font-weight:600; color:var(--head);")}>Noida, Uttar Pradesh, India</div>
                   </div>
                 </div>
               </div>

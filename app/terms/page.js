@@ -35,7 +35,7 @@ export default function TermsPage() {
       </header>
 
       <section style={s("padding:0 32px 100px;")}>
-        <div
+        <div className="ax-page-card"
           style={s(
             "max-width:760px; margin:0 auto; padding:44px; border-radius:20px; background:var(--surface); border:1px solid var(--border);"
           )}
