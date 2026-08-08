@@ -62,7 +62,30 @@ export async function POST(request) {
 
     return NextResponse.json({ ok: true });
   } catch (err) {
-    console.error("[enquiry] Failed to append row to Google Sheet:", err);
-    return NextResponse.json({ error: "Something went wrong sending your enquiry. Please try again." }, { status: 502 });
+    const googleMessage = err?.response?.data?.error?.message || err?.message || "Unknown Google Sheets error";
+    const authFailed = err?.response?.data?.error === "invalid_grant" || /invalid_grant/i.test(googleMessage);
+    const rangeFailed = /Unable to parse range|not found/i.test(googleMessage);
+
+    console.error("[enquiry] Failed to append row to Google Sheet:", {
+      type: authFailed ? "oauth_invalid_grant" : rangeFailed ? "invalid_sheet_range" : "google_sheets_error",
+      message: googleMessage,
+    });
+
+    if (authFailed) {
+      return NextResponse.json(
+        { error: "Our enquiry connection is temporarily unavailable. Please email hello@appixotech.com while we reconnect it." },
+        { status: 503 }
+      );
+    }
+    if (rangeFailed) {
+      return NextResponse.json(
+        { error: "The enquiry sheet is not configured correctly. Please email hello@appixotech.com for now." },
+        { status: 503 }
+      );
+    }
+    return NextResponse.json(
+      { error: "We couldn't send your enquiry right now. Please retry or email hello@appixotech.com." },
+      { status: 502 }
+    );
   }
 }

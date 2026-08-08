@@ -57,7 +57,15 @@ export async function POST(request) {
 
     return NextResponse.json({ ok: true });
   } catch (err) {
-    console.error("[contact] Failed to append row to Google Sheet:", err);
-    return NextResponse.json({ error: "Something went wrong sending your message. Please try again." }, { status: 502 });
+    const googleMessage = err?.response?.data?.error?.message || err?.message || "Unknown Google Sheets error";
+    const authFailed = err?.response?.data?.error === "invalid_grant" || /invalid_grant/i.test(googleMessage);
+    console.error("[contact] Failed to append row to Google Sheet:", {
+      type: authFailed ? "oauth_invalid_grant" : "google_sheets_error",
+      message: googleMessage,
+    });
+    return NextResponse.json(
+      { error: authFailed ? "Our contact connection is temporarily unavailable. Please email hello@appixotech.com." : "We couldn't send your message right now. Please retry or email us directly." },
+      { status: authFailed ? 503 : 502 }
+    );
   }
 }

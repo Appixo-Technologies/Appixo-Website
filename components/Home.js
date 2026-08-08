@@ -232,7 +232,7 @@ export default function Home() {
                 Start a Project {arrowIcon}
               </a>
               <a
-                href="#portfolio"
+                href="/case-studies"
                 style={s(
                   "display:inline-flex; align-items:center; gap:9px; padding:15px 26px; border-radius:12px; font-size:15.5px; font-weight:600; color:var(--head); background:rgba(16,26,43,0.55); backdrop-filter:blur(6px); border:1px solid var(--border);"
                 )}
@@ -342,6 +342,7 @@ export default function Home() {
               <div><h3>{steps[activeProcess].name}</h3><p>{steps[activeProcess].description}</p></div>
               <span className="ax-process-status">{steps[activeProcess].detail}</span>
             </div>
+            <a className="ax-process-full-link" href="/process">Explore our complete delivery process →</a>
           </div>
         </div>
       </section>

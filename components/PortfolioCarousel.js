@@ -159,6 +159,7 @@ export default function PortfolioCarousel() {
         })}
       </div>
       <div className="ax-portfolio-mobile-hint"><span>Swipe to explore</span><b>{String(active + 1).padStart(2,"0")} / {String(projects.length).padStart(2,"0")}</b></div>
+      <div className="ax-portfolio-all"><Link href="/case-studies">Explore all case studies <FiArrowRight /></Link></div>
     </section>
   );
 }

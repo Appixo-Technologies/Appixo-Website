@@ -24,7 +24,7 @@ const inputStyle =
   "width:100%; padding:13px 16px; border-radius:11px; background:var(--surface2); border:1px solid var(--border); color:var(--head); font-size:14.5px; font-family:inherit;";
 const labelStyle = "display:block; font-size:14px; font-weight:600; color:var(--head); margin-bottom:8px;";
 
-export default function EnquiryForm() {
+export default function EnquiryForm({ onSuccess }) {
   const searchParams = useSearchParams();
   const preselected = services.some((sv) => sv.slug === searchParams.get("service")) ? searchParams.get("service") : "";
 
@@ -74,6 +74,7 @@ export default function EnquiryForm() {
       const result = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(result.error || "Failed to send your enquiry.");
       setSubmitted(true);
+      onSuccess?.();
     } catch (err) {
       setError(err.message || "Something went wrong — please try again.");
     } finally {

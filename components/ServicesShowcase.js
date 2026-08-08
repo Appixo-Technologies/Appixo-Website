@@ -88,7 +88,7 @@ export default function ServicesShowcase() {
               {slide.links.map(([label, href]) => <Link key={label} href={href}>{label}{arrow}</Link>)}
             </div>
             <div className="ax-service-actions">
-              <Link href="/#portfolio" className="ax-service-primary">See Similar Builds</Link>
+              <Link href="/case-studies" className="ax-service-primary">See Similar Builds</Link>
               <Link href="/enquiry" className="ax-service-secondary">Request a Consultation</Link>
             </div>
           </article>

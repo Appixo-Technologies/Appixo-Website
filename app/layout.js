@@ -1,4 +1,5 @@
 import "./globals.css";
+import TimedEnquiryPopup from "@/components/TimedEnquiryPopup";
 
 export const metadata = {
   title: "Appixo — Innovate. Build. Elevate.",
@@ -24,7 +25,7 @@ export const viewport = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>{children}<TimedEnquiryPopup /></body>
     </html>
   );
 }

@@ -38,6 +38,8 @@ export default function Nav() {
   const isServices = pathname.startsWith("/services");
   const isAbout = pathname === "/about";
   const isCareers = pathname === "/careers";
+  const isCaseStudies = pathname === "/case-studies";
+  const isProcess = pathname === "/process";
 
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileSub, setMobileSub] = useState({ products: false, services: false });
@@ -124,10 +126,10 @@ export default function Nav() {
             </div>
           </div>
 
-          <Link href="/#portfolio" style={s("font-size:14.5px; color:var(--text); font-weight:500;")}>
+          <Link href="/case-studies" style={s(navLinkStyle(isCaseStudies))}>
             Case Studies
           </Link>
-          <Link href="/#process" style={s("font-size:14.5px; color:var(--text); font-weight:500;")}>
+          <Link href="/process" style={s(navLinkStyle(isProcess))}>
             Process
           </Link>
           <Link href="/careers" style={s(navLinkStyle(isCareers))}>
@@ -252,16 +254,16 @@ export default function Nav() {
           </div>
 
           <Link
-            href="/#portfolio"
+            href="/case-studies"
             onClick={closeMobile}
-            style={s(mobileNavLinkStyle(false))}
+            style={s(mobileNavLinkStyle(isCaseStudies))}
           >
             Case Studies
           </Link>
           <Link
-            href="/#process"
+            href="/process"
             onClick={closeMobile}
-            style={s(mobileNavLinkStyle(false))}
+            style={s(mobileNavLinkStyle(isProcess))}
           >
             Process
           </Link>
