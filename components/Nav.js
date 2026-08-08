@@ -74,10 +74,10 @@ export default function Nav() {
       >
         <Link href="/" style={s("display:flex; align-items:center; gap:12px; flex-shrink:0; min-width:0;")}>
           <img
-            src="/logo.png"
+            src="/logo-transparent.png"
             alt="Appixo"
             className="ax-logo"
-            style={s("width:38px; height:38px; border-radius:10px; display:block; flex-shrink:0; object-fit:contain;")}
+            style={s("width:38px; height:38px; display:block; flex-shrink:0; object-fit:contain;")}
           />
           <span className="ax-brand" style={s("font-weight:800; font-size:20px; letter-spacing:.16em; color:var(--head);")}>APPIXO</span>
         </Link>

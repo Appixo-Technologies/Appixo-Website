@@ -115,7 +115,7 @@ export default function Footer() {
 
         <div className="ax-footer-bottom" style={s("padding-top:24px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:18px;")}>
           <Link href="/" style={s("display:flex; align-items:center; gap:10px;")}>
-            <img src="/logo.png" alt="Appixo" style={s("width:34px; height:34px; border-radius:9px; object-fit:contain;")} />
+            <img src="/logo-transparent.png" alt="Appixo" style={s("width:34px; height:34px; object-fit:contain;")} />
             <span style={s("font-weight:800; font-size:17px; letter-spacing:.16em; color:var(--head);")}>APPIXO</span>
           </Link>
           <div style={s("font-size:12.5px; color:var(--muted);")}>Copyright © 2026 Appixo Technologies. All rights reserved.</div>
