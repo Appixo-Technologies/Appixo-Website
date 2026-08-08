@@ -95,7 +95,7 @@ export default function PortfolioCarousel() {
   const stopDrag = (event) => {
     if (dragging.current.active && typeof event?.clientX === "number") {
       const distance = event.clientX - dragging.current.x;
-      if (active === projects.length - 1 && distance < -45) goTo(0);
+      if (active === projects.length - 1 && distance < -45) goTo(projects.length);
       if (active === 0 && distance > 45) goTo(projects.length - 1);
     }
     dragging.current.active = false;
@@ -105,7 +105,7 @@ export default function PortfolioCarousel() {
   const onTouchEnd = (event) => {
     if (touchStartX.current === null) return;
     const distance = (event.changedTouches[0]?.clientX ?? touchStartX.current) - touchStartX.current;
-    if (active === projects.length - 1 && distance < -45) goTo(0);
+    if (active === projects.length - 1 && distance < -45) goTo(projects.length);
     if (active === 0 && distance > 45) goTo(projects.length - 1);
     touchStartX.current = null;
   };
