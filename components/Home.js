@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { s, svgSpan, ic } from "@/lib/icons";
+import { s, ic } from "@/lib/icons";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import PortfolioCarousel from "@/components/PortfolioCarousel";
 import {
   SiFlutter,
   SiReact,
@@ -88,9 +89,6 @@ export default function Home() {
   };
 
   const arrowIcon = ic('<path d="M5 12h14M13 6l6 6-6 6"/>');
-  const arrowIconSm = svgSpan(
-    '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>'
-  );
   const processIcons = [FiCompass, FiSearch, FiEdit3, FiTool, FiActivity, FiFlag, FiMessageSquare];
   const steps = [
     { num: "01", name: "Idea", detail: "Vision and opportunity", description: "We align the product idea with the business outcome, user need, constraints, and measures of success." },
@@ -102,12 +100,6 @@ export default function Home() {
     { num: "07", name: "Support", detail: "Measure, learn and evolve", description: "After launch, we monitor product health, learn from usage, resolve issues, and prioritize the next improvements." },
   ];
 
-
-  const portfolio = [
-    { name: "Clinic Click", tag: "Healthcare · Mobile app", img: "/portfolio/clinic-click.svg", bg: "linear-gradient(150deg,#12203a,#0c1526)", badge: "Live", badgeBg: "rgba(18,161,80,0.15)", badgeFg: "#3ecf8e" },
-    { name: "RaktConnect", tag: "Blood donation · Platform", img: "/portfolio/raktconnect.svg", bg: "linear-gradient(150deg,#2a1620,#0c1526)", badge: "Live", badgeBg: "rgba(18,161,80,0.15)", badgeFg: "#3ecf8e" },
-    { name: "Future Project", tag: "AI · In development", img: "/portfolio/future-ai-product.svg", bg: "linear-gradient(150deg,#1e1a10,#0c1526)", badge: "Coming Soon", badgeBg: "var(--goldsoft)", badgeFg: "var(--gold)" },
-  ];
 
   const testimonials = [
     { quote: "The team shipped our appointment platform faster than we thought possible, and it just works. Patients love how simple booking is.", initials: "RM", name: "Dr. Rahul Mehta", role: "Clinic partner" },
@@ -168,7 +160,7 @@ export default function Home() {
 
   useEffect(() => {
     if (processPaused || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const timer = window.setInterval(() => setActiveProcess((step) => (step + 1) % steps.length), 2800);
+    const timer = window.setInterval(() => setActiveProcess((step) => (step + 1) % steps.length), 1800);
     return () => window.clearInterval(timer);
   }, [processPaused, steps.length]);
 
@@ -397,53 +389,7 @@ export default function Home() {
       </section>
 
       {/* ===================== PORTFOLIO ===================== */}
-      <section id="portfolio" style={s("padding:70px 32px; scroll-margin-top:80px;")}>
-        <div style={s("max-width:1240px; margin:0 auto;")}>
-          <div data-reveal="" style={s("text-align:center; max-width:660px; margin:0 auto 52px;")}>
-            <div style={s("font-size:13px; font-weight:700; letter-spacing:.14em; color:var(--gold); text-transform:uppercase;")}>Portfolio</div>
-            <h2 style={s("margin:14px 0 0; font-size:40px; font-weight:800; letter-spacing:-0.02em; color:var(--head);")}>Selected work</h2>
-          </div>
-          <div className="ax-portfolio-grid" style={s("display:grid; grid-template-columns:repeat(3,1fr); gap:22px;")}>
-            {portfolio.map((pf, i) => (
-              <div
-                key={i}
-                data-reveal=""
-                className="ax-port"
-                style={s("position:relative; border-radius:20px; overflow:hidden; border:1px solid var(--border); background:var(--surface); cursor:pointer;")}
-              >
-                <div style={s(`height:230px; background:${pf.bg}; position:relative; overflow:hidden;`)}>
-                  <img
-                    className="ax-portfolio-image"
-                    src={pf.img}
-                    alt={`${pf.name} — ${pf.tag}`}
-                    loading="lazy"
-                    style={s("position:absolute; inset:0; width:100%; height:100%; object-fit:cover;")}
-                  />
-                  <div
-                    className="ax-port-ov"
-                    style={s(
-                      "position:absolute; inset:0; background:linear-gradient(180deg,transparent,rgba(7,11,20,0.86)); opacity:0; transition:opacity .3s ease; display:flex; align-items:flex-end; padding:22px;"
-                    )}
-                  >
-                    <span style={s("display:inline-flex; align-items:center; gap:8px; font-size:14px; font-weight:700; color:#fff;")}>
-                      View project {arrowIconSm}
-                    </span>
-                  </div>
-                </div>
-                <div style={s("padding:20px 22px; display:flex; align-items:center; justify-content:space-between;")}>
-                  <div>
-                    <div style={s("font-size:17px; font-weight:700; color:var(--head);")}>{pf.name}</div>
-                    <div style={s("font-size:13px; color:var(--muted); margin-top:3px;")}>{pf.tag}</div>
-                  </div>
-                  <span style={s(`padding:5px 11px; border-radius:999px; font-size:11px; font-weight:700; background:${pf.badgeBg}; color:${pf.badgeFg};`)}>
-                    {pf.badge}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <PortfolioCarousel />
 
       {/* ===================== TESTIMONIALS ===================== */}
       <section className="ax-light-section ax-testimonials" style={s("padding:80px 32px;")}>
