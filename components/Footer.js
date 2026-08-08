@@ -18,7 +18,7 @@ const columns = [
     title: "Our Company",
     links: [
       ["About Us", "/about"],
-      ["Our Approach", "/#about"],
+      ["Our Approach", "/about"],
       ["Process", "/#process"],
       ["Careers", "/careers"],
       ["FAQ", "/#faq"],
@@ -38,7 +38,7 @@ const columns = [
   {
     title: "Portfolio",
     links: [
-      ["Case Studies", "/#products"],
+      ["Case Studies", "/#portfolio"],
       ["Clinic Click", "/products/clinic-click"],
       ["RaktConnect", "/products/raktconnect"],
       ["Future AI Product", "/products/future-ai-product"],
@@ -61,7 +61,7 @@ const columns = [
     links: [
       ["Healthcare", "/products/clinic-click"],
       ["Social Impact", "/products/raktconnect"],
-      ["Startups", "/#products"],
+      ["Startups", "/#portfolio"],
       ["Ecommerce", "/services/web-development"],
     ],
     more: ["View More", "/#contact"],

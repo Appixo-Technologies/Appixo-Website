@@ -2,10 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { s, svgSpan, ic } from "@/lib/icons";
-import { products, whys } from "@/lib/siteData";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
-import ServiceCategoryGrid from "@/components/ServiceCategoryGrid";
 import {
   SiFlutter,
   SiReact,
@@ -19,6 +17,7 @@ import {
   SiGithub,
 } from "react-icons/si";
 import { FaAws, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
+import { FiActivity, FiCompass, FiEdit3, FiFlag, FiSearch, FiTool, FiMessageSquare } from "react-icons/fi";
 
 const techStack = [
   { name: "Flutter", Icon: SiFlutter, color: "#54C5F8" },
@@ -90,9 +89,7 @@ export default function Home() {
   const arrowIconSm = svgSpan(
     '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>'
   );
-  const checkSmall = svgSpan(
-    '<svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>'
-  );
+  const processIcons = [FiCompass, FiSearch, FiEdit3, FiTool, FiActivity, FiFlag, FiMessageSquare];
   const steps = [
     { num: "01", name: "Idea", icon: ic('<path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z"/>') },
     { num: "02", name: "Research", icon: ic('<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>') },
@@ -121,6 +118,15 @@ export default function Home() {
     { q: "Do you build websites?", a: "Yes. We build fast, modern web applications and marketing sites using Next.js, React, and a scalable backend." },
     { q: "Can you maintain existing apps?", a: "Yes. We take over, stabilize, and improve existing codebases, and provide ongoing support and feature development." },
     { q: "Which technologies do you use?", a: "Flutter, React Native, React, Next.js, Node.js, Express, and databases like PostgreSQL and MongoDB — deployed on cloud infrastructure." },
+  ];
+
+  const whyDetails = [
+    { title:"Fast Development", image:"/media/why-fast-development.png", lead:"Move from decision to working software without sacrificing engineering discipline.", body:"We reduce waiting and rework through small releases, early technical validation, reusable foundations, and short feedback loops with the people who make decisions.", points:["Short, visible delivery cycles","Early prototypes and technical validation","Production-ready increments—not demo-only work"] },
+    { title:"Secure Architecture", image:"/media/why-secure-architecture.png", lead:"Security is an architecture input, not a checklist before launch.", body:"Access, data handling, dependencies, environments, and failure paths are considered from the start so security grows with the product instead of becoming an expensive retrofit.", points:["Least-privilege access patterns","Secure API and data boundaries","Dependency and environment controls"] },
+    { title:"Cloud Ready", image:"/media/why-cloud-ready.png", lead:"Infrastructure designed for reliability, visibility, and sensible cost.", body:"We build deployable environments, automated delivery paths, monitoring, and recovery considerations around your real workload—then evolve capacity as usage grows.", points:["Repeatable cloud environments","Monitoring and operational visibility","Cost-aware scaling decisions"] },
+    { title:"Cross Platform", image:"/media/why-cross-platform.png", lead:"One product experience, thoughtfully adapted to every screen.", body:"Shared systems and reusable foundations keep behavior consistent across web, iOS, and Android while leaving room for the interaction patterns each platform expects.", points:["Consistent design foundations","Shared logic where it creates value","Platform-aware interactions"] },
+    { title:"High Performance", image:"/media/why-high-performance.png", lead:"Speed is engineered through the entire system—not patched into the interface.", body:"We profile critical journeys, control payloads, choose sensible rendering and caching strategies, and monitor production behavior so performance remains measurable.", points:["Performance budgets for key journeys","Efficient rendering, APIs, and data access","Production monitoring and iteration"] },
+    { title:"Scalable Products", image:"/media/why-scalable-products.png", lead:"A foundation that can accept new users, workflows, and integrations cleanly.", body:"Modular architecture, clear contracts, documented decisions, and maintainable code help the product expand without forcing a rewrite every time the roadmap changes.", points:["Modular product architecture","Clear service and integration boundaries","Documentation for long-term ownership"] },
   ];
 
   useEffect(() => {
@@ -250,134 +256,44 @@ export default function Home() {
         <div
           data-reveal=""
           style={s(
-            "max-width:1240px; margin:0 auto; display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:14px 28px; padding:22px 28px; border-radius:16px; background:var(--surface); border:1px solid var(--border);"
+            "max-width:1240px; margin:0 auto; display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:14px 26px; padding:22px 28px; border-top:1px solid var(--border); border-bottom:1px solid var(--border);"
           )}
         >
-          <span style={s("font-size:13px; font-weight:600; letter-spacing:.04em; color:var(--muted);")}>
-            Serving clients across
+          <span style={s("font-size:11px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--gold);")}>
+            Working across
           </span>
           {[
-            { flag: "🇺🇸", name: "United States" },
-            { flag: "🇬🇧", name: "United Kingdom" },
-            { flag: "🇨🇦", name: "Canada" },
-            { flag: "🇦🇺", name: "Australia" },
-            { flag: "🇦🇪", name: "UAE" },
-            { flag: "🇮🇳", name: "India" },
-            { flag: "🇪🇸", name: "Spain" },
-          ].map((c) => (
+            "United States", "United Kingdom", "Canada", "Australia", "UAE", "India", "Spain",
+          ].map((name) => (
             <span
-              key={c.name}
-              style={s(
-                "display:inline-flex; align-items:center; gap:8px; font-size:14.5px; font-weight:600; color:var(--head);"
-              )}
+              key={name}
+              style={s("display:inline-flex; align-items:center; gap:8px; font-size:13px; font-weight:600; color:var(--text);")}
             >
-              <span style={s("font-size:18px; line-height:1;")}>{c.flag}</span>
-              {c.name}
+              <i style={s("width:3px; height:3px; border-radius:50%; background:var(--gold);")} />
+              {name}
             </span>
           ))}
         </div>
       </section>
 
-      {/* ===================== SERVICES ===================== */}
-      <section id="services" className="ax-light-section" style={s("padding:70px 32px; scroll-margin-top:80px;")}>
-        <div style={s("max-width:1240px; margin:0 auto;")}>
-          <div data-reveal="" style={s("text-align:center; max-width:660px; margin:0 auto 52px;")}>
-            <div style={s("font-size:13px; font-weight:700; letter-spacing:.14em; color:var(--gold); text-transform:uppercase;")}>Services</div>
-            <h2 style={s("margin:14px 0 0; font-size:40px; font-weight:800; letter-spacing:-0.02em; color:var(--head);")}>Full-stack product delivery</h2>
-            <p style={s("margin:14px 0 0; font-size:17px; color:var(--muted);")}>
-              We partner with startups and businesses across the US, UK, Canada, Australia, UAE, India, and Spain — from idea to launch and beyond.
-            </p>
-          </div>
-          <ServiceCategoryGrid />
-        </div>
-      </section>
-
-      {/* ===================== PRODUCTS (CASE STUDIES) ===================== */}
-      <section id="products" className="ax-case-studies" style={s("padding:70px 32px; scroll-margin-top:80px;")}>
-        <div style={s("max-width:1240px; margin:0 auto;")}>
-          <div data-reveal="" style={s("text-align:center; max-width:660px; margin:0 auto 52px;")}>
-            <div style={s("font-size:13px; font-weight:700; letter-spacing:.14em; color:var(--gold); text-transform:uppercase;")}>Case Studies</div>
-            <h2 style={s("margin:14px 0 0; font-size:40px; font-weight:800; letter-spacing:-0.02em; color:var(--head);")}>Products we've built ourselves</h2>
-            <p style={s("margin:14px 0 0; font-size:17px; color:var(--muted);")}>Proof of how we build — real products, designed and shipped in-house.</p>
-          </div>
-          <div className="ax-products-grid" style={s("display:grid; grid-template-columns:repeat(3,1fr); gap:22px;")}>
-            {products.map((p) => (
-              <div
-                key={p.slug}
-                data-reveal=""
-                className="ax-lift ax-case-card"
-                style={s(
-                  "display:flex; flex-direction:column; padding:26px; border-radius:20px; background:var(--surface); border:1px solid var(--border); transition:transform .25s ease, border-color .25s ease, box-shadow .25s ease;"
-                )}
-              >
-                <div style={s("display:flex; align-items:center; justify-content:space-between; margin-bottom:18px;")}>
-                  <div
-                    style={s(
-                      "width:52px; height:52px; border-radius:14px; background:var(--goldsoft); border:1px solid var(--border2); display:flex; align-items:center; justify-content:center; color:var(--gold);"
-                    )}
-                  >
-                    {p.icon}
-                  </div>
-                  <span
-                    style={s(
-                      `padding:5px 11px; border-radius:999px; font-size:11.5px; font-weight:700; letter-spacing:.03em; background:${p.badgeBg}; color:${p.badgeFg};`
-                    )}
-                  >
-                    {p.badge}
-                  </span>
-                </div>
-                <h3 style={s("margin:0; font-size:22px; font-weight:700; color:var(--head);")}>{p.name}</h3>
-                <p style={s("margin:8px 0 18px; font-size:14.5px; color:var(--muted); line-height:1.55;")}>{p.desc}</p>
-                <div style={s("display:flex; flex-direction:column; gap:10px; margin-bottom:22px;")}>
-                  {p.features.map((f, fi) => (
-                    <div key={fi} style={s("display:flex; align-items:center; gap:10px; font-size:14px; color:var(--text);")}>
-                      <span
-                        style={s(
-                          "width:18px; height:18px; border-radius:50%; background:var(--goldsoft); color:var(--gold); display:flex; align-items:center; justify-content:center; flex-shrink:0;"
-                        )}
-                      >
-                        {checkSmall}
-                      </span>
-                      {f}
-                    </div>
-                  ))}
-                </div>
-                <a
-                  href={`/products/${p.slug}`}
-                  style={s(
-                    `margin-top:auto; display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:12px; border-radius:11px; font-size:14.5px; font-weight:600; color:${p.ctaFg}; background:${p.ctaBg}; border:1px solid ${p.ctaBorder};`
-                  )}
-                >
-                  {p.cta} {arrowIconSm}
-                </a>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ===================== WHY APPIXO ===================== */}
-      <section id="about" className="ax-light-section" style={s("padding:80px 32px; scroll-margin-top:80px;")}>
+      <section id="about" className="ax-why-section" style={s("scroll-margin-top:80px;")}>
         <div style={s("max-width:1240px; margin:0 auto;")}>
-          <div data-reveal="" style={s("text-align:center; max-width:660px; margin:0 auto 52px;")}>
+          <div data-reveal="" className="ax-why-heading">
             <div style={s("font-size:13px; font-weight:700; letter-spacing:.14em; color:var(--gold); text-transform:uppercase;")}>Why Appixo</div>
-            <h2 style={s("margin:14px 0 0; font-size:40px; font-weight:800; letter-spacing:-0.02em; color:var(--head);")}>Built to scale with you</h2>
+            <h2>Engineering decisions that keep paying off.</h2>
+            <p>Explore the principles behind how we build products that move quickly today and remain dependable tomorrow.</p>
           </div>
-          <div className="ax-whys-grid" style={s("display:grid; grid-template-columns:repeat(3,1fr); gap:20px;")}>
-            {whys.map((w, i) => (
-              <div key={i} data-reveal="" style={s("display:flex; gap:16px; padding:24px; border-radius:18px; background:var(--surface); border:1px solid var(--border);")}>
-                <div
-                  style={s(
-                    "width:46px; height:46px; flex-shrink:0; border-radius:12px; background:linear-gradient(135deg,var(--goldsoft),transparent); border:1px solid var(--border2); display:flex; align-items:center; justify-content:center; color:var(--gold);"
-                  )}
-                >
-                  {w.icon}
+          <div className="ax-why-story">
+            {whyDetails.map((item, index) => (
+              <article key={item.title} className="ax-why-feature">
+                <div className="ax-why-image"><img src={item.image} alt={`${item.title} engineering concept`} /></div>
+                <div className="ax-why-copy">
+                  <span>{String(index + 1).padStart(2,"0")} / {String(whyDetails.length).padStart(2,"0")}</span>
+                  <h3>{item.title}</h3><h4>{item.lead}</h4><p>{item.body}</p>
+                  <ul>{item.points.map((point) => <li key={point}>{point}</li>)}</ul>
                 </div>
-                <div>
-                  <h3 style={s("margin:0 0 6px; font-size:17px; font-weight:700; color:var(--head);")}>{w.title}</h3>
-                  <p style={s("margin:0; font-size:14px; color:var(--muted); line-height:1.55;")}>{w.desc}</p>
-                </div>
-              </div>
+              </article>
             ))}
           </div>
         </div>
@@ -393,17 +309,19 @@ export default function Home() {
           <div data-reveal="" className="ax-process-grid" style={s("position:relative; display:grid; grid-template-columns:repeat(7,1fr); gap:12px;")}>
             <div className="ax-process-line" style={s("position:absolute; top:26px; left:6%; right:6%; height:2px; background:linear-gradient(90deg,transparent,var(--border2),transparent);")} />
             {steps.map((st, i) => (
+              (() => { const StepIcon = processIcons[i] || FiActivity; return (
               <div key={i} style={s("position:relative; text-align:center;")}>
                 <div
                   style={s(
                     "width:54px; height:54px; margin:0 auto 14px; border-radius:16px; background:var(--surface); border:1px solid var(--border2); display:flex; align-items:center; justify-content:center; color:var(--gold); box-shadow:var(--shadow);"
                   )}
                 >
-                  {st.icon}
+                  <StepIcon size={20} strokeWidth={1.8} aria-hidden="true" />
                 </div>
                 <div style={s("font-size:11px; font-weight:700; color:var(--gold); font-family:'JetBrains Mono',monospace;")}>{st.num}</div>
                 <div style={s("font-size:14px; font-weight:600; color:var(--head); margin-top:3px;")}>{st.name}</div>
               </div>
+              ); })()
             ))}
           </div>
         </div>
