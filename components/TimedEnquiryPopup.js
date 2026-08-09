@@ -7,7 +7,7 @@ import EnquiryForm from "@/components/EnquiryForm";
 
 const SUBMITTED_KEY = "appixo_enquiry_submitted_v1";
 const DISMISSED_KEY = "appixo_enquiry_dismissed_at_v1";
-const FIRST_DELAY = 1 * 60 * 1000;
+const FIRST_DELAY = 10 * 1000;
 const REPEAT_DELAY = 5 * 60 * 1000;
 
 export default function TimedEnquiryPopup() {

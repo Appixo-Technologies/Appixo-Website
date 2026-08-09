@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { s, svgSpan, ic } from "@/lib/icons";
@@ -44,6 +44,8 @@ export default function Nav() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileSub, setMobileSub] = useState({ products: false, services: false });
   const [enquiryOpen, setEnquiryOpen] = useState(false);
+  const mobileToggleRef = useRef(null);
+  const mobileDrawerRef = useRef(null);
 
   const toggleMobileSub = (key) => setMobileSub((v) => ({ ...v, [key]: !v[key] }));
   const closeMobile = () => {
@@ -63,6 +65,18 @@ export default function Nav() {
       window.removeEventListener("keydown", onKey);
     };
   }, [enquiryOpen]);
+
+  useEffect(() => {
+    if (!mobileOpen) return;
+
+    const closeOnOutsidePress = (event) => {
+      if (mobileDrawerRef.current?.contains(event.target) || mobileToggleRef.current?.contains(event.target)) return;
+      closeMobile();
+    };
+
+    document.addEventListener("pointerdown", closeOnOutsidePress);
+    return () => document.removeEventListener("pointerdown", closeOnOutsidePress);
+  }, [mobileOpen]);
 
   return (
     <nav style={s("position:fixed; top:0; left:0; right:0; z-index:100; padding:18px 24px 0;")}>
@@ -139,6 +153,7 @@ export default function Nav() {
 
         <div className="ax-nav-actions" style={s("margin-left:auto; display:flex; align-items:center; gap:14px;")}>
           <button
+            ref={mobileToggleRef}
             className="ax-nav-toggle"
             onClick={() => setMobileOpen((v) => !v)}
             aria-label="Toggle menu"
@@ -194,6 +209,7 @@ export default function Nav() {
 
       {mobileOpen && (
         <div
+          ref={mobileDrawerRef}
           className="ax-nav-mobile"
           style={s(
             "max-width:1240px; margin:10px auto 0; display:flex; flex-direction:column; padding:6px 20px 12px; gap:2px; border-radius:24px; background:var(--surface); border:1px solid var(--border); box-shadow:var(--shadow);"

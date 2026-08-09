@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { s, ic } from "@/lib/icons";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
@@ -48,6 +48,7 @@ export default function Home() {
   const [submitting, setSubmitting] = useState(false);
   const [activeProcess, setActiveProcess] = useState(2);
   const [processPaused, setProcessPaused] = useState(false);
+  const processModulesRef = useRef(null);
 
   const resetLabelAfter = (ms) => {
     setTimeout(() => setSubmitLabel("Send message"), ms);
@@ -163,6 +164,17 @@ export default function Home() {
     const timer = window.setInterval(() => setActiveProcess((step) => (step + 1) % steps.length), 1800);
     return () => window.clearInterval(timer);
   }, [processPaused, steps.length]);
+
+  useEffect(() => {
+    const modules = processModulesRef.current;
+    if (!modules || !window.matchMedia("(max-width: 760px)").matches) return;
+
+    const activeModule = modules.children[activeProcess];
+    if (!activeModule) return;
+
+    const centeredLeft = activeModule.offsetLeft - (modules.clientWidth - activeModule.offsetWidth) / 2;
+    modules.scrollTo({ left: centeredLeft, behavior: "smooth" });
+  }, [activeProcess]);
 
   return (
     <div id="appixo-root">
@@ -316,7 +328,7 @@ export default function Home() {
             onMouseLeave={() => setProcessPaused(false)}
           >
             <div className="ax-process-track" aria-hidden="true"><i style={{ width: `${(activeProcess / (steps.length - 1)) * 100}%` }} /></div>
-            <div className="ax-process-modules" role="tablist" aria-label="Development process steps">
+            <div ref={processModulesRef} className="ax-process-modules" role="tablist" aria-label="Development process steps">
               {steps.map((step, index) => {
                 const StepIcon = processIcons[index] || FiActivity;
                 const state = index === activeProcess ? "is-active" : index < activeProcess ? "is-complete" : "is-pending";
