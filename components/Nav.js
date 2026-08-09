@@ -44,6 +44,7 @@ export default function Nav() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileSub, setMobileSub] = useState({ products: false, services: false });
   const [enquiryOpen, setEnquiryOpen] = useState(false);
+  const [navScrolled, setNavScrolled] = useState(false);
   const mobileToggleRef = useRef(null);
   const mobileDrawerRef = useRef(null);
 
@@ -78,10 +79,17 @@ export default function Nav() {
     return () => document.removeEventListener("pointerdown", closeOnOutsidePress);
   }, [mobileOpen]);
 
+  useEffect(() => {
+    const updateNavSurface = () => setNavScrolled(window.scrollY > 32);
+    updateNavSurface();
+    window.addEventListener("scroll", updateNavSurface, { passive: true });
+    return () => window.removeEventListener("scroll", updateNavSurface);
+  }, []);
+
   return (
     <nav style={s("position:fixed; top:0; left:0; right:0; z-index:100; padding:18px 24px 0;")}>
       <div
-        className="ax-nav-inner"
+        className={`ax-nav-inner${navScrolled ? " is-scrolled" : ""}`}
         style={s(
           "max-width:1240px; margin:0 auto; padding:10px 10px 10px 24px; display:flex; align-items:center; gap:32px; border-radius:999px; background:color-mix(in srgb, var(--surface) 90%, transparent); backdrop-filter:blur(16px); border:1px solid var(--border); box-shadow:var(--shadow);"
         )}

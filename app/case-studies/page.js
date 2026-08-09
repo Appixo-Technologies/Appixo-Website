@@ -21,12 +21,15 @@ export default function CaseStudiesPage() {
   return <div id="appixo-root" className="ax-cases-page">
     <Nav />
     <header className="ax-cases-hero">
+      <img className="ax-cases-hero-bg" src="/media/case-studies-hero.png" alt="" aria-hidden="true" />
       <div className="ax-cases-hero-glow" />
       <div className="ax-cases-hero-inner">
-        <div className="ax-page-kicker">Case studies</div>
-        <h1>Products shaped around <span>real outcomes.</span></h1>
-        <p>Selected mobile, web, cloud, and AI work across industries where reliability, clarity, and thoughtful product decisions matter.</p>
-        <div className="ax-cases-proof"><span>Strategy</span><span>Product design</span><span>Engineering</span><span>Cloud and release</span></div>
+        <div className="ax-cases-hero-copy">
+          <div className="ax-page-kicker">Case studies</div>
+          <h1>Products shaped around <span>real outcomes.</span></h1>
+          <p>Selected mobile, web, cloud, and AI work across industries where reliability, clarity, and thoughtful product decisions matter.</p>
+          <div className="ax-cases-proof"><span>Strategy</span><span>Product design</span><span>Engineering</span><span>Cloud and release</span></div>
+        </div>
       </div>
     </header>
 
