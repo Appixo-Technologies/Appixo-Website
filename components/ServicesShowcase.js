@@ -28,9 +28,10 @@ export default function ServicesShowcase() {
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
+        entry.target.classList.toggle("is-visible", entry.isIntersecting);
         if (entry.isIntersecting) { setActive(Number(entry.target.dataset.index)); setShowNav(true); }
       });
-    }, { threshold:.55 });
+    }, { threshold:.3 });
     refs.current.filter(Boolean).forEach((node) => observer.observe(node));
     const endObserver = new IntersectionObserver(([entry]) => setShowNav(!entry.isIntersecting));
     if (endRef.current) endObserver.observe(endRef.current);
