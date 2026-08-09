@@ -1312,6 +1312,32 @@ input, textarea, select, button { font:inherit; }
   .ax-case-metrics div { padding-top:8px; font-size:9.5px; }
 }
 
+/* Final fluid sizing for Selected Work cards across every viewport. */
+@media (min-width:1440px) {
+  .ax-portfolio-track { gap:clamp(64px,5vw,90px); }
+  .ax-case-card { flex-basis:clamp(780px,58vw,980px); width:auto; height:clamp(580px,39vw,680px); min-height:0; }
+  .ax-case-copy { padding:clamp(40px,3vw,54px); }
+}
+@media (min-width:1200px) and (max-width:1439px) {
+  .ax-case-card { flex-basis:clamp(700px,62vw,840px); width:auto; height:clamp(550px,44vw,620px); min-height:0; }
+}
+@media (min-width:901px) and (max-width:1199px) {
+  .ax-portfolio-track { gap:clamp(34px,4vw,52px); }
+  .ax-case-card { flex-basis:clamp(620px,72vw,760px); width:auto; height:clamp(520px,56vw,590px); min-height:0; }
+  .ax-case-copy { padding:34px 30px; }
+  .ax-case-sector { margin-top:42px; }
+}
+@media (min-width:681px) and (max-width:900px) {
+  .ax-case-card { flex-basis:min(760px,86vw); width:auto; height:clamp(480px,65vw,560px); min-height:0; }
+}
+@media (max-width:680px) {
+  .ax-case-card { flex-basis:calc(100vw - 36px); width:auto; height:clamp(400px,112vw,510px); min-height:0; }
+  .ax-case-copy { padding-bottom:clamp(15px,4vw,22px); }
+}
+@media (max-width:390px) {
+  .ax-case-card { flex-basis:calc(100vw - 30px); height:clamp(380px,118vw,440px); }
+}
+
 /* Keep the service story compact after site-wide mobile overrides. */
 @media (max-width:700px) {
   .ax-service-story .ax-service-slide { min-height:100svh; padding:92px 16px 82px !important; }

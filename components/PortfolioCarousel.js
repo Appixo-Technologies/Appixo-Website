@@ -73,6 +73,16 @@ export default function PortfolioCarousel() {
     return () => { track.removeEventListener("scroll", update); cancelAnimationFrame(frame); window.clearTimeout(normalizeTimer.current); };
   }, []);
 
+  useEffect(() => {
+    let frame;
+    const recenterActiveCard = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => centerCard(trackRef.current?.children[activeDom], "auto"));
+    };
+    window.addEventListener("resize", recenterActiveCard);
+    return () => { window.removeEventListener("resize", recenterActiveCard); cancelAnimationFrame(frame); };
+  }, [activeDom]);
+
   const onWheel = (event) => {
     if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
     const track = trackRef.current;
