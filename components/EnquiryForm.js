@@ -52,6 +52,7 @@ export default function EnquiryForm({ onSuccess }) {
         : `Preferred date: ${data.get("preferredDate") || "—"}\nPreferred time: ${data.get("preferredTime") || "—"}\n\n${data.get("notes") || ""}`.trim();
 
     const payload = {
+      fullName: data.get("name"),
       name: data.get("name"),
       email: data.get("email"),
       phone: data.get("phone"),
@@ -60,6 +61,7 @@ export default function EnquiryForm({ onSuccess }) {
       inquiryType: data.get("inquiryType"),
       mode,
       message,
+      projectContext: message,
     };
 
     setSubmitting(true);
@@ -203,7 +205,7 @@ export default function EnquiryForm({ onSuccess }) {
             <textarea
               required
               name="message"
-              rows={5}                    
+              rows={5}
               placeholder="What are you building, who is it for, and what outcome matters most?"
               style={s(inputStyle + " resize:vertical;")}
               disabled={submitting}

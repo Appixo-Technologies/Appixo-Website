@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 
 // Basic email shape check - not exhaustive, just guards against obvious junk.
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const BACKEND_BASE_URL = process.env.API_BASE_URL || process.env.NEXT_PUBLIC_API_BASE_URL || "https://appixo-backend.onrender.com";
 
 export async function POST(request) {
   let body;
@@ -12,60 +13,75 @@ export async function POST(request) {
     return NextResponse.json({ error: "Invalid request body." }, { status: 400 });
   }
 
-  const name = (body?.name || "").toString().trim();
+  const fullName = (body?.fullName || body?.name || "").toString().trim();
   const email = (body?.email || "").toString().trim();
-  const message = (body?.message || "").toString().trim();
+  const message = (body?.message || body?.projectContext || "").toString().trim();
 
-  if (!name || !email || !message) {
-    return NextResponse.json({ error: "Name, email, and message are required." }, { status: 400 });
+  if (!fullName || !email || !message) {
+    return NextResponse.json({ error: "Full Name, email, and message are required." }, { status: 400 });
   }
   if (!EMAIL_RE.test(email)) {
     return NextResponse.json({ error: "Please provide a valid email address." }, { status: 400 });
   }
 
+  // 1. Submit to Appixo Backend API (/api/guest/register)
+  let backendData = null;
+  try {
+    const apiRes = await fetch(`${BACKEND_BASE_URL}/api/guest/register`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        fullName,
+        email,
+        projectContext: message,
+      }),
+    });
+
+    const resJson = await apiRes.json().catch(() => ({}));
+
+    if (!apiRes.ok) {
+      console.error("[contact] Backend API error:", resJson);
+      return NextResponse.json(
+        { error: resJson.error || resJson.message || "Failed to submit contact request." },
+        { status: apiRes.status || 500 }
+      );
+    }
+    backendData = resJson;
+  } catch (err) {
+    console.error("[contact] Backend API request failed:", err);
+    return NextResponse.json(
+      { error: "Unable to connect to backend server. Please try again later." },
+      { status: 502 }
+    );
+  }
+
+  // 2. Optional background sync: Append to Google Sheet if configured
   const clientId = process.env.GOOGLE_OAUTH_CLIENT_ID;
   const clientSecret = process.env.GOOGLE_OAUTH_CLIENT_SECRET;
   const refreshToken = process.env.GOOGLE_OAUTH_REFRESH_TOKEN;
   const sheetId = process.env.GOOGLE_SHEET_ID;
   const sheetRange = process.env.GOOGLE_SHEET_RANGE || "Contact!A:D";
 
-  if (!clientId || !clientSecret || !refreshToken || !sheetId) {
-    console.error(
-      "[contact] Missing Google Sheets env vars. Required: GOOGLE_OAUTH_CLIENT_ID, GOOGLE_OAUTH_CLIENT_SECRET, GOOGLE_OAUTH_REFRESH_TOKEN, GOOGLE_SHEET_ID."
-    );
-    return NextResponse.json(
-      { error: "The contact form isn't configured yet. Please email us directly instead." },
-      { status: 500 }
-    );
+  if (clientId && clientSecret && refreshToken && sheetId) {
+    try {
+      const auth = new google.auth.OAuth2(clientId, clientSecret);
+      auth.setCredentials({ refresh_token: refreshToken });
+      const sheets = google.sheets({ version: "v4", auth });
+
+      await sheets.spreadsheets.values.append({
+        spreadsheetId: sheetId,
+        range: sheetRange,
+        valueInputOption: "USER_ENTERED",
+        insertDataOption: "INSERT_ROWS",
+        requestBody: {
+          values: [[new Date().toISOString(), fullName, email, message]],
+        },
+      });
+    } catch (sheetErr) {
+      console.error("[contact] Optional Google Sheets sync failed:", sheetErr?.message);
+    }
   }
 
-  try {
-    const auth = new google.auth.OAuth2(clientId, clientSecret);
-    auth.setCredentials({ refresh_token: refreshToken });
-
-    const sheets = google.sheets({ version: "v4", auth });
-
-    await sheets.spreadsheets.values.append({
-      spreadsheetId: sheetId,
-      range: sheetRange,
-      valueInputOption: "USER_ENTERED",
-      insertDataOption: "INSERT_ROWS",
-      requestBody: {
-        values: [[new Date().toISOString(), name, email, message]],
-      },
-    });
-
-    return NextResponse.json({ ok: true });
-  } catch (err) {
-    const googleMessage = err?.response?.data?.error?.message || err?.message || "Unknown Google Sheets error";
-    const authFailed = err?.response?.data?.error === "invalid_grant" || /invalid_grant/i.test(googleMessage);
-    console.error("[contact] Failed to append row to Google Sheet:", {
-      type: authFailed ? "oauth_invalid_grant" : "google_sheets_error",
-      message: googleMessage,
-    });
-    return NextResponse.json(
-      { error: authFailed ? "Our contact connection is temporarily unavailable. Please email hello@appixotech.com." : "We couldn't send your message right now. Please retry or email us directly." },
-      { status: authFailed ? 503 : 502 }
-    );
-  }
+  return NextResponse.json({ ok: true, data: backendData });
 }
+
