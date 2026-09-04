@@ -1,9 +1,9 @@
 import { google } from "googleapis";
 import { NextResponse } from "next/server";
+import { registerGuestApi } from "@/lib/apiClient";
 
 // Basic email shape check - not exhaustive, just guards against obvious junk.
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const BACKEND_BASE_URL = process.env.API_BASE_URL || process.env.NEXT_PUBLIC_API_BASE_URL || "https://appixo-backend.onrender.com";
 
 export async function POST(request) {
   let body;
@@ -29,40 +29,23 @@ export async function POST(request) {
     return NextResponse.json({ error: "Please provide a valid email address." }, { status: 400 });
   }
 
-  // 1. Submit to Appixo Backend API (/api/guest/register)
+  // 1. Submit to Appixo Backend API via centralized client (/api/guest/register)
   let backendData = null;
   try {
-    const apiRes = await fetch(`${BACKEND_BASE_URL}/api/guest/register`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        fullName,
-        email,
-        phone,
-        company,
-        location,
-        inquiryType,
-        projectContext: message,
-      }),
+    backendData = await registerGuestApi({
+      fullName,
+      email,
+      phone,
+      company,
+      location,
+      inquiryType,
+      projectContext: message,
     });
-
-    const resJson = await apiRes.json().catch(() => ({}));
-
-    if (!apiRes.ok) {
-      console.error("[enquiry] Backend API error:", resJson);
-      return NextResponse.json(
-        { error: resJson.error || resJson.message || "Failed to register guest enquiry." },
-        { status: apiRes.status || 500 }
-      );
-    }
-    backendData = resJson;
   } catch (err) {
-    console.error("[enquiry] Backend API request failed:", err);
+    console.error("[enquiry] Backend API request failed:", err.message);
     return NextResponse.json(
-      { error: "Unable to connect to backend server. Please try again later." },
-      { status: 502 }
+      { error: err.message || "Unable to connect to backend server. Please try again later." },
+      { status: err.status || 502 }
     );
   }
 
