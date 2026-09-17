@@ -15,7 +15,6 @@ import {
   SiMongodb,
   SiPostgresql,
   SiDocker,
-  SiGithub,
 } from "react-icons/si";
 import { FaAws, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
 import { FiActivity, FiCompass, FiEdit3, FiFlag, FiSearch, FiTool, FiMessageSquare } from "react-icons/fi";
@@ -32,7 +31,6 @@ const techStack = [
   { name: "PostgreSQL", Icon: SiPostgresql, color: "#6699CC" },
   { name: "Docker", Icon: SiDocker, color: "#2496ED" },
   { name: "AWS", Icon: FaAws, color: "#FF9900" },
-  { name: "GitHub", Icon: SiGithub, color: "#111827" },
 ];
 
 // Repeated enough times so a single "copy" of the strip is always wider than
