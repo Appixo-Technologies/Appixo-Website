@@ -9,6 +9,16 @@ const nextConfig = {
   turbopack: {
     root: __dirname,
   },
+  experimental: {
+    optimizePackageImports: [
+      "react-icons",
+      "react-icons/si",
+      "react-icons/fi",
+      "react-icons/fa",
+      "react-icons/vsc",
+      "react-icons/tb",
+    ],
+  },
 };
 
 export default nextConfig;

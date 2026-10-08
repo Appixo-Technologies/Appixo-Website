@@ -1,49 +1,40 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { s, ic } from "@/lib/icons";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import PortfolioCarousel from "@/components/PortfolioCarousel";
+import TechStack from "@/components/TechStack";
+import { FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
 import {
-  SiFlutter,
-  SiReact,
-  SiNextdotjs,
-  SiNodedotjs,
-  SiExpress,
-  SiFirebase,
-  SiMongodb,
-  SiPostgresql,
-  SiDocker,
-} from "react-icons/si";
-import { FaAws, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
-import { FiActivity, FiCompass, FiEdit3, FiFlag, FiSearch, FiTool, FiMessageSquare } from "react-icons/fi";
+  FiActivity,
+  FiCompass,
+  FiEdit3,
+  FiFlag,
+  FiSearch,
+  FiTool,
+  FiMessageSquare,
+  FiArrowRight,
+  FiArrowUpRight,
+  FiCheckCircle,
+  FiClock,
+  FiLock,
+} from "react-icons/fi";
 
-const techStack = [
-  { name: "Flutter", Icon: SiFlutter, color: "#54C5F8" },
-  { name: "React Native", Icon: SiReact, color: "#61DAFB" },
-  { name: "React", Icon: SiReact, color: "#61DAFB" },
-  { name: "Next.js", Icon: SiNextdotjs, color: "#111827" },
-  { name: "Node.js", Icon: SiNodedotjs, color: "#68A063" },
-  { name: "Express", Icon: SiExpress, color: "#111827" },
-  { name: "Firebase", Icon: SiFirebase, color: "#FFCA28" },
-  { name: "MongoDB", Icon: SiMongodb, color: "#47A248" },
-  { name: "PostgreSQL", Icon: SiPostgresql, color: "#6699CC" },
-  { name: "Docker", Icon: SiDocker, color: "#2496ED" },
-  { name: "AWS", Icon: FaAws, color: "#FF9900" },
+const PROJECT_TOPICS = [
+  "Mobile App",
+  "Web Platform",
+  "AI & ML",
+  "Cloud & DevOps",
+  "Custom Software",
 ];
-
-// Repeated enough times so a single "copy" of the strip is always wider than
-// the viewport - otherwise the -50% translate loop trick runs out of content
-// mid-cycle and leaves a blank gap on one side.
-const techBaseA = techStack.slice(0, 6);
-const techBaseB = techStack.slice(6, 12);
-const techLoopA = Array(6).fill(techBaseA).flat();
-const techLoopB = Array(6).fill(techBaseB).flat();
 
 export default function Home() {
   const [submitLabel, setSubmitLabel] = useState("Send message");
   const [submitting, setSubmitting] = useState(false);
+  const [selectedTopic, setSelectedTopic] = useState("Mobile App");
   const [activeProcess, setActiveProcess] = useState(2);
   const [processPaused, setProcessPaused] = useState(false);
   const processModulesRef = useRef(null);
@@ -58,14 +49,19 @@ export default function Home() {
 
     const form = e.target;
     const data = new FormData(form);
+    const userMsg = (data.get("message") || "").toString().trim();
+    const finalMsg = selectedTopic
+      ? `[Project Interest: ${selectedTopic}]\n${userMsg}`
+      : userMsg;
+
     const payload = {
       name: data.get("name"),
       email: data.get("email"),
-      message: data.get("message"),
+      message: finalMsg,
     };
 
     setSubmitting(true);
-    setSubmitLabel("Sending...");
+    setSubmitLabel("Sending message...");
 
     try {
       const res = await fetch("/api/contact", {
@@ -76,12 +72,12 @@ export default function Home() {
       const result = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(result.error || "Failed to send message.");
 
-      setSubmitLabel("Message sent ✓");
+      setSubmitLabel("Message sent successfully ✓");
       form.reset();
-      resetLabelAfter(2600);
+      resetLabelAfter(3000);
     } catch (err) {
-      setSubmitLabel(err.message || "Something went wrong — try again");
-      resetLabelAfter(3200);
+      setSubmitLabel(err.message || "Failed to send — please try again");
+      resetLabelAfter(3500);
     } finally {
       setSubmitting(false);
     }
@@ -114,12 +110,12 @@ export default function Home() {
   ];
 
   const whyDetails = [
-    { title:"Fast Development", image:"/media/why-fast-development.png", lead:"Move from decision to working software without sacrificing engineering discipline.", body:"We reduce waiting and rework through small releases, early technical validation, reusable foundations, and short feedback loops with the people who make decisions.", points:["Short, visible delivery cycles","Early prototypes and technical validation","Production-ready increments—not demo-only work"] },
-    { title:"Secure Architecture", image:"/media/why-secure-architecture.png", lead:"Security is an architecture input, not a checklist before launch.", body:"Access, data handling, dependencies, environments, and failure paths are considered from the start so security grows with the product instead of becoming an expensive retrofit.", points:["Least-privilege access patterns","Secure API and data boundaries","Dependency and environment controls"] },
-    { title:"Cloud Ready", image:"/media/why-cloud-ready.png", lead:"Infrastructure designed for reliability, visibility, and sensible cost.", body:"We build deployable environments, automated delivery paths, monitoring, and recovery considerations around your real workload—then evolve capacity as usage grows.", points:["Repeatable cloud environments","Monitoring and operational visibility","Cost-aware scaling decisions"] },
-    { title:"Cross Platform", image:"/media/why-cross-platform.png", lead:"One product experience, thoughtfully adapted to every screen.", body:"Shared systems and reusable foundations keep behavior consistent across web, iOS, and Android while leaving room for the interaction patterns each platform expects.", points:["Consistent design foundations","Shared logic where it creates value","Platform-aware interactions"] },
-    { title:"High Performance", image:"/media/why-high-performance.png", lead:"Speed is engineered through the entire system—not patched into the interface.", body:"We profile critical journeys, control payloads, choose sensible rendering and caching strategies, and monitor production behavior so performance remains measurable.", points:["Performance budgets for key journeys","Efficient rendering, APIs, and data access","Production monitoring and iteration"] },
-    { title:"Scalable Products", image:"/media/why-scalable-products.png", lead:"A foundation that can accept new users, workflows, and integrations cleanly.", body:"Modular architecture, clear contracts, documented decisions, and maintainable code help the product expand without forcing a rewrite every time the roadmap changes.", points:["Modular product architecture","Clear service and integration boundaries","Documentation for long-term ownership"] },
+    { title: "Fast Development", image: "/media/why-fast-development.jpg", lead: "Move from decision to working software without sacrificing engineering discipline.", body: "We reduce waiting and rework through small releases, early technical validation, reusable foundations, and short feedback loops with the people who make decisions.", points: ["Short, visible delivery cycles", "Early prototypes and technical validation", "Production-ready increments—not demo-only work"] },
+    { title: "Secure Architecture", image: "/media/why-secure-architecture.jpg", lead: "Security is an architecture input, not a checklist before launch.", body: "Access, data handling, dependencies, environments, and failure paths are considered from the start so security grows with the product instead of becoming an expensive retrofit.", points: ["Least-privilege access patterns", "Secure API and data boundaries", "Dependency and environment controls"] },
+    { title: "Cloud Ready", image: "/media/why-cloud-ready.jpg", lead: "Infrastructure designed for reliability, visibility, and sensible cost.", body: "We build deployable environments, automated delivery paths, monitoring, and recovery considerations around your real workload—then evolve capacity as usage grows.", points: ["Repeatable cloud environments", "Monitoring and operational visibility", "Cost-aware scaling decisions"] },
+    { title: "Cross Platform", image: "/media/why-cross-platform.jpg", lead: "One product experience, thoughtfully adapted to every screen.", body: "Shared systems and reusable foundations keep behavior consistent across web, iOS, and Android while leaving room for the interaction patterns each platform expects.", points: ["Consistent design foundations", "Shared logic where it creates value", "Platform-aware interactions"] },
+    { title: "High Performance", image: "/media/why-high-performance.jpg", lead: "Speed is engineered through the entire system—not patched into the interface.", body: "We profile critical journeys, control payloads, choose sensible rendering and caching strategies, and monitor production behavior so performance remains measurable.", points: ["Performance budgets for key journeys", "Efficient rendering, APIs, and data access", "Production monitoring and iteration"] },
+    { title: "Scalable Products", image: "/media/why-scalable-products.jpg", lead: "A foundation that can accept new users, workflows, and integrations cleanly.", body: "Modular architecture, clear contracts, documented decisions, and maintainable code help the product expand without forcing a rewrite every time the roadmap changes.", points: ["Modular product architecture", "Clear service and integration boundaries", "Documentation for long-term ownership"] },
   ];
 
   useEffect(() => {
@@ -182,8 +178,10 @@ export default function Home() {
       <header id="top" className="ax-hero" style={s("position:relative; min-height:100vh; display:flex; align-items:flex-end; overflow:hidden;")}>
         <img
           className="ax-hero-bg"
-          src="/media/hero-product-studio.png"
+          src="/media/hero-product-studio.jpg"
           alt=""
+          fetchPriority="high"
+          decoding="async"
           style={s("position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0;")}
         />
         <div
@@ -298,9 +296,9 @@ export default function Home() {
           <div className="ax-why-story">
             {whyDetails.map((item, index) => (
               <article key={item.title} className="ax-why-feature">
-                <div className="ax-why-image"><img src={item.image} alt={`${item.title} engineering concept`} /></div>
+                <div className="ax-why-image"><img src={item.image} alt={`${item.title} engineering concept`} loading="lazy" decoding="async" width={768} height={512} /></div>
                 <div className="ax-why-copy">
-                  <span>{String(index + 1).padStart(2,"0")} / {String(whyDetails.length).padStart(2,"0")}</span>
+                  <span>{String(index + 1).padStart(2, "0")} / {String(whyDetails.length).padStart(2, "0")}</span>
                   <h3>{item.title}</h3><h4>{item.lead}</h4><p>{item.body}</p>
                   <ul>{item.points.map((point) => <li key={point}>{point}</li>)}</ul>
                 </div>
@@ -352,52 +350,13 @@ export default function Home() {
               <div><h3>{steps[activeProcess].name}</h3><p>{steps[activeProcess].description}</p></div>
               <span className="ax-process-status">{steps[activeProcess].detail}</span>
             </div>
-            <a className="ax-process-full-link" href="/process">Explore our complete delivery process →</a>
+            <Link className="ax-process-full-link" href="/process" prefetch={true}>Explore our complete delivery process →</Link>
           </div>
         </div>
       </section>
 
       {/* ===================== TECHNOLOGIES ===================== */}
-      <section id="technologies" className="ax-light-section ax-technologies" style={s("padding:70px 0; scroll-margin-top:80px;")}>
-        <div data-reveal="" style={s("text-align:center; max-width:660px; margin:0 auto 44px; padding:0 32px;")}>
-          <div style={s("font-size:13px; font-weight:700; letter-spacing:.14em; color:var(--gold); text-transform:uppercase;")}>Technologies</div>
-          <h2 style={s("margin:14px 0 0; font-size:40px; font-weight:800; letter-spacing:-0.02em; color:var(--head);")}>Our stack</h2>
-        </div>
-        <div
-          style={s(
-            "position:relative; overflow:hidden; -webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent); mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);"
-          )}
-        >
-          <div className="ax-marquee-track" style={s("display:flex; gap:20px; width:max-content; animation:ax-marquee 38s linear infinite; padding:0 10px;")}>
-            {techLoopA.map((t, i) => (
-              <div
-                key={i}
-                className="ax-lift ax-light-card"
-                style={s(
-                  "flex-shrink:0; display:flex; flex-direction:column; align-items:center; gap:16px; padding:34px 20px; border-radius:20px; background:var(--surface); border:1px solid var(--border); text-align:center; transition:transform .3s ease, border-color .3s ease, box-shadow .3s ease;"
-                )}
-              >
-                <t.Icon size={46} color={t.color} />
-                <span style={s("font-size:15.5px; font-weight:700; color:var(--head); white-space:nowrap;")}>{t.name}</span>
-              </div>
-            ))}
-          </div>
-          <div className="ax-marquee-track" style={s("display:flex; gap:20px; width:max-content; animation:ax-marquee-r 34s linear infinite; padding:20px 10px 0;")}>
-            {techLoopB.map((t, i) => (
-              <div
-                key={i}
-                className="ax-lift ax-light-card"
-                style={s(
-                  "flex-shrink:0; display:flex; flex-direction:column; align-items:center; gap:16px; padding:34px 20px; border-radius:20px; background:var(--surface); border:1px solid var(--border); text-align:center; transition:transform .3s ease, border-color .3s ease, box-shadow .3s ease;"
-                )}
-              >
-                <t.Icon size={46} color={t.color} />
-                <span style={s("font-size:15.5px; font-weight:700; color:var(--head); white-space:nowrap;")}>{t.name}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <TechStack />
 
       {/* ===================== PORTFOLIO ===================== */}
       <PortfolioCarousel />
@@ -461,83 +420,145 @@ export default function Home() {
       </section>
 
       {/* ===================== CONTACT ===================== */}
-      <section id="contact" className="ax-light-section ax-contact-section" style={s("padding:80px 32px; scroll-margin-top:80px;")}>
-        <div
-          data-reveal=""
-          style={s(
-            "max-width:1100px; margin:0 auto; border-radius:28px; overflow:hidden; border:1px solid var(--border2); background:linear-gradient(150deg,var(--surface),var(--bg2)); position:relative;"
-          )}
-        >
-          <div
-            style={s(
-              "position:absolute; top:-120px; right:-80px; width:420px; height:420px; border-radius:50%; background:radial-gradient(circle,rgba(212,175,55,0.16),transparent 65%); pointer-events:none;"
-            )}
-          />
-          <div className="ax-contact-grid" style={s("position:relative; display:grid; grid-template-columns:1fr 1fr; gap:40px; padding:52px;")}>
-            <div>
-              <h2 style={s("margin:0; font-size:38px; font-weight:800; letter-spacing:-0.02em; color:var(--head); line-height:1.1;")}>
-                Let&apos;s build something amazing.
+      <section id="contact" className="ax-fresh-contact-section">
+        <div data-reveal="" className="ax-fresh-contact-shell">
+          <div className="ax-fresh-contact-grid">
+            {/* Left Column: Executive Value & Direct Channels */}
+            <div className="ax-fresh-contact-left">
+              <div className="ax-fresh-contact-badge">
+                <span className="ax-fresh-status-dot" aria-hidden="true" />
+                <span>Accepting New Projects • 24h Response</span>
+              </div>
+
+              <h2 className="ax-fresh-contact-title">
+                Let&apos;s build something <span className="ax-fresh-gold-gradient">amazing.</span>
               </h2>
-              <p style={s("margin:18px 0 32px; font-size:16px; color:var(--muted); line-height:1.6;")}>
-                Tell us about your idea. We&apos;ll get back within one business day.
+              <p className="ax-fresh-contact-desc">
+                Have a new product, custom platform, or enterprise migration in mind? Share your goals with our engineering leads and receive an actionable scoping roadmap within 24 hours.
               </p>
-              <div style={s("display:flex; flex-direction:column; gap:18px;")}>
-                <a href="mailto:hello@appixotech.com" style={s("display:flex; align-items:center; gap:14px;")}>
-                  <FaEnvelope size={19} color="var(--gold)" style={{ flexShrink: 0 }} aria-hidden="true" />
-                  <div>
-                    <div style={s("font-size:12.5px; color:var(--muted);")}>Email</div>
-                    <div style={s("font-size:15px; font-weight:600; color:var(--head);")}>hello@appixotech.com</div>
+
+              <div className="ax-fresh-channels">
+                <a
+                  href="mailto:hello@appixotech.com"
+                  className="ax-fresh-channel-card"
+                  aria-label="Send direct email to hello@appixotech.com"
+                >
+                  <div className="ax-fresh-channel-icon">
+                    <FaEnvelope aria-hidden="true" />
                   </div>
+                  <div className="ax-fresh-channel-body">
+                    <span className="ax-fresh-channel-label">Direct Engineering Desk</span>
+                    <span className="ax-fresh-channel-val">hello@appixotech.com</span>
+                    <span className="ax-fresh-channel-sub">Guaranteed response within 1 business day</span>
+                  </div>
+                  <FiArrowUpRight className="ax-fresh-channel-arrow" aria-hidden="true" />
                 </a>
-                <div style={s("display:flex; align-items:center; gap:14px;")}>
-                  <FaMapMarkerAlt size={20} color="var(--gold)" style={{ flexShrink: 0 }} aria-hidden="true" />
-                  <div>
-                    <div style={s("font-size:12.5px; color:var(--muted); margin-bottom:3px;")}>Our location</div>
-                    <div style={s("font-size:15px; font-weight:600; color:var(--head);")}>Noida, Uttar Pradesh, India</div>
+
+                <div className="ax-fresh-channel-card">
+                  <div className="ax-fresh-channel-icon">
+                    <FaMapMarkerAlt aria-hidden="true" />
+                  </div>
+                  <div className="ax-fresh-channel-body">
+                    <span className="ax-fresh-channel-label">Global Delivery Hub</span>
+                    <span className="ax-fresh-channel-val">Noida, Uttar Pradesh, India</span>
+                    <span className="ax-fresh-channel-sub">Serving clients worldwide (EST, GMT, IST)</span>
                   </div>
                 </div>
               </div>
+
+              <div className="ax-fresh-trust-row">
+                <span className="ax-fresh-trust-pill">
+                  <FiClock className="ax-fresh-trust-icon" aria-hidden="true" />
+                  <span>24h Response SLA</span>
+                </span>
+                <span className="ax-fresh-trust-pill">
+                  <FiLock className="ax-fresh-trust-icon" aria-hidden="true" />
+                  <span>Strict NDA Protected</span>
+                </span>
+                <span className="ax-fresh-trust-pill">
+                  <FiCheckCircle className="ax-fresh-trust-icon" aria-hidden="true" />
+                  <span>Senior Engineering Leads</span>
+                </span>
+              </div>
             </div>
-            <form onSubmit={onSubmit} style={s("display:flex; flex-direction:column; justify-content:center; gap:14px;")}>
-              <input
-                required
-                name="name"
-                placeholder="Your name"
-                disabled={submitting}
-                style={s(
-                  "padding:14px 16px; border-radius:11px; border:1px solid var(--border); background:var(--bg2); color:var(--head); font-family:inherit; font-size:14.5px; outline:none;"
-                )}
-              />
-              <input
-                required
-                name="email"
-                type="email"
-                placeholder="Email address"
-                disabled={submitting}
-                style={s(
-                  "padding:14px 16px; border-radius:11px; border:1px solid var(--border); background:var(--bg2); color:var(--head); font-family:inherit; font-size:14.5px; outline:none;"
-                )}
-              />
-              <textarea
-                required
-                name="message"
-                rows={4}
-                placeholder="Tell us about your project"
-                disabled={submitting}
-                style={s(
-                  "padding:14px 16px; border-radius:11px; border:1px solid var(--border); background:var(--bg2); color:var(--head); font-family:inherit; font-size:14.5px; outline:none; resize:vertical;"
-                )}
-              />
-              <button
-                type="submit"
-                disabled={submitting}
-                style={s(
-                  "padding:15px; border-radius:11px; border:none; cursor:pointer; font-size:15px; font-weight:700; color:#0A0F1A; background:linear-gradient(135deg,var(--gold2),var(--gold)); box-shadow:0 12px 30px -10px rgba(212,175,55,0.5);"
-                )}
-              >
-                {submitLabel}
-              </button>
-            </form>
+
+            {/* Right Column: Clean, Modern Form */}
+            <div className="ax-fresh-contact-right">
+              <form onSubmit={onSubmit} className="ax-fresh-form">
+                <div className="ax-fresh-topic-picker">
+                  <label className="ax-fresh-topic-label">What are you looking to build?</label>
+                  <div className="ax-fresh-topic-chips" role="radiogroup" aria-label="Project Type">
+                    {PROJECT_TOPICS.map((topic) => {
+                      const isSelected = selectedTopic === topic;
+                      return (
+                        <button
+                          key={topic}
+                          type="button"
+                          role="radio"
+                          aria-checked={isSelected}
+                          className={`ax-fresh-topic-btn ${isSelected ? "is-selected" : ""}`}
+                          onClick={() => setSelectedTopic(topic)}
+                        >
+                          {topic}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                <div className="ax-fresh-field-wrap">
+                  <label htmlFor="contact-name" className="ax-fresh-label">Your Name</label>
+                  <input
+                    id="contact-name"
+                    required
+                    name="name"
+                    placeholder="e.g. Alex Morgan"
+                    disabled={submitting}
+                    className="ax-fresh-input"
+                  />
+                </div>
+
+                <div className="ax-fresh-field-wrap">
+                  <label htmlFor="contact-email" className="ax-fresh-label">Work Email</label>
+                  <input
+                    id="contact-email"
+                    required
+                    name="email"
+                    type="email"
+                    placeholder="alex@company.com"
+                    disabled={submitting}
+                    className="ax-fresh-input"
+                  />
+                </div>
+
+                <div className="ax-fresh-field-wrap">
+                  <label htmlFor="contact-message" className="ax-fresh-label">Project Overview</label>
+                  <textarea
+                    id="contact-message"
+                    required
+                    name="message"
+                    rows={4}
+                    placeholder="Tell us about your timeline, tech requirements, or goals..."
+                    disabled={submitting}
+                    className="ax-fresh-textarea"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={submitting}
+                  className="ax-fresh-submit-btn"
+                >
+                  <span>{submitLabel}</span>
+                  <FiArrowRight className="ax-fresh-submit-arrow" aria-hidden="true" />
+                </button>
+
+                <div className="ax-fresh-assurance">
+                  <FiLock size={12} aria-hidden="true" />
+                  <span>No spam. Your information is 100% confidential under NDA.</span>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       </section>

@@ -23,7 +23,7 @@ export default function AboutPage() {
       <Nav />
 
       <header className="ax-about-hero">
-        <img src="/media/about-global-delivery.png" alt="Global software delivery workspace" />
+        <img src="/media/about-global-delivery.jpg" alt="Global software delivery workspace" fetchPriority="high" decoding="async" />
         <div className="ax-about-hero-shade" />
         <div className="ax-about-hero-copy ax-about-reveal">
           <div className="ax-about-kicker">About Appixo</div>

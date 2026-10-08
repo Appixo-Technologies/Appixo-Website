@@ -36,7 +36,7 @@ export default function CareersPage() {
     <Nav />
 
     <header className="ax-careers-hero">
-      <img src="/media/careers-team-hero.png" alt="Product designers and software engineers collaborating at Appixo" />
+      <img src="/media/careers-team-hero.jpg" alt="Product designers and software engineers collaborating at Appixo" fetchPriority="high" decoding="async" />
       <div className="ax-careers-hero-shade" />
       <div className="ax-careers-hero-copy">
         <div className="ax-page-kicker">Careers at Appixo</div>
@@ -57,7 +57,7 @@ export default function CareersPage() {
     </section>
 
     <section className="ax-careers-benefits">
-      <div className="ax-careers-benefit-visual"><img src="/media/process-development-hero.png" alt="Software product engineering workflow" loading="lazy" /><div><FiGlobe /><span>Collaborate across products, disciplines, and markets.</span></div></div>
+      <div className="ax-careers-benefit-visual"><img src="/media/process-development-hero.jpg" alt="Software product engineering workflow" loading="lazy" decoding="async" /><div><FiGlobe /><span>Collaborate across products, disciplines, and markets.</span></div></div>
       <div className="ax-careers-benefit-copy"><div className="ax-page-kicker">Life at Appixo</div><h2>An environment designed for focused product work.</h2><div className="ax-careers-benefit-list">{benefits.map(([title,copy]) => <article key={title}><FiCheck /><div><h3>{title}</h3><p>{copy}</p></div></article>)}</div></div>
     </section>
 

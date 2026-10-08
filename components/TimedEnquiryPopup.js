@@ -78,7 +78,14 @@ export default function TimedEnquiryPopup() {
         </div>
         <div className="ax-timed-popup-body">
           <aside className="ax-timed-popup-visual">
-            <img src="/media/enquiry-popup-workspace.png" alt="Product strategy and software planning workspace" />
+            <img
+              src="/media/enquiry-popup-workspace.jpg"
+              alt="Product strategy and software planning workspace"
+              loading="lazy"
+              decoding="async"
+              width={760}
+              height={500}
+            />
             <div><span>A useful first conversation</span><h3>Bring the idea. We&apos;ll help shape the path.</h3><p>Get a senior-led response grounded in your goals, users, constraints, and timeline.</p></div>
           </aside>
           <div className="ax-timed-popup-scroll">

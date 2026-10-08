@@ -9,20 +9,27 @@ export const metadata = {
 };
 
 const phases = [
-  { number:"01", title:"Idea and alignment", label:"Define the right problem", summary:"We turn initial context into a shared product direction before scope or technology hardens around assumptions.", deliverables:["Business and user goals","Success measures","Constraints and decision owners"], image:"/media/why-fast-development.png" },
-  { number:"02", title:"Research and discovery", label:"Replace assumptions with evidence", summary:"Stakeholder insight, user needs, market context, existing systems, and technical risks shape a realistic path forward.", deliverables:["Discovery findings","Risk and dependency map","Prioritized opportunity areas"], image:"/media/why-secure-architecture.png" },
-  { number:"03", title:"Experience design", label:"Make the product understandable", summary:"We model journeys, information, interactions, and visual foundations—testing important decisions before engineering cost increases.", deliverables:["User flows and wireframes","Interactive prototypes","Scalable UI foundations"], image:"/media/services-design.png" },
-  { number:"04", title:"Product engineering", label:"Build in visible increments", summary:"The team develops small, production-ready slices with continuous review, clear ownership, and architecture that supports the roadmap.", deliverables:["Working product increments","Documented technical decisions","Reviewable delivery cadence"], image:"/media/development-services.png" },
-  { number:"05", title:"Quality engineering", label:"Protect critical journeys", summary:"Quality is built into delivery through automated checks, structured reviews, real-device validation, and focused non-functional testing.", deliverables:["Functional and integration coverage","Performance and security review","Release-readiness evidence"], image:"/media/why-high-performance.png" },
-  { number:"06", title:"Launch and transition", label:"Release with control", summary:"We prepare production environments, observability, data, rollout decisions, documentation, and stakeholder readiness for go-live.", deliverables:["Controlled deployment plan","Monitoring and response setup","Team and operational handover"], image:"/media/services-cloud.png" },
-  { number:"07", title:"Measure and improve", label:"Keep the product moving", summary:"Usage, reliability, feedback, and roadmap priorities inform a focused cycle of optimization, support, and new capability.", deliverables:["Product health reviews","Prioritized improvement backlog","Ongoing engineering support"], image:"/media/why-scalable-products.png" },
+  { number:"01", title:"Idea and alignment", label:"Define the right problem", summary:"We turn initial context into a shared product direction before scope or technology hardens around assumptions.", deliverables:["Business and user goals","Success measures","Constraints and decision owners"], image:"/media/why-fast-development.jpg" },
+  { number:"02", title:"Research and discovery", label:"Replace assumptions with evidence", summary:"Stakeholder insight, user needs, market context, existing systems, and technical risks shape a realistic path forward.", deliverables:["Discovery findings","Risk and dependency map","Prioritized opportunity areas"], image:"/media/why-secure-architecture.jpg" },
+  { number:"03", title:"Experience design", label:"Make the product understandable", summary:"We model journeys, information, interactions, and visual foundations—testing important decisions before engineering cost increases.", deliverables:["User flows and wireframes","Interactive prototypes","Scalable UI foundations"], image:"/media/services-design.jpg" },
+  { number:"04", title:"Product engineering", label:"Build in visible increments", summary:"The team develops small, production-ready slices with continuous review, clear ownership, and architecture that supports the roadmap.", deliverables:["Working product increments","Documented technical decisions","Reviewable delivery cadence"], image:"/media/development-services.jpg" },
+  { number:"05", title:"Quality engineering", label:"Protect critical journeys", summary:"Quality is built into delivery through automated checks, structured reviews, real-device validation, and focused non-functional testing.", deliverables:["Functional and integration coverage","Performance and security review","Release-readiness evidence"], image:"/media/why-high-performance.jpg" },
+  { number:"06", title:"Launch and transition", label:"Release with control", summary:"We prepare production environments, observability, data, rollout decisions, documentation, and stakeholder readiness for go-live.", deliverables:["Controlled deployment plan","Monitoring and response setup","Team and operational handover"], image:"/media/services-cloud.jpg" },
+  { number:"07", title:"Measure and improve", label:"Keep the product moving", summary:"Usage, reliability, feedback, and roadmap priorities inform a focused cycle of optimization, support, and new capability.", deliverables:["Product health reviews","Prioritized improvement backlog","Ongoing engineering support"], image:"/media/why-scalable-products.jpg" },
 ];
 
 export default function ProcessPage() {
   return <div id="appixo-root" className="ax-process-page">
     <Nav />
     <header className="ax-process-page-hero">
-      <img src="/media/process-development-hero.png" alt="Software product process from strategy and design through engineering, cloud release, and growth" />
+      <img
+        src="/media/process-development-hero.jpg"
+        alt="Software product process from strategy and design through engineering, cloud release, and growth"
+        width={1717}
+        height={916}
+        fetchPriority="high"
+        decoding="async"
+      />
       <div className="ax-process-page-shade" />
       <div className="ax-process-page-hero-copy">
         <div className="ax-page-kicker">How we work</div>
@@ -42,7 +49,16 @@ export default function ProcessPage() {
     <main id="phases" className="ax-process-phases">
       <div className="ax-process-page-intro"><div className="ax-page-kicker">Seven connected phases</div><h2>A path that adapts without losing control.</h2><p>The activities change with product maturity, but the principles remain consistent: evidence before commitment, visible progress, and deliberate release decisions.</p></div>
       {phases.map((phase,index) => <article className="ax-process-phase" key={phase.number}>
-        <div className="ax-process-phase-image"><img src={phase.image} alt="" loading="lazy" /></div>
+        <div className="ax-process-phase-image">
+          <img
+            src={phase.image}
+            alt=""
+            loading="lazy"
+            decoding="async"
+            width={1536}
+            height={1024}
+          />
+        </div>
         <div className="ax-process-phase-copy">
           <div className="ax-process-phase-number">{phase.number} / 07</div>
           <span>{phase.label}</span><h2>{phase.title}</h2><p>{phase.summary}</p>

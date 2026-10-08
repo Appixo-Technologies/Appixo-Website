@@ -271,7 +271,7 @@ export default function EnquiryForm({ onSuccess }) {
 
       <aside className="ax-enquiry-aside" style={s("display:flex; flex-direction:column; gap:18px;")}>
         <div className="ax-enquiry-visual" style={s("position:relative; min-height:230px; overflow:hidden; border-radius:18px; border:1px solid var(--border);")}>
-          <img src="/media/hero-product-studio.png" alt="Product engineering workspace" style={s("position:absolute; inset:0; width:100%; height:100%; object-fit:cover;")} />
+          <img src="/media/hero-product-studio.jpg" alt="Product engineering workspace" loading="lazy" decoding="async" style={s("position:absolute; inset:0; width:100%; height:100%; object-fit:cover;")} />
           <div style={s("position:absolute; inset:0; background:linear-gradient(180deg,transparent 20%,rgba(5,9,16,.92));")} />
           <div style={s("position:absolute; left:22px; right:22px; bottom:20px;")}>
             <div style={s("font-size:11px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--gold);")}>A senior-led first response</div>
