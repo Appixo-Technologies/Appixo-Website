@@ -6523,13 +6523,23 @@ button {
 }
 
 @keyframes ax-alliance-scroll-left {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 @keyframes ax-alliance-scroll-right {
-  0% { transform: translateX(-50%); }
-  100% { transform: translateX(0); }
+  0% {
+    transform: translateX(-50%);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
 }
 
 /* The Technology Cards matching the user's reference image */
@@ -6694,16 +6704,20 @@ button {
     border-radius: 16px;
     padding: 14px 20px;
   }
+
   .ax-alliance-pillar-dot {
     display: none;
   }
+
   .ax-alliance-toolbar {
     flex-direction: column;
     align-items: stretch;
   }
+
   .ax-alliance-motion-toggle {
     align-self: flex-start;
   }
+
   .ax-alliance-ribbon-content {
     flex-direction: column;
     text-align: center;
@@ -6716,12 +6730,15 @@ button {
   .ax-alliance-section {
     padding: 76px 0 84px;
   }
+
   .ax-alliance-container {
     padding: 0 18px;
   }
+
   .ax-alliance-header {
     margin-bottom: 32px;
   }
+
   .ax-alliance-card {
     width: 145px;
     min-width: 145px;
@@ -6729,21 +6746,27 @@ button {
     border-radius: 16px;
     padding: 18px 12px 14px;
   }
+
   .ax-alliance-logo-icon {
     font-size: 38px;
   }
+
   .ax-alliance-card-name {
     font-size: 12px;
   }
+
   .ax-alliance-card-category {
     font-size: 9.5px;
   }
+
   .ax-alliance-track {
     gap: 12px;
   }
+
   .ax-alliance-stage {
     gap: 12px;
   }
+
   .ax-alliance-bottom-ribbon {
     padding: 0 18px;
     margin-top: 32px;
@@ -6812,8 +6835,17 @@ button {
 }
 
 @keyframes ax-pulse-gold {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.55; transform: scale(0.9); }
+
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.55;
+    transform: scale(0.9);
+  }
 }
 
 .ax-fresh-contact-title {
@@ -7140,28 +7172,35 @@ a.ax-fresh-channel-card:hover .ax-fresh-channel-arrow {
   .ax-fresh-contact-section {
     padding: 68px 16px 76px;
   }
+
   .ax-fresh-contact-shell {
     border-radius: 24px;
   }
+
   .ax-fresh-contact-grid {
     padding: 32px 20px;
     gap: 32px;
   }
+
   .ax-fresh-contact-title {
     font-size: 30px;
   }
+
   .ax-fresh-contact-desc {
     font-size: 14px;
     margin-bottom: 22px;
   }
+
   .ax-fresh-channel-card {
     padding: 14px 16px;
   }
+
   .ax-fresh-trust-row {
     flex-direction: column;
     align-items: flex-start;
     gap: 6px;
   }
+
   .ax-fresh-trust-pill {
     width: 100%;
     box-sizing: border-box;

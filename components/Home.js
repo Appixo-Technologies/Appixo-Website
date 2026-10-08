@@ -29,6 +29,7 @@ const PROJECT_TOPICS = [
   "AI & ML",
   "Cloud & DevOps",
   "Custom Software",
+  "Other",
 ];
 
 export default function Home() {
