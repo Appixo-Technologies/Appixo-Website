@@ -7275,6 +7275,13 @@ a.ax-fresh-channel-card:hover .ax-fresh-channel-arrow {
   }
 }
 
+@media (max-width: 768px) {
+  /* Remove email and location channel cards from mobile view while keeping on desktop */
+  .ax-fresh-channels {
+    display: none !important;
+  }
+}
+
 @media (max-width: 640px) {
   .ax-fresh-contact-section {
     padding: 68px 16px 76px;
@@ -7298,8 +7305,9 @@ a.ax-fresh-channel-card:hover .ax-fresh-channel-arrow {
     margin-bottom: 22px;
   }
 
-  .ax-fresh-channel-card {
-    padding: 14px 16px;
+  /* Remove email and location channel cards from mobile view while keeping on desktop */
+  .ax-fresh-channels {
+    display: none !important;
   }
 
   .ax-fresh-trust-row {
