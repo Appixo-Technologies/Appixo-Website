@@ -5269,6 +5269,7 @@ button {
 }
 
 @media (max-width:600px) {
+
   .ax-careers-hero,
   #appixo-root.ax-careers-page>header.ax-careers-hero {
     min-height: 100svh !important;
@@ -7272,10 +7273,13 @@ a.ax-fresh-channel-card:hover .ax-fresh-channel-arrow {
     opacity: 0;
     transform: translateY(16px) scale(0.97);
   }
+
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
   }
+}
+
 .ax-chatbot-input {
   font-size: 14px;
 }
@@ -7314,7 +7318,8 @@ a.ax-fresh-channel-card:hover .ax-fresh-channel-arrow {
   }
 
   .ax-chatbot-input {
-    font-size: 16px !important; /* Critical fix for iOS Safari to prevent auto-zooming */
+    font-size: 16px !important;
+    /* Critical fix for iOS Safari to prevent auto-zooming */
   }
 
   .ax-chatbot-scroll {
