@@ -56,14 +56,14 @@ export default function ChatBot() {
     try {
       const saved = localStorage.getItem('appixo_chat_size');
       if (saved === 'expanded') setIsExpanded(true);
-    } catch (_) {}
+    } catch (_) { }
   }, []);
 
   const toggleSize = (expanded) => {
     setIsExpanded(expanded);
     try {
       localStorage.setItem('appixo_chat_size', expanded ? 'expanded' : 'standard');
-    } catch (_) {}
+    } catch (_) { }
     setMenuOpen(false);
   };
 
