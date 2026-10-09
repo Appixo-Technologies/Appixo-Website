@@ -9,6 +9,10 @@ import {
   FiX,
   FiHome,
   FiChevronLeft,
+  FiMoreVertical,
+  FiMaximize2,
+  FiMinimize2,
+  FiCheck,
 } from 'react-icons/fi';
 import { FaLinkedin } from 'react-icons/fa';
 import { API_BASE_URL } from '@/lib/apiClient';
@@ -44,6 +48,181 @@ export default function ChatBot() {
     }
   ]);
   const messagesEndRef = useRef(null);
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef(null);
+
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem('appixo_chat_size');
+      if (saved === 'expanded') setIsExpanded(true);
+    } catch (_) {}
+  }, []);
+
+  const toggleSize = (expanded) => {
+    setIsExpanded(expanded);
+    try {
+      localStorage.setItem('appixo_chat_size', expanded ? 'expanded' : 'standard');
+    } catch (_) {}
+    setMenuOpen(false);
+  };
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    const handleOutsideClick = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        setMenuOpen(false);
+      }
+    };
+    document.addEventListener('pointerdown', handleOutsideClick);
+    return () => document.removeEventListener('pointerdown', handleOutsideClick);
+  }, [menuOpen]);
+
+  const renderOptionsMenu = () => (
+    <div style={{ position: 'relative' }} ref={menuRef}>
+      <button
+        type="button"
+        onClick={() => setMenuOpen((prev) => !prev)}
+        style={{
+          width: '32px',
+          height: '32px',
+          borderRadius: '50%',
+          background: menuOpen ? 'rgba(212, 175, 55, 0.2)' : 'rgba(255, 255, 255, 0.08)',
+          border: menuOpen ? '1px solid #D4AF37' : '1px solid rgba(255, 255, 255, 0.12)',
+          color: menuOpen ? '#D4AF37' : '#94A3B8',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          cursor: 'pointer',
+          transition: 'all 0.2s ease',
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.color = '#FFFFFF';
+          e.currentTarget.style.background = 'rgba(255, 255, 255, 0.16)';
+        }}
+        onMouseLeave={(e) => {
+          if (!menuOpen) {
+            e.currentTarget.style.color = '#94A3B8';
+            e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)';
+          }
+        }}
+        aria-label="Chat window size options"
+        title="Chat window size options"
+      >
+        <FiMoreVertical size={17} />
+      </button>
+
+      {menuOpen && (
+        <div
+          style={{
+            position: 'absolute',
+            top: 'calc(100% + 8px)',
+            right: 0,
+            width: '232px',
+            background: 'linear-gradient(180deg, #101E38 0%, #0A1222 100%)',
+            border: '1px solid rgba(212, 175, 55, 0.35)',
+            borderRadius: '14px',
+            boxShadow: '0 16px 36px -10px rgba(0, 0, 0, 0.8), 0 0 20px rgba(212, 175, 55, 0.15)',
+            zIndex: 100,
+            padding: '8px',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '4px',
+            animation: 'ax-chatbot-pop 0.18s cubic-bezier(0.16, 1, 0.3, 1)',
+          }}
+        >
+          <div
+            style={{
+              padding: '6px 10px 4px',
+              fontSize: '10px',
+              fontWeight: 700,
+              letterSpacing: '0.08em',
+              color: '#D4AF37',
+              textTransform: 'uppercase',
+            }}
+          >
+            Chat Window Size
+          </div>
+
+          {/* Option: Increase Size */}
+          <button
+            type="button"
+            onClick={() => toggleSize(true)}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              width: '100%',
+              padding: '8px 10px',
+              borderRadius: '9px',
+              background: isExpanded ? 'rgba(212, 175, 55, 0.14)' : 'transparent',
+              border: isExpanded ? '1px solid rgba(212, 175, 55, 0.3)' : '1px solid transparent',
+              cursor: 'pointer',
+              textAlign: 'left',
+              transition: 'all 0.15s ease',
+            }}
+            onMouseEnter={(e) => {
+              if (!isExpanded) e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)';
+            }}
+            onMouseLeave={(e) => {
+              if (!isExpanded) e.currentTarget.style.background = 'transparent';
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <FiMaximize2 size={15} color={isExpanded ? '#D4AF37' : '#94A3B8'} />
+              <div>
+                <div style={{ fontSize: '13px', fontWeight: 600, color: isExpanded ? '#FFFFFF' : '#CBD5E1' }}>
+                  Increase size
+                </div>
+                <div style={{ fontSize: '10.5px', color: '#64748B' }}>
+                  Expanded desktop view (580px)
+                </div>
+              </div>
+            </div>
+            {isExpanded && <FiCheck size={14} color="#D4AF37" />}
+          </button>
+
+          {/* Option: Decrease Size */}
+          <button
+            type="button"
+            onClick={() => toggleSize(false)}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              width: '100%',
+              padding: '8px 10px',
+              borderRadius: '9px',
+              background: !isExpanded ? 'rgba(212, 175, 55, 0.14)' : 'transparent',
+              border: !isExpanded ? '1px solid rgba(212, 175, 55, 0.3)' : '1px solid transparent',
+              cursor: 'pointer',
+              textAlign: 'left',
+              transition: 'all 0.15s ease',
+            }}
+            onMouseEnter={(e) => {
+              if (isExpanded) e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)';
+            }}
+            onMouseLeave={(e) => {
+              if (isExpanded) e.currentTarget.style.background = 'transparent';
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <FiMinimize2 size={15} color={!isExpanded ? '#D4AF37' : '#94A3B8'} />
+              <div>
+                <div style={{ fontSize: '13px', fontWeight: 600, color: !isExpanded ? '#FFFFFF' : '#CBD5E1' }}>
+                  Decrease size
+                </div>
+                <div style={{ fontSize: '10.5px', color: '#64748B' }}>
+                  Compact default view (385px)
+                </div>
+              </div>
+            </div>
+            {!isExpanded && <FiCheck size={14} color="#D4AF37" />}
+          </button>
+        </div>
+      )}
+    </div>
+  );
 
   useEffect(() => {
     if (isOpen && activeTab === 'messages') {
@@ -129,7 +308,7 @@ export default function ChatBot() {
 
       {/* Main Enhanced Widget Window */}
       {isOpen && (
-        <div className="ax-chatbot-window">
+        <div className={`ax-chatbot-window${isExpanded ? ' is-expanded' : ''}`}>
           {/* ===================== VIEW 1: HOME TAB ===================== */}
           {activeTab === 'home' && (
             <div
@@ -187,34 +366,42 @@ export default function ChatBot() {
                   />
                 </div>
 
-                {/* Close Button */}
-                <button
-                  onClick={() => setIsOpen(false)}
-                  style={{
-                    width: '34px',
-                    height: '34px',
-                    borderRadius: '50%',
-                    background: 'rgba(255, 255, 255, 0.08)',
-                    border: '1px solid rgba(255, 255, 255, 0.12)',
-                    color: '#94A3B8',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    cursor: 'pointer',
-                    transition: 'all 0.2s ease',
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.16)';
-                    e.currentTarget.style.color = '#FFFFFF';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)';
-                    e.currentTarget.style.color = '#94A3B8';
-                  }}
-                  aria-label="Close widget"
-                >
-                  <FiX size={18} />
-                </button>
+                {/* Right Header Actions: 3-Dots Size Menu & Close Button */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  {renderOptionsMenu()}
+
+                  {/* Close Button */}
+                  <button
+                    onClick={() => {
+                      setMenuOpen(false);
+                      setIsOpen(false);
+                    }}
+                    style={{
+                      width: '34px',
+                      height: '34px',
+                      borderRadius: '50%',
+                      background: 'rgba(255, 255, 255, 0.08)',
+                      border: '1px solid rgba(255, 255, 255, 0.12)',
+                      color: '#94A3B8',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s ease',
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = 'rgba(255, 255, 255, 0.16)';
+                      e.currentTarget.style.color = '#FFFFFF';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)';
+                      e.currentTarget.style.color = '#94A3B8';
+                    }}
+                    aria-label="Close widget"
+                  >
+                    <FiX size={18} />
+                  </button>
+                </div>
               </div>
 
               {/* Welcome Typography Banner */}
@@ -509,21 +696,41 @@ export default function ChatBot() {
                   </div>
                 </div>
 
-                <button
-                  onClick={() => setIsOpen(false)}
-                  style={{
-                    background: 'transparent',
-                    border: 'none',
-                    color: '#94A3B8',
-                    fontSize: '22px',
-                    lineHeight: 1,
-                    cursor: 'pointer',
-                    padding: '4px 8px',
-                  }}
-                  aria-label="Close Chat"
-                >
-                  <FiX size={18} />
-                </button>
+                {/* Right Header Actions: 3-Dots Size Menu & Close Button */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  {renderOptionsMenu()}
+
+                  <button
+                    onClick={() => {
+                      setMenuOpen(false);
+                      setIsOpen(false);
+                    }}
+                    style={{
+                      width: '32px',
+                      height: '32px',
+                      borderRadius: '50%',
+                      background: 'rgba(255, 255, 255, 0.08)',
+                      border: '1px solid rgba(255, 255, 255, 0.12)',
+                      color: '#94A3B8',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s ease',
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = 'rgba(255, 255, 255, 0.16)';
+                      e.currentTarget.style.color = '#FFFFFF';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)';
+                      e.currentTarget.style.color = '#94A3B8';
+                    }}
+                    aria-label="Close Chat"
+                  >
+                    <FiX size={18} />
+                  </button>
+                </div>
               </div>
 
               {/* Chat Messages Body */}

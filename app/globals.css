@@ -7253,7 +7253,7 @@ a.ax-fresh-channel-card:hover .ax-fresh-channel-arrow {
 }
 
 .ax-chatbot-window {
-  width: min(380px, calc(100vw - 32px));
+  width: min(385px, calc(100vw - 32px));
   height: min(600px, calc(100vh - 90px));
   max-height: min(600px, calc(100dvh - 90px));
   background: #090F1C;
@@ -7266,6 +7266,13 @@ a.ax-fresh-channel-card:hover .ax-fresh-channel-arrow {
   overflow: hidden;
   animation: ax-chatbot-pop 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   overscroll-behavior: contain;
+  transition: width 0.28s cubic-bezier(0.16, 1, 0.3, 1), height 0.28s cubic-bezier(0.16, 1, 0.3, 1), max-height 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ax-chatbot-window.is-expanded {
+  width: min(580px, calc(100vw - 48px));
+  height: min(740px, calc(100vh - 90px));
+  max-height: min(740px, calc(100dvh - 90px));
 }
 
 @keyframes ax-chatbot-pop {
