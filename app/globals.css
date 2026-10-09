@@ -3280,8 +3280,7 @@ button {
   }
 
   .ax-cases-hero,
-  .ax-process-page-hero,
-  .ax-careers-hero {
+  .ax-process-page-hero {
     min-height: 82svh;
   }
 
@@ -3388,8 +3387,7 @@ button {
   }
 
   .ax-cases-hero,
-  .ax-process-page-hero,
-  .ax-careers-hero {
+  .ax-process-page-hero {
     min-height: 82svh !important;
   }
 
@@ -4820,13 +4818,14 @@ button {
   color: #101b30;
 }
 
-.ax-careers-hero {
+.ax-careers-hero,
+#appixo-root.ax-careers-page>header.ax-careers-hero {
   position: relative;
-  min-height: 92svh;
+  min-height: 100svh;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   overflow: hidden;
-  padding: 150px 32px 90px;
+  padding: 140px 32px 90px;
   background: #060b14;
 }
 
@@ -4845,6 +4844,7 @@ button {
 
 .ax-careers-hero-copy {
   position: relative;
+  z-index: 2;
   width: 100%;
   max-width: 1240px;
   margin: 0 auto;
@@ -4861,6 +4861,7 @@ button {
 
 .ax-careers-hero h1 span {
   color: #d4af37;
+  display: inline-block;
 }
 
 .ax-careers-hero p {
@@ -5142,6 +5143,7 @@ button {
   gap: 75px;
   align-items: center;
   background: linear-gradient(145deg, #fff, #f4f7fb);
+  scroll-margin-top: 96px;
 }
 
 .ax-careers-opening-copy>p {
@@ -5267,9 +5269,12 @@ button {
 }
 
 @media (max-width:600px) {
-  .ax-careers-hero {
-    min-height: 86svh;
-    padding: 120px 18px 62px !important;
+  .ax-careers-hero,
+  #appixo-root.ax-careers-page>header.ax-careers-hero {
+    min-height: 100svh !important;
+    display: flex !important;
+    align-items: center !important;
+    padding: 125px 20px 84px !important;
   }
 
   .ax-careers-hero>img {
@@ -5277,11 +5282,13 @@ button {
   }
 
   .ax-careers-hero-shade {
-    background: linear-gradient(180deg, rgba(4, 9, 18, .13), rgba(4, 9, 18, .92) 68%) !important;
+    background: linear-gradient(180deg, rgba(4, 9, 18, .2), rgba(4, 9, 18, .92) 68%) !important;
   }
 
   .ax-careers-hero h1 {
-    font-size: 40px !important;
+    font-size: clamp(34px, 9vw, 40px) !important;
+    line-height: 1.06 !important;
+    letter-spacing: -.04em !important;
   }
 
   .ax-careers-hero p {
