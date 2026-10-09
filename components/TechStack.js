@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import Link from "next/link";
 import {
   SiDocker,
@@ -44,6 +44,8 @@ import {
   FiLayers,
   FiShield,
   FiZap,
+  FiChevronLeft,
+  FiChevronRight,
 } from "react-icons/fi";
 
 const DOMAINS = [
@@ -340,6 +342,75 @@ export default function TechStack() {
   const [activeDomain, setActiveDomain] = useState("all");
   const [isPaused, setIsPaused] = useState(false);
 
+  const pillsRef = useRef(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+
+  // Drag-to-scroll state for desktop mouse users
+  const isDraggingRef = useRef(false);
+  const startXRef = useRef(0);
+  const scrollLeftPosRef = useRef(0);
+  const hasDraggedRef = useRef(false);
+
+  const checkScroll = useCallback(() => {
+    if (!pillsRef.current) return;
+    const { scrollLeft, scrollWidth, clientWidth } = pillsRef.current;
+    setCanScrollLeft(scrollLeft > 6);
+    setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 6);
+  }, []);
+
+  useEffect(() => {
+    checkScroll();
+    const el = pillsRef.current;
+    if (el) {
+      el.addEventListener("scroll", checkScroll, { passive: true });
+    }
+    window.addEventListener("resize", checkScroll);
+    return () => {
+      if (el) el.removeEventListener("scroll", checkScroll);
+      window.removeEventListener("resize", checkScroll);
+    };
+  }, [checkScroll]);
+
+  const handleDomainSelect = (id, e) => {
+    setActiveDomain(id);
+    if (e?.currentTarget) {
+      e.currentTarget.scrollIntoView({
+        behavior: "smooth",
+        inline: "center",
+        block: "nearest",
+      });
+    }
+  };
+
+  const scrollPills = (direction) => {
+    if (!pillsRef.current) return;
+    const offset = direction === "left" ? -240 : 240;
+    pillsRef.current.scrollBy({ left: offset, behavior: "smooth" });
+  };
+
+  const handleMouseDown = (e) => {
+    if (!pillsRef.current) return;
+    isDraggingRef.current = true;
+    hasDraggedRef.current = false;
+    startXRef.current = e.pageX - pillsRef.current.offsetLeft;
+    scrollLeftPosRef.current = pillsRef.current.scrollLeft;
+  };
+
+  const handleMouseMove = (e) => {
+    if (!isDraggingRef.current || !pillsRef.current) return;
+    const x = e.pageX - pillsRef.current.offsetLeft;
+    const walk = x - startXRef.current;
+    if (Math.abs(walk) > 5) {
+      hasDraggedRef.current = true;
+    }
+    pillsRef.current.scrollLeft = scrollLeftPosRef.current - walk;
+  };
+
+  const handleMouseUp = () => {
+    isDraggingRef.current = false;
+  };
+
   return (
     <section id="technologies" className="ax-alliance-section">
       {/* Background Ambient Glow */}
@@ -383,21 +454,58 @@ export default function TechStack() {
 
         {/* Domain Filter Bar & Motion Control */}
         <div className="ax-alliance-toolbar">
-          <div className="ax-alliance-filter-pills" role="tablist">
-            {DOMAINS.map((dom) => {
-              const isActive = activeDomain === dom.id;
-              return (
-                <button
-                  key={dom.id}
-                  role="tab"
-                  aria-selected={isActive}
-                  className={`ax-alliance-pill-btn ${isActive ? "is-active" : ""}`}
-                  onClick={() => setActiveDomain(dom.id)}
-                >
-                  <span>{dom.name}</span>
-                </button>
-              );
-            })}
+          <div className="ax-alliance-pills-wrapper">
+            {canScrollLeft && (
+              <button
+                type="button"
+                className="ax-alliance-scroll-arrow is-left"
+                onClick={() => scrollPills("left")}
+                aria-label="Scroll technology categories left"
+                title="Scroll left"
+              >
+                <FiChevronLeft />
+              </button>
+            )}
+
+            <div
+              ref={pillsRef}
+              className="ax-alliance-filter-pills"
+              role="tablist"
+              onMouseDown={handleMouseDown}
+              onMouseMove={handleMouseMove}
+              onMouseUp={handleMouseUp}
+              onMouseLeave={handleMouseUp}
+            >
+              {DOMAINS.map((dom) => {
+                const isActive = activeDomain === dom.id;
+                return (
+                  <button
+                    key={dom.id}
+                    role="tab"
+                    aria-selected={isActive}
+                    className={`ax-alliance-pill-btn ${isActive ? "is-active" : ""}`}
+                    onClick={(e) => {
+                      if (hasDraggedRef.current) return;
+                      handleDomainSelect(dom.id, e);
+                    }}
+                  >
+                    <span>{dom.name}</span>
+                  </button>
+                );
+              })}
+            </div>
+
+            {canScrollRight && (
+              <button
+                type="button"
+                className="ax-alliance-scroll-arrow is-right"
+                onClick={() => scrollPills("right")}
+                aria-label="Scroll technology categories right"
+                title="Scroll right"
+              >
+                <FiChevronRight />
+              </button>
+            )}
           </div>
 
           <button
