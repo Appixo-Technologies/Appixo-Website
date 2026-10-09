@@ -38,7 +38,12 @@ export default function Home() {
   const [selectedTopic, setSelectedTopic] = useState("Mobile App");
   const [activeProcess, setActiveProcess] = useState(2);
   const [processPaused, setProcessPaused] = useState(false);
+  const [formMountedAt, setFormMountedAt] = useState(0);
   const processModulesRef = useRef(null);
+
+  useEffect(() => {
+    setFormMountedAt(Date.now());
+  }, []);
 
   const resetLabelAfter = (ms) => {
     setTimeout(() => setSubmitLabel("Send message"), ms);
@@ -50,6 +55,7 @@ export default function Home() {
 
     const form = e.target;
     const data = new FormData(form);
+    const honeypot = (data.get("website_url") || "").toString().trim();
     const userMsg = (data.get("message") || "").toString().trim();
     const finalMsg = selectedTopic
       ? `[Project Interest: ${selectedTopic}]\n${userMsg}`
@@ -59,6 +65,8 @@ export default function Home() {
       name: data.get("name"),
       email: data.get("email"),
       message: finalMsg,
+      website_url: honeypot,
+      _t: formMountedAt,
     };
 
     setSubmitting(true);
@@ -486,6 +494,27 @@ export default function Home() {
             {/* Right Column: Clean, Modern Form */}
             <div className="ax-fresh-contact-right">
               <form onSubmit={onSubmit} className="ax-fresh-form">
+                {/* Anti-spam honeypot (hidden from human users) */}
+                <div
+                  style={{
+                    position: "absolute",
+                    left: "-9999px",
+                    top: "-9999px",
+                    width: 0,
+                    height: 0,
+                    opacity: 0,
+                    pointerEvents: "none",
+                  }}
+                  aria-hidden="true"
+                >
+                  <input
+                    type="text"
+                    name="website_url"
+                    tabIndex={-1}
+                    autoComplete="off"
+                  />
+                </div>
+
                 <div className="ax-fresh-topic-picker">
                   <label className="ax-fresh-topic-label">What are you looking to build?</label>
                   <div className="ax-fresh-topic-chips" role="radiogroup" aria-label="Project Type">

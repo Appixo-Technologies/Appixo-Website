@@ -17,6 +17,19 @@ export async function POST(request) {
   const email = (body?.email || "").toString().trim();
   const message = (body?.message || body?.projectContext || "").toString().trim();
 
+  // Anti-spam bot protection: Honeypot & rapid-submission checks
+  const honeypot = (body?.website_url || "").toString().trim();
+  if (honeypot) {
+    console.warn("[contact] Honeypot triggered, silently ignoring bot submission.");
+    return NextResponse.json({ ok: true });
+  }
+
+  const formTime = Number(body?._t || 0);
+  if (formTime && Date.now() - formTime < 1500) {
+    console.warn("[contact] Fast submission (<1.5s) detected, silently ignoring bot submission.");
+    return NextResponse.json({ ok: true });
+  }
+
   if (!fullName || !email || !message) {
     return NextResponse.json({ error: "Full Name, email, and message are required." }, { status: 400 });
   }

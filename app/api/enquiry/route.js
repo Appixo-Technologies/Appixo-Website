@@ -22,6 +22,19 @@ export async function POST(request) {
   const mode = body?.mode === "consultation" ? "Schedule Consultation" : "Request Quote";
   const message = (body?.message || body?.projectContext || "").toString().trim();
 
+  // Anti-spam bot protection: Honeypot & rapid-submission checks
+  const honeypot = (body?.website_url || "").toString().trim();
+  if (honeypot) {
+    console.warn("[enquiry] Honeypot triggered, silently ignoring bot submission.");
+    return NextResponse.json({ ok: true });
+  }
+
+  const formTime = Number(body?._t || 0);
+  if (formTime && Date.now() - formTime < 1500) {
+    console.warn("[enquiry] Fast submission (<1.5s) detected, silently ignoring bot submission.");
+    return NextResponse.json({ ok: true });
+  }
+
   if (!fullName || !email || !location || !inquiryType || !message) {
     return NextResponse.json({ error: "Full Name, email, location, type of inquiry, and project details are required." }, { status: 400 });
   }

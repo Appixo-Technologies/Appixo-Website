@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { s, ic } from "@/lib/icons";
 import { services } from "@/lib/siteData";
@@ -33,6 +33,11 @@ export default function EnquiryForm({ onSuccess }) {
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
+  const [formMountedAt, setFormMountedAt] = useState(0);
+
+  useEffect(() => {
+    setFormMountedAt(Date.now());
+  }, []);
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -45,6 +50,7 @@ export default function EnquiryForm({ onSuccess }) {
 
     const form = e.target;
     const data = new FormData(form);
+    const honeypot = (data.get("website_url") || "").toString().trim();
 
     const message =
       mode === "quote"
@@ -62,6 +68,8 @@ export default function EnquiryForm({ onSuccess }) {
       mode,
       message,
       projectContext: message,
+      website_url: honeypot,
+      _t: formMountedAt,
     };
 
     setSubmitting(true);
@@ -115,6 +123,27 @@ export default function EnquiryForm({ onSuccess }) {
           "padding:38px; border-radius:22px; background:linear-gradient(155deg,rgba(16,26,43,.96),rgba(10,15,26,.98)); border:1px solid var(--border); box-shadow:0 28px 70px -38px rgba(0,0,0,.75); display:flex; flex-direction:column; gap:22px;"
         )}
       >
+        {/* Anti-spam honeypot (hidden from human users) */}
+        <div
+          style={{
+            position: "absolute",
+            left: "-9999px",
+            top: "-9999px",
+            width: 0,
+            height: 0,
+            opacity: 0,
+            pointerEvents: "none",
+          }}
+          aria-hidden="true"
+        >
+          <input
+            type="text"
+            name="website_url"
+            tabIndex={-1}
+            autoComplete="off"
+          />
+        </div>
+
         <div style={s("display:flex; gap:4px; border-bottom:1px solid var(--border); margin:-4px -4px 4px;")}>
           {[
             { key: "quote", label: "Share Project Brief" },
