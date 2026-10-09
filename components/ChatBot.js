@@ -1,13 +1,16 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
+import { API_BASE_URL } from '@/lib/apiClient';
 
-// Backend endpoint configuration:
-// In local dev, defaults to http://localhost:5000/api/chat
-// In production, set NEXT_PUBLIC_BACKEND_URL in .env.local / Vercel (e.g. https://your-backend.onrender.com)
-const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL
-  ? `${process.env.NEXT_PUBLIC_BACKEND_URL.replace(/\/$/, '')}/api/chat`
-  : 'http://localhost:5000/api/chat';
+// Backend endpoint configuration uses the base URL
+const BASE_URL =
+  process.env.NEXT_PUBLIC_BACKEND_URL ||
+  process.env.NEXT_PUBLIC_API_BASE_URL ||
+  API_BASE_URL ||
+  'https://appixo-backend.onrender.com';
+
+const API_URL = `${BASE_URL.replace(/\/$/, '')}/api/chat`;
 
 const QUICK_PROMPTS = [
   'What services do you offer?',
@@ -55,8 +58,9 @@ export default function ChatBot() {
 
       const data = await response.json();
 
-      if (response.ok && data.reply) {
-        setMessages((prev) => [...prev, { role: 'assistant', content: data.reply }]);
+      const replyText = data.reply || data.response || data.message;
+      if (response.ok && replyText) {
+        setMessages((prev) => [...prev, { role: 'assistant', content: replyText }]);
       } else {
         setMessages((prev) => [
           ...prev,
