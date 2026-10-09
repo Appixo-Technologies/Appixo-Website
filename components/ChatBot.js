@@ -79,7 +79,7 @@ export default function ChatBot() {
   }, [menuOpen]);
 
   const renderOptionsMenu = () => (
-    <div style={{ position: 'relative' }} ref={menuRef}>
+    <div className="ax-chatbot-options-wrapper" style={{ position: 'relative' }} ref={menuRef}>
       <button
         type="button"
         onClick={() => setMenuOpen((prev) => !prev)}

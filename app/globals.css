@@ -7382,6 +7382,17 @@ a.ax-fresh-channel-card:hover .ax-fresh-channel-arrow {
   max-height: min(740px, calc(100dvh - 90px));
 }
 
+.ax-chatbot-options-wrapper {
+  position: relative;
+}
+
+/* Hide 3-dots window size menu on mobile/tablet (only shown on desktop) */
+@media (max-width: 768px) {
+  .ax-chatbot-options-wrapper {
+    display: none !important;
+  }
+}
+
 @keyframes ax-chatbot-pop {
   from {
     opacity: 0;
