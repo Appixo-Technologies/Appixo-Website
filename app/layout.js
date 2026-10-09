@@ -1,5 +1,6 @@
 import "./globals.css";
 import TimedEnquiryPopup from "@/components/TimedEnquiryPopup";
+import ChatBot from "@/components/ChatBot";
 
 export const metadata = {
   metadataBase: new URL("https://appixotech.com"),
@@ -28,7 +29,11 @@ export const viewport = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>{children}<TimedEnquiryPopup /></body>
+      <body>
+        {children}
+        <TimedEnquiryPopup />
+        <ChatBot />
+      </body>
     </html>
   );
 }
