@@ -5560,16 +5560,18 @@ button {
   transform: translateY(-1px);
 }
 
-/* Appinventiv floating DRAG pill cursor */
+/* Appinventiv floating DRAG / VIEW PROJECT pill cursor */
 .ax-portfolio-mouse-follower {
   position: fixed;
   top: 0;
   left: 0;
+  transform: translate(-50%, -50%);
   pointer-events: none;
   z-index: 9999;
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 6px;
   padding: 8px 16px;
   border-radius: 9999px;
   background: rgba(12, 14, 18, 0.92);
@@ -5583,8 +5585,8 @@ button {
   text-transform: uppercase;
   box-shadow: 0 12px 36px rgba(0, 0, 0, 0.65);
   opacity: 0;
-  transition: opacity .25s ease, transform .08s linear;
-  will-change: transform, opacity;
+  transition: opacity .22s ease, transform .16s ease, background .22s ease, border-color .22s ease, color .22s ease, box-shadow .22s ease;
+  will-change: left, top, opacity, transform;
 }
 
 .ax-portfolio-mouse-follower.is-visible {
@@ -5595,7 +5597,18 @@ button {
   background: rgba(225, 29, 72, 0.95);
   border-color: #e11d48;
   color: #fff;
-  transform: scale(0.95);
+  transform: translate(-50%, -50%) scale(0.92);
+}
+
+.ax-portfolio-mouse-follower.is-card-hover {
+  background: linear-gradient(135deg, var(--gold2, #F3E5AB), var(--gold, #D4AF37));
+  border-color: rgba(255, 255, 255, 0.85);
+  color: #0A0F1A;
+  font-weight: 850;
+  letter-spacing: .1em;
+  padding: 10px 20px;
+  box-shadow: 0 16px 42px rgba(0, 0, 0, 0.75), 0 0 24px rgba(212, 175, 55, 0.45);
+  transform: translate(-50%, -50%) scale(1.06);
 }
 
 /* Clock Drag Carousel Stage */
@@ -5633,6 +5646,7 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  cursor: pointer;
   transform-origin: 50% 125%;
   will-change: transform, opacity;
   transition: box-shadow .35s ease, border-color .35s ease;

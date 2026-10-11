@@ -34,7 +34,7 @@ export default function CaseStudiesPage() {
     </header>
 
     <main className="ax-cases-list">
-      {projects.map((project,index) => <article className={`ax-cases-project ax-cases-${project.theme}`} key={project.name}>
+      {projects.map((project,index) => <article id={project.name.toLowerCase().replace(/\s+/g, "-")} className={`ax-cases-project ax-cases-${project.theme}`} key={project.name}>
         <div className="ax-cases-visual"><img src={project.image} alt={`${project.name} ${project.type}`} /></div>
         <div className="ax-cases-copy">
           <div className="ax-cases-meta"><span>{String(index + 1).padStart(2,"0")} / {String(projects.length).padStart(2,"0")}</span><b>{project.industry}</b></div>

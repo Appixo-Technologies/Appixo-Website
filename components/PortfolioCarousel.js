@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, useCallback } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   FiArrowLeft,
   FiArrowRight,
@@ -42,7 +43,7 @@ const projects = [
       { stat: "0.02s", label: "instant settlement verification latency" },
     ],
     image: "/media/portfolio-nexapay.jpg",
-    href: "/enquiry",
+    href: "/case-studies#nexapay",
     theme: "white",
     bg: "#ffffff",
     cardClass: "theme-white",
@@ -105,7 +106,7 @@ const projects = [
       { stat: "32%", label: "reduction in route fuel and idle waste" },
     ],
     image: "/media/portfolio-fleetflow.jpg",
-    href: "/enquiry",
+    href: "/case-studies#fleetflow",
     theme: "carbon",
     bg: "linear-gradient(155deg, #171618 0%, #0e0d0f 100%)",
     cardClass: "theme-carbon",
@@ -126,7 +127,7 @@ const projects = [
       { stat: "22%", label: "increase in digital conversion rates" },
     ],
     image: "/media/portfolio-omniretail.jpg",
-    href: "/enquiry",
+    href: "/case-studies",
     theme: "coral",
     bg: "linear-gradient(155deg, #221016 0%, #12090d 100%)",
     cardClass: "theme-coral",
@@ -147,7 +148,7 @@ const projects = [
       { stat: "4.9 / 5", label: "learner satisfaction rating across 50k+ users" },
     ],
     image: "/media/portfolio-learnloop.jpg",
-    href: "/enquiry",
+    href: "/case-studies#learnloop",
     theme: "plum",
     bg: "linear-gradient(155deg, #1e112d 0%, #11091a 100%)",
     cardClass: "theme-plum",
@@ -168,7 +169,7 @@ const projects = [
       { stat: "65%", label: "faster mean-time-to-incident recovery" },
     ],
     image: "/media/portfolio-cloudpulse.jpg",
-    href: "/enquiry",
+    href: "/case-studies",
     theme: "cyan",
     bg: "linear-gradient(155deg, #091a27 0%, #050d14 100%)",
     cardClass: "theme-cyan",
@@ -189,7 +190,7 @@ const projects = [
       { stat: "3x", label: "boost in self-service passenger check-ins" },
     ],
     image: "/media/portfolio-fleetflow.jpg",
-    href: "/enquiry",
+    href: "/case-studies",
     theme: "navy",
     bg: "linear-gradient(155deg, #0f1c32 0%, #09101d 100%)",
     cardClass: "theme-navy",
@@ -210,7 +211,7 @@ const projects = [
       { stat: "90%", label: "faster analytics report generation time" },
     ],
     image: "/media/portfolio-futureai.jpg",
-    href: "/enquiry",
+    href: "/case-studies",
     theme: "dark",
     bg: "linear-gradient(155deg, #13171b 0%, #0b0d0f 100%)",
     cardClass: "theme-dark",
@@ -231,7 +232,7 @@ const projects = [
       { stat: "40%", label: "shortened clinical trial onboarding cycle" },
     ],
     image: "/media/portfolio-clinicclick.jpg",
-    href: "/enquiry",
+    href: "/case-studies",
     theme: "emerald",
     bg: "linear-gradient(155deg, #0d1e19 0%, #07120e 100%)",
     cardClass: "theme-emerald",
@@ -252,7 +253,7 @@ const projects = [
       { stat: "15ms", label: "biometric cryptographic auth latency" },
     ],
     image: "/media/portfolio-nexapay.jpg",
-    href: "/enquiry",
+    href: "/case-studies",
     theme: "gold",
     bg: "linear-gradient(155deg, #1c1810 0%, #0e0c07 100%)",
     cardClass: "theme-gold",
@@ -268,6 +269,7 @@ const STEP_ANGLE = 30; // 360 / 12 = 30 degrees per clock hour
 const TOTAL_ITEMS = projects.length; // 12
 
 export default function PortfolioCarousel() {
+  const router = useRouter();
   const stageRef = useRef(null);
   const cardRefs = useRef([]);
   const tabsRef = useRef(null);
@@ -290,6 +292,7 @@ export default function PortfolioCarousel() {
   const [activeStation, setActiveStation] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   const [isInteracting, setIsInteracting] = useState(false);
+  const [hoveredCardIndex, setHoveredCardIndex] = useState(null);
 
   // Dynamic 360-degree clock wheel geometry parameters tailored for each device size
   const getGeometryParams = useCallback(() => {
@@ -495,6 +498,13 @@ export default function PortfolioCarousel() {
   }, [applyTransforms]);
 
 
+  const handleSectionPointerMove = (e) => {
+    if (followerRef.current) {
+      followerRef.current.style.left = `${e.clientX}px`;
+      followerRef.current.style.top = `${e.clientY}px`;
+    }
+  };
+
   // Pointer drag event handlers - only drag and rotate horizontally, never on vertical scroll
   const handlePointerDown = (e) => {
     if (e.button !== 0 && e.pointerType === "mouse") return;
@@ -513,19 +523,13 @@ export default function PortfolioCarousel() {
     };
     lastPointerRef.current = { x: e.clientX, time: performance.now() };
     velocityRef.current = 0;
-
-    if (e.pointerType !== "touch" && stageRef.current) {
-      try {
-        stageRef.current.setPointerCapture(e.pointerId);
-        setIsInteracting(true);
-      } catch (_) {}
-    }
   };
 
   const handlePointerMove = (e) => {
     // Update custom drag cursor position
-    if (followerRef.current && isHovered) {
-      followerRef.current.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
+    if (followerRef.current) {
+      followerRef.current.style.left = `${e.clientX}px`;
+      followerRef.current.style.top = `${e.clientY}px`;
     }
 
     if (!isDraggingRef.current) return;
@@ -563,6 +567,15 @@ export default function PortfolioCarousel() {
     const dx = e.clientX - lastPointerRef.current.x;
     dragDistanceRef.current += Math.abs(dx);
 
+    if (dragDistanceRef.current > 4 && !isInteracting) {
+      setIsInteracting(true);
+      if (stageRef.current && e?.pointerId !== undefined) {
+        try {
+          stageRef.current.setPointerCapture(e.pointerId);
+        } catch (_) {}
+      }
+    }
+
     // Dynamic drag sensitivity tailored to screen size: moving left advances clockwise
     const dRot = -dx * sensitivity;
     rotationRef.current += dRot;
@@ -596,7 +609,7 @@ export default function PortfolioCarousel() {
       justDraggedRef.current = true;
       setTimeout(() => {
         justDraggedRef.current = false;
-      }, 180);
+      }, 200);
     }
 
     // Momentum physics & snap to station
@@ -623,16 +636,16 @@ export default function PortfolioCarousel() {
     }
   };
 
-  // Click side card to rotate to center
+  // Click card to move to project details
   const handleCardClick = (e, index) => {
-    if (justDraggedRef.current || dragDistanceRef.current > 8) {
+    if (justDraggedRef.current || dragDistanceRef.current > 6) {
       e.preventDefault();
       e.stopPropagation();
       return;
     }
-    if (index !== activeStation) {
-      e.preventDefault();
-      goToStation(index);
+    const project = projects[index];
+    if (project && project.href) {
+      router.push(project.href);
     }
   };
 
@@ -640,10 +653,12 @@ export default function PortfolioCarousel() {
     <section
       id="portfolio"
       className="ax-portfolio-showcase ax-clock-portfolio"
+      onPointerMove={handleSectionPointerMove}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => {
         setIsHovered(false);
         setIsInteracting(false);
+        setHoveredCardIndex(null);
       }}
     >
       {/* Floating Appinventiv style mouse follower */}
@@ -651,10 +666,19 @@ export default function PortfolioCarousel() {
         ref={followerRef}
         className={`ax-portfolio-mouse-follower ${
           isHovered ? "is-visible" : ""
-        } ${isInteracting ? "is-dragging" : ""}`}
+        } ${isInteracting ? "is-dragging" : ""} ${
+          hoveredCardIndex !== null && !isInteracting ? "is-card-hover" : ""
+        }`}
         aria-hidden="true"
       >
-        <span>DRAG</span>
+        {hoveredCardIndex !== null && !isInteracting ? (
+          <span style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}>
+            VIEW PROJECT
+            <FiArrowUpRight style={{ fontSize: "14px" }} />
+          </span>
+        ) : (
+          <span>DRAG</span>
+        )}
       </div>
 
       {/* Header section matching Appinventiv */}
@@ -732,6 +756,10 @@ export default function PortfolioCarousel() {
                 background: project.bg,
                 color: project.isLight ? "#0f172a" : "#ffffff",
               }}
+              onPointerEnter={() => setHoveredCardIndex(index)}
+              onPointerLeave={() => {
+                setHoveredCardIndex((prev) => (prev === index ? null : prev));
+              }}
               onClick={(e) => handleCardClick(e, index)}
             >
               {/* Card Header matching Appinventiv */}
@@ -760,14 +788,13 @@ export default function PortfolioCarousel() {
                     project.isLight ? "cta-dark" : "cta-light"
                   }`}
                   onClick={(e) => {
-                    if (justDraggedRef.current || !isActive) {
+                    if (justDraggedRef.current || dragDistanceRef.current > 6) {
                       e.preventDefault();
-                      if (!isActive) goToStation(index);
                     }
                   }}
                 >
-                  <span>View case study</span>
-                  <FiArrowRight />
+                  <span>View project</span>
+                  <FiArrowUpRight />
                 </Link>
               </div>
 
