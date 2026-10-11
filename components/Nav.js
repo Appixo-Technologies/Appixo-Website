@@ -43,10 +43,49 @@ export default function Nav() {
 
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileSub, setMobileSub] = useState({ products: false, services: false });
+  const [servicesOpen, setServicesOpen] = useState(false);
   const [enquiryOpen, setEnquiryOpen] = useState(false);
   const [navScrolled, setNavScrolled] = useState(false);
   const mobileToggleRef = useRef(null);
   const mobileDrawerRef = useRef(null);
+  const dropdownRef = useRef(null);
+  const closeTimerRef = useRef(null);
+
+  const handleServicesEnter = () => {
+    if (closeTimerRef.current) {
+      clearTimeout(closeTimerRef.current);
+      closeTimerRef.current = null;
+    }
+    setServicesOpen(true);
+  };
+
+  const handleServicesLeave = () => {
+    if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
+    closeTimerRef.current = setTimeout(() => {
+      setServicesOpen(false);
+    }, 240);
+  };
+
+  useEffect(() => {
+    setServicesOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    return () => {
+      if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!servicesOpen) return;
+    const handleOutsideClick = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setServicesOpen(false);
+      }
+    };
+    document.addEventListener("pointerdown", handleOutsideClick);
+    return () => document.removeEventListener("pointerdown", handleOutsideClick);
+  }, [servicesOpen]);
 
   const toggleMobileSub = (key) => setMobileSub((v) => ({ ...v, [key]: !v[key] }));
   const closeMobile = () => {
@@ -55,17 +94,24 @@ export default function Nav() {
   };
 
   useEffect(() => {
-    if (!enquiryOpen) return;
+    if (!enquiryOpen && !servicesOpen) return;
     const onKey = (e) => {
-      if (e.key === "Escape") setEnquiryOpen(false);
+      if (e.key === "Escape") {
+        setEnquiryOpen(false);
+        setServicesOpen(false);
+      }
     };
-    document.body.style.overflow = "hidden";
+    if (enquiryOpen) {
+      document.body.style.overflow = "hidden";
+    }
     window.addEventListener("keydown", onKey);
     return () => {
-      document.body.style.overflow = "";
+      if (enquiryOpen) {
+        document.body.style.overflow = "";
+      }
       window.removeEventListener("keydown", onKey);
     };
-  }, [enquiryOpen]);
+  }, [enquiryOpen, servicesOpen]);
 
   useEffect(() => {
     if (!mobileOpen) return;
@@ -113,10 +159,22 @@ export default function Nav() {
             About
           </Link>
 
-          <div className="ax-dropdown">
-            <Link href="/services" className="ax-dropdown-trigger" style={s(`display:flex; align-items:center; gap:5px; ${navLinkStyle(isServices)}`)}>
+          <div
+            ref={dropdownRef}
+            className={`ax-dropdown${servicesOpen ? " is-open" : ""}`}
+            onMouseEnter={handleServicesEnter}
+            onMouseLeave={handleServicesLeave}
+          >
+            <Link
+              href="/services"
+              className="ax-dropdown-trigger"
+              draggable="false"
+              onDragStart={(e) => e.preventDefault()}
+              style={s(`display:flex; align-items:center; gap:5px; user-select:none; ${navLinkStyle(isServices)}`)}
+            >
               Services {chevronIcon}
             </Link>
+            <div className="ax-dropdown-bridge" aria-hidden="true" />
             <div className="ax-dropdown-menu ax-mega-menu">
               <div className="ax-mega-cols">
                 {serviceCategories.map((cat) => (
@@ -126,7 +184,12 @@ export default function Nav() {
                       {cat.name}
                     </div>
                     {cat.services.map((sv) => (
-                      <Link key={sv.slug} href={`/services/${sv.slug}`} className="ax-mega-item">
+                      <Link
+                        key={sv.slug}
+                        href={`/services/${sv.slug}`}
+                        className="ax-mega-item"
+                        onClick={() => setServicesOpen(false)}
+                      >
                         {sv.name}
                       </Link>
                     ))}
@@ -137,7 +200,10 @@ export default function Nav() {
                 <span>Didn&apos;t find what you need? Tell us and we&apos;ll tailor a plan.</span>
                 <button
                   type="button"
-                  onClick={() => setEnquiryOpen(true)}
+                  onClick={() => {
+                    setServicesOpen(false);
+                    setEnquiryOpen(true);
+                  }}
                   style={s(
                     "display:inline-flex; align-items:center; gap:8px; padding:10px 18px; border-radius:999px; font-size:13.5px; font-weight:700; color:#0A0F1A; background:linear-gradient(135deg,var(--gold2),var(--gold)); border:none; cursor:pointer; font-family:inherit; white-space:nowrap;"
                   )}

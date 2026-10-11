@@ -468,7 +468,8 @@ button {
 }
 
 .ax-dropdown:hover .ax-dropdown-menu,
-.ax-dropdown:focus-within .ax-dropdown-menu {
+.ax-dropdown:focus-within .ax-dropdown-menu,
+.ax-dropdown.is-open .ax-dropdown-menu {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
@@ -490,14 +491,55 @@ button {
   color: var(--gold2);
 }
 
-/* Compact desktop services mega-menu */
-.ax-dropdown:has(.ax-mega-menu)::after {
+/* Local bridge directly beneath dropdown trigger */
+.ax-dropdown::after {
   content: "";
   position: absolute;
   top: 100%;
-  left: -32px;
-  width: 170px;
-  height: 26px;
+  left: -28px;
+  right: -28px;
+  height: 48px;
+  pointer-events: none;
+  z-index: 119;
+}
+
+.ax-dropdown:hover::after,
+.ax-dropdown:focus-within::after,
+.ax-dropdown.is-open::after {
+  pointer-events: auto;
+}
+
+/* Full mega-menu bridge: covers entire space between nav and menu */
+.ax-dropdown-bridge {
+  position: fixed;
+  top: 46px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 48px);
+  max-width: 960px;
+  height: 48px;
+  pointer-events: none;
+  z-index: 119;
+}
+
+.ax-dropdown:hover .ax-dropdown-bridge,
+.ax-dropdown:focus-within .ax-dropdown-bridge,
+.ax-dropdown.is-open .ax-dropdown-bridge {
+  pointer-events: auto;
+}
+
+.ax-dropdown-trigger {
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.ax-dropdown-trigger svg {
+  transition: transform .22s ease;
+}
+
+.ax-dropdown:hover .ax-dropdown-trigger svg,
+.ax-dropdown.is-open .ax-dropdown-trigger svg {
+  transform: rotate(180deg);
 }
 
 .ax-mega-menu {
@@ -519,7 +561,8 @@ button {
 }
 
 .ax-dropdown:hover .ax-mega-menu,
-.ax-dropdown:focus-within .ax-mega-menu {
+.ax-dropdown:focus-within .ax-mega-menu,
+.ax-dropdown.is-open .ax-mega-menu {
   transform: translateX(-50%) translateY(0);
 }
 
